@@ -1,0 +1,135 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Assembling reads with Ray &mdash; Assembly Workshop 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Assembly Workshop 0.0.1 documentation" href="index.html" />
+    <link rel="prev" title="Assembling reads with Velvet" href="velvet.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="velvet.html" title="Assembling reads with Velvet"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Assembly Workshop 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="assembling-reads-with-ray">
+<h1>Assembling reads with Ray<a class="headerlink" href="#assembling-reads-with-ray" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="ray">
+<h2>Ray<a class="headerlink" href="#ray" title="Permalink to this headline">¶</a></h2>
+<p>Another assembler that takes your reads and turns them into contigs. It uses
+the Message Passing Interface
+(<a class="reference external" href="http://en.wikipedia.org/wiki/Message_Passing_Interface">http://en.wikipedia.org/wiki/Message_Passing_Interface</a>) to run over multiple
+cores and nodes. Again <tt class="docutils literal"><span class="pre">Ray</span></tt> is located in <tt class="docutils literal"><span class="pre">/proj/b2010008/bin</span></tt>.</p>
+<p>First one has to load the <tt class="docutils literal"><span class="pre">openmpi</span></tt> module on uppmax:</p>
+<div class="highlight-python"><pre>module load openmpi</pre>
+</div>
+<p>Check if Ray is working with:</p>
+<div class="highlight-python"><pre>mpiexec Ray --help</pre>
+</div>
+<p>Ray goes a lot slower on one machine than velvet since it was optimized for
+running on multiple. In this case the dataset is quite small so we will just be
+using one machine anyway. I recommend to run this on an interactive node.
+Create the directory structure as we did before:</p>
+<div class="highlight-python"><pre>mkdir -p ~/glob/asm-workshop/ray
+cd ~/glob/asm-workshop/ray
+ln -s ../velvet/pair.fastq pair.fastq</pre>
+</div>
+<p>Then run Ray:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">mpiexec</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Assembling reads with Ray</a><ul>
+<li><a class="reference internal" href="#ray">Ray</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="velvet.html"
+                        title="previous chapter">Assembling reads with Velvet</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/ray.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="velvet.html" title="Assembling reads with Velvet"
+             >previous</a> |</li>
+        <li><a href="index.html">Assembly Workshop 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, inodb.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
