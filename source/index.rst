@@ -15,3 +15,5 @@ Content:
   qtrim 
   velvet
   ray
+  minimus2
+  bwa

@@ -41,8 +41,8 @@ scaffolding since we found that doesn't work that well::
     for dir in out_*; do velvetg $dir -scaffolding no; done
 
 This runs ``velvetg`` sequentially on each directory. If you want to do it in
-parallel instead running velvetg on each core, you can call ``velvetg`` using GNU
-parallel ::
+parallel instead running ``velvetg`` on each core, you can call ``velvetg``
+using GNU parallel::
 
     echo out_* | sed 's/\ /\n/g' | parallel velvetg {} -scaffolding no
 
@@ -57,10 +57,10 @@ resulting assemblies. You can use the ``assemstats`` script for that::
 
     assemstats 100 out_*/contigs.fa
 
-I usually look at the distributions setting the cut-off at 100 and 1000 and put
-the results in google docs. A useful program for copying the results from
-assemstats is ``xclip``. This can copy the results to your clipboard so you can
-directly past the results into google docs::
+This part is optional. I usually look at the distributions setting the cut-off
+at 100 and 1000 and put the results in google docs. A useful program for
+copying the results from assemstats is ``xclip``. This can copy the results to
+your clipboard so you can directly past the results into google docs::
 
     assemstats 100 out_*/contigs.fa | xclip -selection clipboard
 

@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -15,7 +13,7 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
+        URL_ROOT:    './',
         VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -89,8 +87,8 @@ scaffolding since we found that doesn&#8217;t work that well:</p>
 <div class="highlight-python"><pre>for dir in out_*; do velvetg $dir -scaffolding no; done</pre>
 </div>
 <p>This runs <tt class="docutils literal"><span class="pre">velvetg</span></tt> sequentially on each directory. If you want to do it in
-parallel instead running velvetg on each core, you can call <tt class="docutils literal"><span class="pre">velvetg</span></tt> using GNU
-parallel</p>
+parallel instead running <tt class="docutils literal"><span class="pre">velvetg</span></tt> on each core, you can call <tt class="docutils literal"><span class="pre">velvetg</span></tt>
+using GNU parallel:</p>
 <div class="highlight-python"><pre>echo out_* | sed 's/\ /\n/g' | parallel velvetg {} -scaffolding no</pre>
 </div>
 <p>This changes the spaces from the echo output to newlines using <tt class="docutils literal"><span class="pre">sed</span></tt>.  GNU
@@ -103,10 +101,10 @@ parallel then uses each line as an argument and places it at the location of
 resulting assemblies. You can use the <tt class="docutils literal"><span class="pre">assemstats</span></tt> script for that:</p>
 <div class="highlight-python"><pre>assemstats 100 out_*/contigs.fa</pre>
 </div>
-<p>I usually look at the distributions setting the cut-off at 100 and 1000 and put
-the results in google docs. A useful program for copying the results from
-assemstats is <tt class="docutils literal"><span class="pre">xclip</span></tt>. This can copy the results to your clipboard so you can
-directly past the results into google docs:</p>
+<p>This part is optional. I usually look at the distributions setting the cut-off
+at 100 and 1000 and put the results in google docs. A useful program for
+copying the results from assemstats is <tt class="docutils literal"><span class="pre">xclip</span></tt>. This can copy the results to
+your clipboard so you can directly past the results into google docs:</p>
 <div class="highlight-python"><pre>assemstats 100 out_*/contigs.fa | xclip -selection clipboard</pre>
 </div>
 <p>Note that <tt class="docutils literal"><span class="pre">xclip</span></tt> requires you to log in with X-forwarding enabled, i.e.
@@ -176,7 +174,7 @@ directly past the results into google docs:</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, inodb.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
     </div>
   </body>
 </html>

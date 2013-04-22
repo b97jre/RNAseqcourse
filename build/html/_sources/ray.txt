@@ -19,13 +19,24 @@ Check if Ray is working with::
 
 Ray goes a lot slower on one machine than velvet since it was optimized for
 running on multiple. In this case the dataset is quite small so we will just be
-using one machine anyway. I recommend to run this on an interactive node.
-Create the directory structure as we did before::
+using one machine anyway. Create the directory structure as we did before::
     
     mkdir -p ~/glob/asm-workshop/ray
     cd ~/glob/asm-workshop/ray
     ln -s ../velvet/pair.fastq pair.fastq
 
-Then run Ray::
+Then run Ray over multiple assemblies like we did with velvet. I recommend to
+run this on an interactive node::
 
-   mpiexec 
+   for k in {45..57..6}; do mpiexec Ray -k $k -i pair.fastq -o out_$k; done
+
+Note that using ``parallel`` here would not be benificial since you are using
+multiple cores already with ``Ray``.
+
+assemstats
+==========
+Look at the results with assemstats and compare them to the velvet output::
+
+    cd ~/glob/asm-workshop/
+    assemstats 100 ~/glob/asm-workshop/ray/out_*/Contigs.fasta ~/glob/asm-workshop/velvet/out_*/contigs.fa
+
