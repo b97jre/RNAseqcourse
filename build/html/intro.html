@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>General information &mdash; WABI RNA-seq Workshop 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="WABI RNA-seq Workshop 0.1 documentation" href="index.html" />
+    <link rel="next" title="Identifying isoforms in RNA-seq data" href="isoform-lab.html" />
+    <link rel="prev" title="Schedule" href="schedule.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="isoform-lab.html" title="Identifying isoforms in RNA-seq data"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="schedule.html" title="Schedule"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">WABI RNA-seq Workshop 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/scilife_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">General information</a><ul>
+<li><a class="reference internal" href="#short-summary-of-the-exercises">Short summary of the exercises</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="schedule.html"
+                        title="previous chapter">Schedule</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="isoform-lab.html"
+                        title="next chapter">Identifying isoforms in RNA-seq data</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/intro.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="general-information">
+<h1>General information<a class="headerlink" href="#general-information" title="Permalink to this headline">¶</a></h1>
+<p>For this lab, we are going to work on UPPMAX, in the project <tt class="docutils literal"><span class="pre">g2014046</span></tt>, which has been set up for the purposes of this course. You reach the home directory of the project by changing working directory to <tt class="docutils literal"><span class="pre">/proj/g2014046/nobackup/private/workshop/</span></tt>:</p>
+<div class="highlight-python"><pre>cd /proj/g2014046/nobackup/private/workshop/</pre>
+</div>
+<p>The files we are going to use in the exercises are in <tt class="docutils literal"><span class="pre">/proj/g2014046/webexport/files/RNAseqWorkshop/download/</span></tt>. This document (the web-based workshop documentation) is hosted under <tt class="docutils literal"><span class="pre">/proj/g2014046/webexport/RNAseq-workshop/build</span></tt>.</p>
+<p>Some of the files that we will use have been pre-constructed by us ahead of the lab because it would take too much time to do it during the lab exercise. In those cases, we have indicated the commands that we used to generate the files, so that you should be able to reproduce the results on your own.</p>
+<div class="section" id="short-summary-of-the-exercises">
+<h2>Short summary of the exercises<a class="headerlink" href="#short-summary-of-the-exercises" title="Permalink to this headline">¶</a></h2>
+<p>In the isoform exercise, and part of the differential expression exercise, we are going to look at some RNA-seq (and mass spectrometry) data from the A431 cell line. It is an epidermoid carcinoma cell line which is often used to study cancer and the cell cycle, and as a sort of positive control of epidermal growth factor receptor (EGFR) expression. A431 cells express very high levels of EGFR, in contrast to normal human fibroblasts. In the experiment we are looking at today, A431 cells were treated with gefinitib, which is an EGFR inhibitor, and is used (under the trade name Iressa) as a drug to treat cancers with mutated and overactive EGFR. In the experiment, RNA was extracted at four time points: before the gefinitib treatment (t=0), and two, six and twenty-four hours after treatment (t=2, t=6, t=24, respectively), and sequenced using an Illumina HiSeq instrument in triplicates (thus there are 3x4=12 samples). In a parallel experiment, protein contents at those same time points were measured using mass spectrometry in duplicates (resulting in 8 samples).</p>
+<p>There are many relevant questions that could be asked based on these measurements. During the isoform exercise, we are going to look at some specific regions where the mass-spectrometry data indicated that novel exons or splice variants could be present at the protein level. We will use (part of) the RNA-seq data to examine if there is corresponding evidence on the mRNA level, and how different software tools could be used to detect and visualize novel gene variants.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="isoform-lab.html" title="Identifying isoforms in RNA-seq data"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="schedule.html" title="Schedule"
+             >previous</a> |</li>
+        <li><a href="index.html">WABI RNA-seq Workshop 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Johan Reimegård, Mikael Huss, and Sanela Kjellqvist.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

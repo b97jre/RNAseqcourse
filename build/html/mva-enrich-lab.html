@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Multivariate analysis and pathway enrichment &mdash; WABI RNA-seq Workshop 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="WABI RNA-seq Workshop 0.1 documentation" href="index.html" />
+    <link rel="next" title="Links and Files and FAQ" href="links.html" />
+    <link rel="prev" title="Differential expression analysis of RNA-seq data" href="diffexp-lab.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="links.html" title="Links and Files and FAQ"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="diffexp-lab.html" title="Differential expression analysis of RNA-seq data"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">WABI RNA-seq Workshop 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/scilife_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Multivariate analysis and pathway enrichment</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#multivariate-analysis-with-simca">Multivariate analysis with SIMCA</a></li>
+<li><a class="reference internal" href="#pathway-enrichment-with-cytoscape">Pathway enrichment with Cytoscape</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="diffexp-lab.html"
+                        title="previous chapter">Differential expression analysis of RNA-seq data</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="links.html"
+                        title="next chapter">Links and Files and FAQ</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/mva-enrich-lab.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="multivariate-analysis-and-pathway-enrichment">
+<h1>Multivariate analysis and pathway enrichment<a class="headerlink" href="#multivariate-analysis-and-pathway-enrichment" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>In this exercise we will use two different datasets, a RNAseq dataset and a MS proteomics dataset on the same clinical samples. The clinical samples are tumour tissue from lung cancer patients. The data files needed for the analyses can be found here:</p>
+<p><a class="reference external" href="https://export.uppmax.uu.se/g2014046/files/RNAseqWorkshop/download/Proteomics/">Link to Proteomics exercise download area</a></p>
+<p>The software we will use for multivariate analysis is SIMCA and for the pathway enrichment analysis Cytoscape.</p>
+<p>The instructor (Lina Hultin Rosenberg) will go through the analysis during the introduction lecture, so the steps will not be further detailed here. You can also find the instructions in the workshop documents:</p>
+<p><a class="reference external" href="https://export.uppmax.uu.se/g2014046/files/RNAseqWorkshop/download/Proteomics/">Link to Proteomics exercise download area</a></p>
+</div>
+<div class="section" id="multivariate-analysis-with-simca">
+<h2>Multivariate analysis with SIMCA<a class="headerlink" href="#multivariate-analysis-with-simca" title="Permalink to this headline">¶</a></h2>
+<p>SIMCA is already installed on the computers in the Mac computer hall. During this workshop we will focus on Principal Component Analysis (PCA) as well as Orthogonal Partial Least Squares analysis (OPLS). Details on the methods as well as references for further reading can be found in the SIMCA help.</p>
+</div>
+<div class="section" id="pathway-enrichment-with-cytoscape">
+<h2>Pathway enrichment with Cytoscape<a class="headerlink" href="#pathway-enrichment-with-cytoscape" title="Permalink to this headline">¶</a></h2>
+<p>Cytoscape is installed on the computers, but each student needs to install two Cytoscape applications we will use: ClueGO and CluePedia.</p>
+<p>Open Cytoscape and select Apps – App Manager – click ClueGO and install.</p>
+<p>A window will show up, click Relicense and copy and paste the following license key:</p>
+<p><tt class="docutils literal"><span class="pre">!LnD-mf&#64;O-H41&amp;-Q7in-mH70-E9&#64;2-8]k6-&#64;5UW</span></tt></p>
+<p>Install CluePedia under Apps – App Manager.</p>
+<p>During this workshop we will look at enrichments of functional terms and pathways in the lists selected by the multivariate analysis in SIMCA.
+Tutorials for the applications ClueGO and CluePedia can be found here:</p>
+<p><a class="reference external" href="https://export.uppmax.uu.se/g2014046/files/RNAseqWorkshop/download/Proteomics/">Link to Proteomics exercise download area</a></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="links.html" title="Links and Files and FAQ"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="diffexp-lab.html" title="Differential expression analysis of RNA-seq data"
+             >previous</a> |</li>
+        <li><a href="index.html">WABI RNA-seq Workshop 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Johan Reimegård, Mikael Huss, and Sanela Kjellqvist.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

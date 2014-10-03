@@ -1,0 +1,520 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Differential expression analysis of RNA-seq data &mdash; WABI RNA-seq Workshop 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="WABI RNA-seq Workshop 0.1 documentation" href="index.html" />
+    <link rel="next" title="Multivariate analysis and pathway enrichment" href="mva-enrich-lab.html" />
+    <link rel="prev" title="Isoform detection using RNA seq de novo Assembly" href="isoform-denovo.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="mva-enrich-lab.html" title="Multivariate analysis and pathway enrichment"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="isoform-denovo.html" title="Isoform detection using RNA seq de novo Assembly"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">WABI RNA-seq Workshop 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/scilife_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Differential expression analysis of RNA-seq data</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#data-set">Data set</a></li>
+<li><a class="reference internal" href="#cuffdiff-and-cummerbund">CuffDiff and cummeRbund</a></li>
+<li><a class="reference internal" href="#deseq">DESeq</a></li>
+<li><a class="reference internal" href="#further-reading">Further reading</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="isoform-denovo.html"
+                        title="previous chapter">Isoform detection using RNA seq de novo Assembly</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="mva-enrich-lab.html"
+                        title="next chapter">Multivariate analysis and pathway enrichment</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/diffexp-lab.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="differential-expression-analysis-of-rna-seq-data">
+<h1>Differential expression analysis of RNA-seq data<a class="headerlink" href="#differential-expression-analysis-of-rna-seq-data" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>There are many software packages for differential
+expression analysis of RNA-seq data. We will first look at
+Cuffdiff/CummeRbund and then try the alternative method DESeq.</p>
+<p>Several tools, such as DESeq and edgeR, start from read counts per
+gene and use the discrete nature of the data to do statistical tests
+appropriate for this kind of data. It can be argued that that such
+counts will never give quite the correct results because the presence
+of alernative isoforms confound the read counting. Cuffdiff therefore
+combines isoform-level quantification and differential expression
+testing into one framework and claim that they achieve better results
+because they are able to take into account the uncertainty of isoform
+quantification.</p>
+<p>This differential expression tutorial was originally written by Mikel
+Huss, and adapted and extended for this course by Pär Engström.</p>
+</div>
+<div class="section" id="data-set">
+<h2>Data set<a class="headerlink" href="#data-set" title="Permalink to this headline">¶</a></h2>
+<p>In this exercise we are going to look at RNA-seq data from the A431
+cell line. A431 is an epidermoid carcinoma cell line which is often
+used to study cancer and the cell cycle, and as a sort of positive
+control of epidermal growth factor receptor (EGFR) expression. A431
+cells express very high levels of EGFR, in contrast to normal human
+fibroblasts. In the experiment we are looking at today, A431 cells
+were treated with gefinitib, which is an EGFR inhibitor, and is used
+(under the trade name Iressa) as a drug to treat cancers with mutated
+and overactive EGFR. In the experiment, RNA was extracted at four time
+points: before the gefinitib treatment (t=0), and two, six and
+twenty-four hours after treatment (t=2, t=6, t=24, respectively), and
+sequenced using an Illumina HiSeq instrument in triplicates (thus
+there are 3x4=12 samples). Since gefinitib suppresses the expression
+of EGFR, the effects on the cell line are quite severe, as you will
+see when comparing the 24h time point to the control.</p>
+<p>Some of the files that we will use have been pre-constructed by us
+ahead of the lab because it would take too much time to do it during
+the lab exercise. In those cases, we have indicated the commands that
+we used to generate the files, so that you should be able to reproduce
+the results on your own.</p>
+</div>
+<div class="section" id="cuffdiff-and-cummerbund">
+<h2>CuffDiff and cummeRbund<a class="headerlink" href="#cuffdiff-and-cummerbund" title="Permalink to this headline">¶</a></h2>
+<p>We will start by looking at Cuffdiff and CummeRbund. These tools are
+part of the &#8220;Tuxedo&#8221; suite, which also includes Bowtie, TopHat and
+Cufflinks.</p>
+<p>Cuffdiff, which you have already tried in an earlier exercise, is a
+command-line program that does the actual differential expression
+testing, and cummeRbund is an R package that reads Cuffdiff output and
+visualizes it in various nice ways.</p>
+<p>Running Cuffdiff on the A431 RNA-seq data set would take too long for
+the purposes of this exercise and we have therefore executed it in
+advance so that you can access the results. For reference, these were
+the commands used:</p>
+<div class="highlight-python"><pre># Just for reference; do not run this
+ALI=/path/to/TopHat/alignments
+cuffdiff -o cuffdiff_all --labels 0h,2h,6h,24h -p 8 \
+  Homo_sapiens.GRCh37.71.gtf \
+  $ALI/sample_1/accepted_hits.bam,$ALI/sample_2/accepted_hits.bam,$ALI/sample_3/accepted_hits.bam \
+  $ALI/sample_4/accepted_hits.bam,$ALI/sample_5/accepted_hits.bam,$ALI/sample_6/accepted_hits.bam \
+  $ALI/sample_7/accepted_hits.bam,$ALI/sample_8/accepted_hits.bam,$ALI/sample_9/accepted_hits.bam \
+  $ALI/sample_10/accepted_hits.bam,$ALI/sample_11/accepted_hits.bam,$ALI/sample_12/accepted_hits.bam</pre>
+</div>
+<p>It may be advantageous to download the output to your own computer, install the cummeRbund package
+(after installing R if you don&#8217;t have it) and do the visualizations there. Uppmax has R installed.
+If you haven&#8217;t installed R ahead of the course, please find the appropriate download for your system
+<a class="reference external" href="http://ftp.sunet.se/pub/lang/CRAN/">here</a>. You might as well take the latest version (3.1.0).</p>
+<p>If you want to work on Uppmax (note this is not necessary if you are running R on your own computer),
+login as we did yesterday.</p>
+<p>You can find a (gzipped archive of a) directory with CuffDiff output for a pairwise
+differential expression analysis between all the time points at
+<tt class="docutils literal"><span class="pre">/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/cuffdiff_all.tar.gz</span></tt>.</p>
+<dl class="docutils">
+<dt>Remember to untar and unzip it ::</dt>
+<dd>tar -zxf cuffdiff_all.tar.gz</dd>
+</dl>
+<p>If you are on Uppmax, load the R module:</p>
+<div class="highlight-python"><pre>module load R/3.1.0</pre>
+</div>
+<p>Then start R (either on your own system, or on Uppmax by simply typing <tt class="docutils literal"><span class="pre">R</span></tt>) and install cummeRbund with these commands:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">source</span><span class="p">(</span><span class="s">&quot;http://bioconductor.org/biocLite.R&quot;</span><span class="p">)</span>
+<span class="n">biocLite</span><span class="p">(</span><span class="s">&quot;cummeRbund&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Load the package:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">library</span><span class="p">(</span><span class="n">cummeRbund</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you were running R on your local computer, you could bring up a
+tutorial with the command <tt class="docutils literal"><span class="pre">vignette(&quot;cummeRbund-manual&quot;)</span></tt>. However,
+this does not work over the remote connection we are using for this
+course. Go to the <a class="reference external" href="http://compbio.mit.edu/cummeRbund/">CummeRbund web page</a>
+to access the manual.</p>
+<p>As you can see in the manual, CummeRbund provides lots of ways to
+visualize Cuffdiff output. We will just look at some of the possible
+visualizations, but it should be easy for you to try other ones from
+the manual after you have gone through the examples here.</p>
+<p>Start by loading the Cuffdiff results. The command below should work
+if your R working directory contains the folder with Cuffdiff output
+(<tt class="docutils literal"><span class="pre">cuffdiff_all</span></tt>); otherwise you will have to specify the path to this
+folder.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cuff</span> <span class="o">&lt;-</span> <span class="n">readCufflinks</span><span class="p">(</span><span class="s">&quot;cuffdiff_all&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will take a while the first time you run it. For subsequent runs
+on the same data, it will be faster because cummeRbund will have
+stored an SQL database containing the information it needs to disk.</p>
+<p>As mentioned above, the <tt class="docutils literal"><span class="pre">cuffdiff_all</span></tt> directory contains
+information about differential expression for genes and isoforms
+between all pairs of time points. We could start by looking at an
+overview of how many genes that are differentially expressed at a
+false discovery rate (FDR) of 1%:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">mySigMat</span> <span class="o">&lt;-</span> <span class="n">sigMatrix</span><span class="p">(</span><span class="n">cuff</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s">&quot;genes&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span> <span class="c"># constructs the plot</span>
+<span class="n">mySigMat</span> <span class="c"># displays the plot</span>
+</pre></div>
+</div>
+<p>It would work to just give the <tt class="docutils literal"><span class="pre">sigMatrix(cuff,</span> <span class="pre">level=&quot;genes&quot;,</span>
+<span class="pre">alpha=0.01)</span></tt> command but it might be nice to keep the plot as an R
+object as done above.</p>
+<p>The resulting plot shows how many genes that are differentially
+expressed between each pair of time points. It is easy to show numbers
+corresponding to isoforms instead; this is generally the case for all
+cummeRbund functions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">sigMatrix</span><span class="p">(</span><span class="n">cuff</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s">&quot;isoforms&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>One way to see which genes that are differentially expressed in
+different comparisons is the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">mySigTable</span> <span class="o">&lt;-</span> <span class="n">getSigTable</span><span class="p">(</span><span class="n">cuff</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span><span class="n">level</span><span class="o">=</span><span class="s">&quot;genes&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>So for the 24h vs control comparison, you could select the
+<tt class="docutils literal"><span class="pre">X0hvsX24h</span></tt> (R doesn&#8217;t want variable names to start with numbers so
+it adds an X in those cases) column from <tt class="docutils literal"><span class="pre">mySigTable</span></tt> and filter to
+those genes that have a 1 in that column:</p>
+<div class="highlight-python"><pre>diff_0_24 &lt;- mySigTable[,&quot;X0hvsX24h&quot;]
+cuffgenes.24h.ctrl &lt;- names(diff_0_24[which(diff_0_24==1)])</pre>
+</div>
+<p>Now you have a list of differentially expressed genes between 24h and
+control. This list could be saved to file using e g:</p>
+<div class="highlight-python"><pre>write.table(cuffgenes.24h.ctrl, file=&quot;cuffgenes.24h.ctrl.txt&quot;, quote=F, row.names=F, col.names=F)</pre>
+</div>
+<p>If you would just like to plot the expression of one specific gene
+across the time points, you could do something like the
+following. Let&#8217;s use the <em>EGFR</em> gene since we know that it should be
+affected by the treatment in the experiment:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">myGene</span> <span class="o">&lt;-</span> <span class="n">getGene</span><span class="p">(</span><span class="n">cuff</span><span class="p">,</span> <span class="s">&quot;EGFR&quot;</span><span class="p">)</span>
+<span class="n">expressionPlot</span><span class="p">(</span><span class="n">myGene</span><span class="p">)</span> <span class="c"># Will collapse replicates and only show gene level FPKM</span>
+<span class="n">expressionPlot</span><span class="p">(</span><span class="n">myGene</span><span class="p">,</span> <span class="n">replicates</span><span class="o">=</span><span class="n">T</span><span class="p">)</span> <span class="c"># Will show replicate FPKMs</span>
+<span class="n">expressionBarplot</span><span class="p">(</span><span class="n">myGene</span><span class="p">,</span> <span class="n">replicates</span><span class="o">=</span><span class="n">T</span><span class="p">)</span> <span class="c"># Show as bar plot instead</span>
+</pre></div>
+</div>
+<p>We can also plot FPKMs for all isoforms:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">expressionPlot</span><span class="p">(</span><span class="n">isoforms</span><span class="p">(</span><span class="n">myGene</span><span class="p">),</span> <span class="n">replicates</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+<span class="n">expressionBarplot</span><span class="p">(</span><span class="n">isoforms</span><span class="p">(</span><span class="n">myGene</span><span class="p">),</span> <span class="n">replicates</span><span class="o">=</span><span class="n">T</span><span class="p">)</span> <span class="c"># Might be quite cluttered</span>
+</pre></div>
+</div>
+<p>Perhaps we are interested in genes that behave in the same way as our
+gene of interest. In that case we could use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">egfr</span><span class="o">.</span><span class="n">similar</span> <span class="o">&lt;-</span> <span class="n">findSimilar</span><span class="p">(</span><span class="n">cuff</span><span class="p">,</span> <span class="s">&quot;EGFR&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span> <span class="c"># Will find the 20 genes that are most similar to EGFR</span>
+<span class="n">egfr</span><span class="o">.</span><span class="n">similar</span><span class="o">.</span><span class="n">expr</span> <span class="o">&lt;-</span> <span class="n">expressionPlot</span><span class="p">(</span><span class="n">egfr</span><span class="o">.</span><span class="n">similar</span><span class="p">,</span><span class="n">logMode</span><span class="o">=</span><span class="n">T</span><span class="p">,</span><span class="n">showErrorbars</span><span class="o">=</span><span class="n">F</span><span class="p">)</span>
+<span class="n">egfr</span><span class="o">.</span><span class="n">similar</span><span class="o">.</span><span class="n">expr</span>
+</pre></div>
+</div>
+<p>If we are not interested in a particular pattern but would like to
+find out which patterns seem to be present in the data, we can use
+cummeRbund&#8217;s built-in clustering method. Let&#8217;s say we assume that there
+are 10 different temporal patterns (the choice is up to you of course)
+and restrict the clustering to genes that are considered to be
+differentially expressed between at least one pair of time
+points. This will probably take a while to run:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">sig</span><span class="o">.</span><span class="n">gene</span><span class="o">.</span><span class="n">ids</span> <span class="o">&lt;-</span> <span class="n">getSig</span><span class="p">(</span><span class="n">cuff</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span><span class="n">level</span><span class="o">=</span><span class="s">&#39;genes&#39;</span><span class="p">)</span>
+<span class="n">sig</span><span class="o">.</span><span class="n">genes</span> <span class="o">&lt;-</span> <span class="n">getGenes</span><span class="p">(</span><span class="n">cuff</span><span class="p">,</span> <span class="n">sig</span><span class="o">.</span><span class="n">gene</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
+<span class="n">cl</span> <span class="o">&lt;-</span> <span class="n">csCluster</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">genes</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">clplot</span> <span class="o">&lt;-</span> <span class="n">csClusterPlot</span><span class="p">(</span><span class="n">cl</span><span class="p">)</span>
+<span class="n">clplot</span>
+</pre></div>
+</div>
+<p>Finally, we can look at some plots that visualize how similar the
+samples are to each other. In a real project we would probably have
+started by doing this at the beginning to check if the data look OK.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">MDSplot</span><span class="p">(</span><span class="n">genes</span><span class="p">(</span><span class="n">cuff</span><span class="p">),</span><span class="n">replicates</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The MDS (multidimensional scaling) plot attempts to visualize the
+high-dimensional data (tens of thousands of genes) in a
+two-dimensional plot so that the distances between each sample are
+preserved as faithfully as possible.</p>
+<p>There is also a heatmap function for samples. Of course there are also
+various heatmaps for gene lists; you can read more about that in the
+manual.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">csDistHeat</span><span class="p">(</span><span class="n">genes</span><span class="p">(</span><span class="n">cuff</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="deseq">
+<h2>DESeq<a class="headerlink" href="#deseq" title="Permalink to this headline">¶</a></h2>
+<p>As mentioned above, the DESeq approach identifies differentially
+expressed genes based on counts of the number of reads mapped to each
+gene. DESeq is not limited to RNA-seq, but can be used for comparions
+of other count-based data, such gene expression profiles from tag
+sequencing or data from ChIP-seq experiments.</p>
+<p>The DESeq method is implemented in the R packages DESeq and
+DESeq2. The latter is more recent, and recommended.  The DESeq2
+package is also available in several versions, tied to different
+versions of R (this applies to all Bioconductor packages). To use the
+most recent version of DESeq2, make sure you have the most recent R
+version installed. Also note that DESeq2 strictly requires R version
+3.0 or above.</p>
+<p>For this exercise we have pre-calculated read counts per gene
+(according to Ensembl annotations) with commands like:</p>
+<div class="highlight-python"><pre># Only given for reference, not supposed to be executed during the lab
+samtools view accepted_hits_137_1.bam | sort &gt; accepted_hits_prehtseq_137_1.sam
+htseq-count -s no -q accepted_hits_prehtseq_137_1.sam Homo_sapiens.GRCh37.71.gtf &gt; 137_1.counts</pre>
+</div>
+<p>and combined the counts into a single table. You will import this
+table into R and use DESeq2 to get a list of differentially expressed
+genes. You can get the count table here
+<tt class="docutils literal"><span class="pre">/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/count_table.txt</span></tt></p>
+<p>We will just look at the 24h vs control comparison here rather than
+doing anything more complex.</p>
+<p>Start R and load the DESeq2 package:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">library</span><span class="p">(</span><span class="n">DESeq2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If this does not work, you may need to go through the usual drill to install
+the package:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">source</span><span class="p">(</span><span class="s">&quot;http://bioconductor.org/biocLite.R&quot;</span><span class="p">)</span>
+<span class="n">biocLite</span><span class="p">(</span><span class="s">&quot;DESeq2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The actual analysis is rather simple, after you have set up the data
+you are going to feed to DESeq2. Start by reading the
+<tt class="docutils literal"><span class="pre">count_table.txt</span></tt> file. Of course you need to be in the same
+directory as the file for the following command to run cleanly:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">counts</span> <span class="o">&lt;-</span> <span class="n">read</span><span class="o">.</span><span class="n">delim</span><span class="p">(</span><span class="s">&quot;count_table.txt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You may want to look at the table with commands like
+<tt class="docutils literal"><span class="pre">head(counts)</span></tt>. Next, you need to create a table with information
+about the samples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">samples</span> <span class="o">&lt;-</span> <span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">timepoint</span> <span class="o">=</span> <span class="n">rep</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="s">&quot;ctrl&quot;</span><span class="p">,</span> <span class="s">&quot;t2h&quot;</span><span class="p">,</span> <span class="s">&quot;t6h&quot;</span><span class="p">,</span> <span class="s">&quot;t24h&quot;</span><span class="p">),</span> <span class="n">each</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Look at the content of the data frame that you created. (Type the name
+of the object, <tt class="docutils literal"><span class="pre">samples</span></tt>, and press enter.) Note that the table only
+has one column, which indicates the time point for each of the 12
+samples. For this simple experimental design, this is all we need: the
+timepoints define the groups that we wish to to compare. It doesn&#8217;t
+really matter what you call the groups, as long as the names are
+distinct. For example, we could have used &#8220;t0h&#8221; instead of &#8220;ctrl&#8221; for
+the first time point.</p>
+<p>If instead of coming from a cell line, these samples were (say) tumor
+samples from different patients, such that for example samples 0h_1,
+2h_1, 6h_1 and 24h_1 were all from the same person at different time
+points, the sample description could be extended by one column:</p>
+<div class="highlight-python"><pre># Not to be used in the lab - just an example!
+samples &lt;- data.frame(timepoint = rep(c(&quot;ctrl&quot;, &quot;t2h&quot;, &quot;t6h&quot;, &quot;t24h&quot;), each=3), individual=rep(1:3, 4))</pre>
+</div>
+<p>This would facilitate a so-called factorial design and specifying it
+for DESeq2 would potentially give more statistical power than just
+comparing groups &#8220;blindly&#8221;. However, we are not going to do this
+here. Now it&#8217;s time to construct the data set object that DESeq2 needs
+to perform the analysis:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ds</span> <span class="o">&lt;-</span> <span class="n">DESeqDataSetFromMatrix</span><span class="p">(</span><span class="n">countData</span><span class="o">=</span><span class="n">counts</span><span class="p">,</span> <span class="n">colData</span><span class="o">=</span><span class="n">samples</span><span class="p">,</span> <span class="n">design</span><span class="o">=~</span><span class="n">timepoint</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This function call constructs a DESeq2 data set object using the
+arguments we provide: (1) count table; (2) sample description, and (3)
+experimental design.  All three arguments are mandatory.  The design
+is specified as a <em>formula</em> (another type of R object). In this case
+the formula is easy: the timepoints are really the only thing we can
+compare to each other. If we had had an additional factor as described
+above, we could have chosen to test for differences between timepoints
+while correcting for variability arising from individual differences, or to
+test for differences between individuals, while correcting for variation
+arising from the timepoints. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Just an example</span>
+<span class="n">ds</span> <span class="o">&lt;-</span> <span class="n">DESeqDataSetFromMatrix</span><span class="p">(</span><span class="n">countData</span><span class="o">=</span><span class="n">counts</span><span class="p">,</span> <span class="n">colData</span><span class="o">=</span><span class="n">expr</span><span class="o">.</span><span class="n">desc</span><span class="p">,</span> <span class="n">design</span><span class="o">=~</span><span class="n">timepoint</span> <span class="o">+</span> <span class="n">individual</span><span class="p">)</span> <span class="c"># to test for differences between individuals</span>
+<span class="n">ds</span> <span class="o">&lt;-</span> <span class="n">DESeqDataSetFromMatrix</span><span class="p">(</span><span class="n">countData</span><span class="o">=</span><span class="n">counts</span><span class="p">,</span> <span class="n">colData</span><span class="o">=</span><span class="n">expr</span><span class="o">.</span><span class="n">desc</span><span class="p">,</span> <span class="n">design</span><span class="o">=~</span><span class="n">individual</span> <span class="o">+</span> <span class="n">timepoint</span><span class="p">)</span> <span class="c"># to test for differences between timepoints</span>
+</pre></div>
+</div>
+<p>Now that we are set, we can proceed with the differential expression testing:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ds</span> <span class="o">&lt;-</span> <span class="n">DESeq</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This very simple function call does all the hard work. Briefly, this
+function performs three things:</p>
+<ul class="simple">
+<li>Compute a scaling factor for each sample to account for differences
+in read depth and complexity between samples</li>
+<li>Estimate the variance among samples</li>
+<li>Test for differences in expression among groups (time points, in our case)</li>
+</ul>
+<p>For more details, see the manual page for the function:</p>
+<div class="highlight-python"><pre>? DESeq</pre>
+</div>
+<p>You can also have a look at the vignette for the DESeq2 package, which
+can be found on the
+<a class="reference external" href="http://www.bioconductor.org/packages/release/bioc/html/DESeq2.html">DESeq2 web page</a>.
+If you were running R locally, you would also be able to
+bring up the vignette with the command <tt class="docutils literal"><span class="pre">vignette(&quot;DESeq2&quot;)</span></tt>.</p>
+<p>Now we just need to extract the results, but how do we see the
+specific comparison we want, e.g. 24h vs control? We can use the
+following function to see which comparisons that have been made by
+DESeq2:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">resultsNames</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You should see names of different comparisons here. Choose one of them
+and give a command like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">res</span> <span class="o">&lt;-</span> <span class="n">results</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">c</span><span class="p">(</span><span class="s">&quot;timepoint&quot;</span><span class="p">,</span><span class="s">&quot;t24h&quot;</span><span class="p">,</span><span class="s">&quot;ctrl&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The resuling object is a table with test results for each gene in the
+original count table, i.e. all annotated genes, both protein-coding
+and non-coding.  Use the function head() to inspect the results table.</p>
+<p>Do you understand what the columns mean? You can see information such
+as the &#8220;base mean&#8221; (an average of the normalized mean counts per
+group), the log2 fold change between the groups, and the P-values
+(both &#8220;raw&#8221; and adjusted for multiple comparisons). If you are unsure
+how to interpret these data, discuss with one of the instructors.</p>
+<p>We are not interested in results for all genes. For example, genes with
+zero or very low counts across all samples cannot be tested for
+differences in expression. Those will have a P-value of NA (not
+applicable). There are about 32,000 such genes, which we remove:</p>
+<div class="highlight-python"><pre>nrow(res)
+sum( is.na(res$pvalue) )
+res &lt;- res[ ! is.na(res$pvalue), ]
+nrow(res)</pre>
+</div>
+<p>You probably want to focus on genes that are significant according to
+some criterion, such as false discovery rate (FDR) or log fold
+change. Filtering on the adjusted P-value (column <em>padj</em>) is
+equivalent to choosing a desired false discovery rate. For example, we
+can filter the results such that 1% are expected to be false
+positives (genes with no actual difference in expression):</p>
+<div class="highlight-python"><pre>sig &lt;- res[ which(res$padj &lt; 0.01), ]</pre>
+</div>
+<p>(Note: in some versions of DESeq, you may need to use <tt class="docutils literal"><span class="pre">res$FDR</span></tt>
+instead of <tt class="docutils literal"><span class="pre">res$padj</span></tt>.)</p>
+<p>How many significantly differentially expressed genes do you get?
+(Hint: try the <tt class="docutils literal"><span class="pre">dim()</span></tt> and <tt class="docutils literal"><span class="pre">nrow()</span></tt> functions).</p>
+<p>To see the top &#8220;hits&#8221;, we can sort the filtered result list by
+statistical significance:</p>
+<div class="highlight-python"><pre>sig &lt;- sig[ order(sig$padj), ]</pre>
+</div>
+<p>We convert the table to a data frame, so that we can manipulate and
+view it more easily:</p>
+<div class="highlight-python"><pre>sig &lt;- as.data.frame(sig)
+head(sig, n=20)</pre>
+</div>
+<p>If the table wraps over several lines, you can try to change some R options, before viewing the table:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">options</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>  <span class="c">## Display width (number of characters)</span>
+<span class="n">options</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>   <span class="c">## Number of digits to show for numbers</span>
+<span class="n">head</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You might want to compare the results from CuffDiff and DESeq2. The
+names of the significant genes from DESeq2 can be easily obtained by:</p>
+<div class="highlight-python"><pre>deseqgenes.24h.ctrl &lt;- rownames(sig)</pre>
+</div>
+<p>If you still have the list of significant genes between 0h and 24h
+from the CuffDiff/cummeRbund analysis in your R session, or if you
+have saved it to file, you might want to check how many of them that
+were picked up by both programs:</p>
+<div class="highlight-python"><pre>common.24h.ctrl &lt;- intersect(deseqgenes.24h.ctrl, cuffgenes.24h.ctrl)</pre>
+</div>
+<p>The DESeq2 package contains a function plotMA() that can be used to
+visualize the differences in gene expression:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">plotMA</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Do you understand what this plot shows? Look at the manual page for
+the function, and run it again with the argument pvalCutoff set to
+different values. Discuss with an instructor if you are unsure how to
+interpret the plot.</p>
+<p>If time allows, try some of the additional functions described in the
+DESeq2 vignette. For example, you may interested in the chapter on
+<em>Data quality assessment</em>, which describes ways to visualize results
+using heatmaps.</p>
+<p>You may also want to try some of the examples from the cummeRbund
+manual.</p>
+</div>
+<div class="section" id="further-reading">
+<h2>Further reading<a class="headerlink" href="#further-reading" title="Permalink to this headline">¶</a></h2>
+<p>The algorithms used by Cuffdiff and DESeq are described in the papers by
+<a class="reference external" href="http://www.ncbi.nlm.nih.gov/pubmed/23222703">Trapnell et al. (2013)</a> and
+<a class="reference external" href="http://genomebiology.com/content/11/10/R106">Anders and Huber (2010)</a>
+, respectively.</p>
+<p>Both groups have also published descriptions of how to use their tools in <em>Nature Protocols</em>: <a class="reference external" href="http://www.ncbi.nlm.nih.gov/pubmed/22383036">Trapnell et al. (2012)</a>, <a class="reference external" href="http://www.ncbi.nlm.nih.gov/pubmed/23975260">Anders et al. (2013)</a></p>
+<p>For a recent review and evaluation of a range of methods for
+normalization and differential expression analysis of RNA-seq data,
+see
+<a class="reference external" href="http://genomebiology.com/content/14/9/R95">Rapaport et al. (2013)</a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="mva-enrich-lab.html" title="Multivariate analysis and pathway enrichment"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="isoform-denovo.html" title="Isoform detection using RNA seq de novo Assembly"
+             >previous</a> |</li>
+        <li><a href="index.html">WABI RNA-seq Workshop 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Johan Reimegård, Mikael Huss, and Sanela Kjellqvist.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

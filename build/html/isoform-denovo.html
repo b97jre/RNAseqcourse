@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Isoform detection using RNA seq de novo Assembly &mdash; WABI RNA-seq Workshop 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="WABI RNA-seq Workshop 0.1 documentation" href="index.html" />
+    <link rel="next" title="Differential expression analysis of RNA-seq data" href="diffexp-lab.html" />
+    <link rel="prev" title="Identifying isoforms in RNA-seq data" href="isoform-lab.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="diffexp-lab.html" title="Differential expression analysis of RNA-seq data"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="isoform-lab.html" title="Identifying isoforms in RNA-seq data"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">WABI RNA-seq Workshop 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/scilife_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Isoform detection using RNA seq de novo Assembly</a><ul>
+<li><a class="reference internal" href="#preparation">Preparation</a></li>
+<li><a class="reference internal" href="#assemble-the-reads-into-contigs">Assemble the reads into contigs</a></li>
+<li><a class="reference internal" href="#assesing-the-new-assemblies">Assesing the new assemblies</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="isoform-lab.html"
+                        title="previous chapter">Identifying isoforms in RNA-seq data</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="diffexp-lab.html"
+                        title="next chapter">Differential expression analysis of RNA-seq data</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/isoform-denovo.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="isoform-detection-using-rna-seq-de-novo-assembly">
+<h1>Isoform detection using RNA seq de novo Assembly<a class="headerlink" href="#isoform-detection-using-rna-seq-de-novo-assembly" title="Permalink to this headline">¶</a></h1>
+<p>We are going to use two of the open source cutting edge RNA <em>de novo</em> assemblers
+during this practical. They are called <strong>Oases</strong> and <strong>Trinity</strong>. Independent assessment
+of <em>de novo</em> assembly programs showed that Oases has a bit higher sensitivity at
+the cost of a bit worse specificity compared to Trinity.</p>
+<img alt="_images/Compare.jpg" src="_images/Compare.jpg" />
+<p>Figure taken from <a class="reference external" href="http://www.biomedcentral.com/1471-2105/12/S14/S2">Optimizing de novo transcriptome assembly from short-read RNA-Seq data: a comparative study</a>.</p>
+<p>Both assemblers take your reads and turn them into <em>contigs</em>. For more details
+on how each of the assemblers work read the corresponding papers (<a class="reference external" href="http://bioinformatics.oxfordjournals.org/content/28/8/1086.long">Oases</a>
+, <a class="reference external" href="http://www.nature.com/nbt/journal/v29/n7/full/nbt.1883.html">Trinity</a>
+).</p>
+<div class="section" id="preparation">
+<h2>Preparation<a class="headerlink" href="#preparation" title="Permalink to this headline">¶</a></h2>
+<p>Due to time restraints we will focus on reads that can be mapped to a region
+surrounding the gene  <strong>RAB11FIP5</strong>.</p>
+<p>Create a shell variable and make sure you are in the right place.</p>
+<div class="highlight-python"><pre>#make sure you are in your working folder and then chreate a new shell variable called WORKDIR
+# this should be /home/johanr/workshop/nobackup/private/workshop/YOURUPPMAXNAME
+
+
+WORKDIR=$(pwd)
+
+# Make sure the variable is correct and that you are in the right directory.
+
+cd $WORKDIR
+pwd</pre>
+</div>
+<p>Load all programs that you will need for this exercise.</p>
+<div class="highlight-python"><pre>#Add oases programs to your PATH variable
+PATH=/proj/g2014046/private/RNAseqWorkshop/bin:$PATH
+export PATH
+
+# load modules to make trinity work
+module load bioinfo-tools
+module load bowtie
+module load samtools
+module load trinity/2014-04-13
+
+# load modules for samtools
+
+
+# load modules to make RNAseq aligner STAR work
+
+module load star</pre>
+</div>
+</div>
+<div class="section" id="assemble-the-reads-into-contigs">
+<h2>Assemble the reads into contigs<a class="headerlink" href="#assemble-the-reads-into-contigs" title="Permalink to this headline">¶</a></h2>
+<p>Assemble the reads into de novo assembled transcripts:</p>
+<div class="highlight-python"><pre>#for oases the command is
+oases_pipeline.py  -p &quot;-ins_length 200&quot; -m 21 -M 29 -s 2 -g 27  -d &quot;-fastq -separate /proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/sub_fastq/sample12_RAB11FIP5_1.fastq /proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/sub_fastq/sample12_RAB11FIP5_2.fastq &quot;
+
+#for trinity de novo assembly
+Trinity --seqType fq --JM 50G --left /proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/sub_fastq/sample12_RAB11FIP5_1.fastq --right /proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/sub_fastq/sample12_RAB11FIP5_2.fastq  --output Trinity --CPU 7</pre>
+</div>
+<p>The assembled transcripts from oases will be located in the subdirectory <tt class="docutils literal"><span class="pre">oasesPipelineMerged</span></tt> and be called <tt class="docutils literal"><span class="pre">transcripts.fa</span></tt>.</p>
+<p>The assembled transcripts from trinity will be located in the subdirectory <tt class="docutils literal"><span class="pre">Trinity</span></tt> and be called <tt class="docutils literal"><span class="pre">Trinity.fasta</span></tt>.</p>
+<p>We have now used default settings for both programs. To fully use the potential
+of the programs it is wortwhile to read the manual and use the correct flags. As
+an example both programs handle strand specific RNA that reduces the complexity of
+the algorothms and therefore produces better results.
+For information regarding the oases command go to the <a class="reference external" href="http://www.ebi.ac.uk/~zerbino/oases/OasesManual.pdf">Oases</a>
+or <a class="reference external" href="http://trinityrnaseq.sourceforge.net/#running_trinity">Trinity</a>
+manuals.</p>
+</div>
+<div class="section" id="assesing-the-new-assemblies">
+<h2>Assesing the new assemblies<a class="headerlink" href="#assesing-the-new-assemblies" title="Permalink to this headline">¶</a></h2>
+<p>Now that the reads have been assembled into contigs you can map them back onto
+the human genome sequence to see how they were assembled. Note that in
+non-model organism this is not possible. If you would like to asses the assembly
+of transcripts without a reference genome Trinity has a downstream analysis pipeline
+that is worth following <a class="reference external" href="http://trinityrnaseq.sourceforge.net/annotation/Trinotate.html">Trinotate</a> . This is not something we will
+do in this course but if you have time over feel free to try it out.</p>
+<p>Start with mapping the trinity assembled transcripts to the human genome using STAR.
+Convert them to bam format, sort and index them using samtools:</p>
+<div class="highlight-python"><pre>mkdir STARtrinityMapping
+
+STAR  --genomeDir /proj/g2014046/private/RNAseqWorkshop/reference/hg19_Gencode14.overhang75  --readFilesIn Trinity/Trinity.fasta --runThreadN 1 --outSAMstrandField intronMotif --outFileNamePrefix STARtrinityMapping/
+samtools view -bSh -o trinityTranscripts.bam STARtrinityMapping/Aligned.out.sam
+samtools sort trinityTranscripts.bam  trinityTranscripts.sorted
+samtools index trinityTranscripts.sorted.bam</pre>
+</div>
+<p>Do the same procedure for the oases assembled transcripts:</p>
+<div class="highlight-python"><pre>mkdir STARoasesMapping
+STAR  --genomeDir /proj/g2014046/private/RNAseqWorkshop/reference/hg19_Gencode14.overhang75  --readFilesIn oasesPipelineMerged/transcripts.fa --runThreadN 1 --outSAMstrandField intronMotif --outFileNamePrefix STARoasesMapping/
+samtools view -bSh -o oasesTranscripts.bam STARoasesMapping/Aligned.out.sam
+samtools sort oasesTranscripts.bam  oasesTranscripts.sorted
+samtools index oasesTranscripts.sorted.bam</pre>
+</div>
+<p>When ready there should be two bam files that are sorted and indexed. These can now be viewed in the IGV
+or Savant genome browsers. In total there were 12 samples and you have now assembled one of those samples.
+If time permits do one more sample. If time is running out you can download and view all the 24 different samples.
+We have also merged the reads from all the 12 samples and used all the reads to create assembled transcripts.
+All these files can be found <a class="reference external" href="https://export.uppmax.uu.se/g2014046/files/RNAseqWorkshop/download/RNAseq/deNovoFinishedFiles/AllBamFiles/">here</a></p>
+<p>Download a few of them and compare the differents states to see if you can identify different isoforms. How does the
+de novo assembled transcripts compare to the reference based isoform detection programs.</p>
+<p><strong>OPTIONAL</strong>
+I recomend to download the bamFiles and view them in a genome browser on your laptop.
+The interactive genome view experience on UPPMAX, especially when loading many tracks, can
+be slow.This is done in two steps.</p>
+<div class="highlight-python"><pre>#create a folder for all the bamfiles
+mkdir AllBamFiles
+
+# move all the bamfiles into that folder
+mv *.sorted.bam AllBamFiles
+
+#create a tar file with all the bamFiles so that you can download them to your laptop
+
+tar -cf AllBamFiles.tar AllBamFiles
+
+#Use any sftp program of your choice to download the files from uppmax
+
+# If you are using shell you can open up a new terminal window and go to
+# the place where you want to store your bamFiles
+
+cd $YOURLOCALPATH
+scp yourUppmaxName@milou.uppmax.uu.se:$WORKDIR/deNovo/AllBamFiles.tar .</pre>
+</div>
+<p>Now that you have all the bam files in with individual names try to view them in
+a genome brower, both IGV and Savant works fine. Here we will describe how to view them
+in IGV but SAVANT has a nice feature of viewing paired end reads as arcs that IGV
+misses. If you have time i recomend trying both of them out.</p>
+<p>First have a look on the  two bamfiles that contains the assemblies of all
+reads from all twelve timepoints with the two different assemblers. They have the
+names <tt class="docutils literal"><span class="pre">RAB11FIP5_trinity.Trinity._hg_19_STAR.bam</span></tt> and
+<tt class="docutils literal"><span class="pre">RAB11FIP5_oases.Oases._hg_19_STAR.bam</span></tt>.</p>
+<div class="highlight-python"><pre>#If you view your files on your laptop start IGV like this
+
+java -Xmx1500M -jar igv.jar
+
+# If you view your files on UPPMAX do according to UPPMAX
+
+
+#Load tracks in the IGV browser
+
+File-&gt;Load From File...
+    choose **oasesTranscripts.sorted.bam**
+    and **trinityTranscripts.sorted.bam**
+
+# Load peptide sequences
+
+File-&gt;Load From File...
+    choose **human_A431_global-TDA-FDR1pc_green-known_red-novel.bed**
+
+# Load your mapped reads from before
+
+File-&gt;Load From File...
+    choose **sample12_RAB11FIP5.bam**
+
+# Load your own GTF file
+
+File-&gt;Load From File...
+    choose **transcripts.gtf** or what you have named it.</pre>
+</div>
+<p><strong>OPTIONAL</strong>
+There is also a possibility to view tracks that is publicly available. This is easy to
+do in IGV and adds some information in the region that we are looking into.</p>
+<div class="highlight-python"><pre> # Load different gene annotations files
+
+ File-&gt;Load From Server...
+     choose Available Datasets -&gt;Annotations -&gt; Genes -&gt;UCSC Genes
+
+
+ # Load multiple alignments to other vertebrates
+
+ File-&gt;Load From Server...
+     choose Available Datasets -&gt;Annotations -&gt; Comparative Genomics -&gt;Phastcons (Vertebrate 46 way)
+
+
+# Load any of the other annotations that you think is interesting
+
+ File-&gt;Load From Server...
+     choose Available Datasets -&gt;..  -&gt; ..  -&gt;Up to you</pre>
+</div>
+<p>Now have a look at the de novo assembled transcripts. Do they seem reasonable? Which
+regions on the de novo assembled transcripts do not correspond to your own .gtf
+file?  Which is the correct one?</p>
+<p>Now take a closer look at the region chr2:73,308,166-73,308,278. This corresponds
+to the regions where the RefSeq genes is annotated as intron but the <em>de novo</em> assembly
+, the cufflinks gtf file and the peptide file suggest that the region is being transcribed
+and translated into peptides. When examining the <em>de novo</em> assembled contigs it seems
+that none of the transcripts goes through the region. Is this real or could there
+be a shortcoming of the assembler or the sequencing platform? Unfortunately we do
+not have the answers to these questions but all the different methods add in to give
+more understanding in the complexity of isoform analysis and genome annotation.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="diffexp-lab.html" title="Differential expression analysis of RNA-seq data"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="isoform-lab.html" title="Identifying isoforms in RNA-seq data"
+             >previous</a> |</li>
+        <li><a href="index.html">WABI RNA-seq Workshop 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Johan Reimegård, Mikael Huss, and Sanela Kjellqvist.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

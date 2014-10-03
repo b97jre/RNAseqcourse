@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -6,14 +8,14 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Assembling reads with Velvet &mdash; Assembly Workshop 0.0.1 documentation</title>
+    <title>Isoform detection using RNA seq de novo Assembly &mdash; WABI RNA-seq Workshop 0.0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
+        URL_ROOT:    '',
         VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -23,9 +25,9 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Assembly Workshop 0.0.1 documentation" href="index.html" />
+    <link rel="top" title="WABI RNA-seq Workshop 0.0.1 documentation" href="index.html" />
     <link rel="next" title="Assembling reads with Ray" href="ray.html" />
-    <link rel="prev" title="Quality trimming Illumina paired-end reads" href="qtrim.html" /> 
+    <link rel="prev" title="Introduction" href="qtrim.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,9 +40,9 @@
           <a href="ray.html" title="Assembling reads with Ray"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="qtrim.html" title="Quality trimming Illumina paired-end reads"
+          <a href="qtrim.html" title="Introduction"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Assembly Workshop 0.0.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">WABI RNA-seq Workshop 0.0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -49,66 +51,53 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="assembling-reads-with-velvet">
-<h1>Assembling reads with Velvet<a class="headerlink" href="#assembling-reads-with-velvet" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="velvet">
-<h2>Velvet<a class="headerlink" href="#velvet" title="Permalink to this headline">¶</a></h2>
-<p>This assembler takes your reads and turns them into contigs. It consists of two
-steps. In the first step, <tt class="docutils literal"><span class="pre">velveth</span></tt>, the graph is created. Afterwards the
-graph is traversed and contigs are created with <tt class="docutils literal"><span class="pre">velvetg</span></tt>.</p>
-</div>
-<div class="section" id="velveth">
-<h2>velveth<a class="headerlink" href="#velveth" title="Permalink to this headline">¶</a></h2>
-<p>Create the graph data structure with <tt class="docutils literal"><span class="pre">velveth</span></tt>. We want to create assemblies
-over multiple kmers. Again like we did with <tt class="docutils literal"><span class="pre">sickle</span></tt>, first create a
-directory with symbolic links to the pairs that you want to use:</p>
-<div class="highlight-python"><pre>mkdir -p ~/glob/asm-workshop/velvet
-cd ~/glob/asm-workshop/velvet
-ln -s ../sickle/qtrim1.fastq pair1.fastq
-ln -s ../sickle/qtrim2.fastq pair2.fastq</pre>
-</div>
-<p>Then the reads need to be interleaved for <tt class="docutils literal"><span class="pre">velveth</span></tt>:</p>
-<div class="highlight-python"><pre>shuffleSequences_fastq.pl pair1.fastq pair2.fastq pair.fastq</pre>
-</div>
-<p>Run velveth over mutiple kmers:</p>
-<div class="highlight-python"><pre>velveth out 21,58,6 -fastq -shortPaired pair.fastq</pre>
-</div>
-<p>Check what directories have been created:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">ls</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="velvetg">
-<h2>velvetg<a class="headerlink" href="#velvetg" title="Permalink to this headline">¶</a></h2>
-<p>To get the actual contigs you will have to run <tt class="docutils literal"><span class="pre">velvetg</span></tt> over all of the created
-graphs. You can vary options such expected coverage and the coverage cut-off if
-you want, but we do not do that in this tutorial. We only choose not to do
-scaffolding since we found that doesn&#8217;t work that well:</p>
-<div class="highlight-python"><pre>for dir in out_*; do velvetg $dir -scaffolding no; done</pre>
-</div>
-<p>This runs <tt class="docutils literal"><span class="pre">velvetg</span></tt> sequentially on each directory. If you want to do it in
-parallel instead running <tt class="docutils literal"><span class="pre">velvetg</span></tt> on each core, you can call <tt class="docutils literal"><span class="pre">velvetg</span></tt>
-using GNU parallel:</p>
-<div class="highlight-python"><pre>echo out_* | sed 's/\ /\n/g' | parallel velvetg {} -scaffolding no</pre>
-</div>
-<p>This changes the spaces from the echo output to newlines using <tt class="docutils literal"><span class="pre">sed</span></tt>.  GNU
-parallel then uses each line as an argument and places it at the location of
-<tt class="docutils literal"><span class="pre">{}</span></tt>.</p>
-</div>
-<div class="section" id="assemstats">
-<h2>assemstats<a class="headerlink" href="#assemstats" title="Permalink to this headline">¶</a></h2>
-<p>After the assembly one wants to look at the length distributions of the
-resulting assemblies. You can use the <tt class="docutils literal"><span class="pre">assemstats</span></tt> script for that:</p>
-<div class="highlight-python"><pre>assemstats 100 out_*/contigs.fa</pre>
-</div>
-<p>This part is optional. I usually look at the distributions setting the cut-off
-at 100 and 1000 and put the results in google docs. A useful program for
-copying the results from assemstats is <tt class="docutils literal"><span class="pre">xclip</span></tt>. This can copy the results to
-your clipboard so you can directly past the results into google docs:</p>
-<div class="highlight-python"><pre>assemstats 100 out_*/contigs.fa | xclip -selection clipboard</pre>
-</div>
-<p>Note that <tt class="docutils literal"><span class="pre">xclip</span></tt> requires you to log in with X-forwarding enabled, i.e.
-<tt class="docutils literal"><span class="pre">ssh</span> <span class="pre">-X</span> <span class="pre">inod&#64;kalkyl1.uppmax.uu.se</span></tt>.</p>
+  <div class="section" id="isoform-detection-using-rna-seq-de-novo-assembly">
+<h1>Isoform detection using RNA seq de novo Assembly<a class="headerlink" href="#isoform-detection-using-rna-seq-de-novo-assembly" title="Permalink to this headline">¶</a></h1>
+<p>We are going to use two of the open source cutting edge RNA de novo assemblers
+during this practical. They are called Oases and Trinity. Independent assesment
+of de novo assembly programs showed that oases has a bit higher sensitivity at
+the cost of a bit worse specificty (ADD REFERENCE MAYBE FIGURE??).</p>
+<p>[&lt;a&gt;Trinity REF&lt;/a&gt;].</p>
+<blockquote>
+<div>cd $YOURWORKDIR
+mkdir deNovo
+cd deNovo
+# Soft link to all the reads
+ln -s /bubo/proj/g2013048/private/RNAseqWorkshop/deNovo/reads
+# Soft link to all the extra programs that will be used
+ln -s /bubo/proj/g2013048/private/RNAseqWorkshop/bin</div></blockquote>
+<p>Now that you are in the right folder and have created a soft link to the reads
+we are going to assemble we will use a script that will generate a sbatch script
+for each of the assemblers on the reads. The script will identify all the subfolders
+of your selected inFolder and create a assembly on all fastq files that are located
+in the same folder. In total we will do 24 different assemblies in this course</p>
+<blockquote>
+<div><p># load java module on uppmax
+module load java
+java -jar bin/HTStools.jar -p sbatch -deNovo -trinity -oases -pNr YOURPNR</p>
+<blockquote>
+<div>/-email <a class="reference external" href="mailto:YOUR&#37;&#52;&#48;EMAIL">YOUR<span>&#64;</span>EMAIL</a> -i reads</div></blockquote>
+</div></blockquote>
+<p>To start all the sbatch scripts generated go to the automated created scripts-
+folder scripts and identify the newly created shell script file. Should be named
+[DATE]_PE_deNovo.sh</p>
+<blockquote>
+<div># go to the scripts folder
+cd scripts
+# Start the shell script that will start all the sbatch scripts
+sh [DATE]_PE_deNovo.sh</div></blockquote>
+<p>To see the actual calls for the two different assemblers you can go to
+reads_trinity/scripts and reads_oases/scripts respectively. They should be named
+[DATE]_0_trinity.sbatch and [DATE]_0_oases.sbatch.</p>
+<blockquote>
+<div>cd $YOURWORKDIR
+cd deNovo/reads_trinity/scripts
+ls -lrt</div></blockquote>
+<p>The longest time for both programs should be under 5 minutes but now is a good
+time for a cup og java.</p>
+<div class="section" id="assesing-the-new-assemblies">
+<h2>Assesing the new assemblies<a class="headerlink" href="#assesing-the-new-assemblies" title="Permalink to this headline">¶</a></h2>
+<p>Where I am now.</p>
 </div>
 </div>
 
@@ -120,18 +109,15 @@ your clipboard so you can directly past the results into google docs:</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Assembling reads with Velvet</a><ul>
-<li><a class="reference internal" href="#velvet">Velvet</a></li>
-<li><a class="reference internal" href="#velveth">velveth</a></li>
-<li><a class="reference internal" href="#velvetg">velvetg</a></li>
-<li><a class="reference internal" href="#assemstats">assemstats</a></li>
+<li><a class="reference internal" href="#">Isoform detection using RNA seq de novo Assembly</a><ul>
+<li><a class="reference internal" href="#assesing-the-new-assemblies">Assesing the new assemblies</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="qtrim.html"
-                        title="previous chapter">Quality trimming Illumina paired-end reads</a></p>
+                        title="previous chapter">Introduction</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="ray.html"
                         title="next chapter">Assembling reads with Ray</a></p>
@@ -167,14 +153,14 @@ your clipboard so you can directly past the results into google docs:</p>
           <a href="ray.html" title="Assembling reads with Ray"
              >next</a> |</li>
         <li class="right" >
-          <a href="qtrim.html" title="Quality trimming Illumina paired-end reads"
+          <a href="qtrim.html" title="Introduction"
              >previous</a> |</li>
-        <li><a href="index.html">Assembly Workshop 0.0.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">WABI RNA-seq Workshop 0.0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2013, inodb.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+        &copy; Copyright 2013, WABI.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
 </html>

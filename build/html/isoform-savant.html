@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Using Savant &mdash; WABI RNA-seq Workshop 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="WABI RNA-seq Workshop 0.1 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="index.html">WABI RNA-seq Workshop 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/scilife_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Using Savant</a><ul>
+<li><a class="reference internal" href="#importing-the-peptide-track">Importing the peptide track</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/isoform-savant.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="using-savant">
+<h1>Using Savant<a class="headerlink" href="#using-savant" title="Permalink to this headline">¶</a></h1>
+<p>It is up to you whether you&#8217;d like to install Savant on your own machine or run it on UPPMAX. If you do the latter, you need to login to Uppmax with X windows support, e g:</p>
+<div class="highlight-python"><pre>ssh -X someuser@kalkyl.uppmax.uu.se</pre>
+</div>
+<p>It would probably be a good idea to run the program from within an interactive session, in order not to disturb the login nodes too much:</p>
+<div class="highlight-python"><pre>interactive -A g2013179 --qos=short -t 15:00</pre>
+</div>
+<p>This will give you an interactive session for up to 15 minutes.</p>
+<p>Call a script for launching Savant:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">sh</span> <span class="o">/</span><span class="n">proj</span><span class="o">/</span><span class="n">g2013179</span><span class="o">/</span><span class="n">private</span><span class="o">/</span><span class="n">nobackup</span><span class="o">/</span><span class="n">Savant</span><span class="o">/</span><span class="n">Savant</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>This should hopefully launch Savant in a window.</p>
+<p>Start by loading the hg19 genome (included with the software) by selecting File &gt; Select genome...</p>
+<div class="section" id="importing-the-peptide-track">
+<h2>Importing the peptide track<a class="headerlink" href="#importing-the-peptide-track" title="Permalink to this headline">¶</a></h2>
+<p>Now you can import the track with identified peptides from the MS experiment. Select File &gt; Load Track from File and navigate to <tt class="docutils literal"><span class="pre">/proj/g2013179/private/RNAseqWorkshop/reference</span></tt> (which could be annoyingly difficult) and select the file <tt class="docutils literal"><span class="pre">human_A431_global-TDA-FDR1pc_green-known_red-novel.txt</span></tt> When Savant asks if you would like to format the file, select yes and choose BED as the format in the menu.</p>
+<p>Now, click the newly created track, which will reveal a menu on the right hand side. Choose Appearance &gt; Enable ItemRGB. Now, the peptides that correspond to known coding sequences will be colored green, and novel peptides will be colored red.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="index.html">WABI RNA-seq Workshop 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Johan Reimegård, Mikael Huss, and Sanela Kjellqvist.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

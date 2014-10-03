@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Identifying isoforms in RNA-seq data &mdash; WABI RNA-seq Workshop 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="WABI RNA-seq Workshop 0.1 documentation" href="index.html" />
+    <link rel="next" title="Isoform detection using RNA seq de novo Assembly" href="isoform-denovo.html" />
+    <link rel="prev" title="General information" href="intro.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="isoform-denovo.html" title="Isoform detection using RNA seq de novo Assembly"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="General information"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">WABI RNA-seq Workshop 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/scilife_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Identifying isoforms in RNA-seq data</a><ul>
+<li><a class="reference internal" href="#preliminaries">Preliminaries</a></li>
+<li><a class="reference internal" href="#importing-the-peptide-track">Importing the peptide track</a></li>
+<li><a class="reference internal" href="#going-to-a-locus">Going to a locus</a></li>
+<li><a class="reference internal" href="#strategies-for-using-the-rna-seq-data">Strategies for using the RNA-seq data</a></li>
+<li><a class="reference internal" href="#mapping-to-hg19">Mapping to hg19</a></li>
+<li><a class="reference internal" href="#quantification-with-cufflinks">Quantification with Cufflinks</a></li>
+<li><a class="reference internal" href="#reference-guided-assembly-using-cufflinks">Reference guided assembly using Cufflinks</a></li>
+<li><a class="reference internal" href="#de-novo-transcript-assembly">De novo transcript assembly</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="intro.html"
+                        title="previous chapter">General information</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="isoform-denovo.html"
+                        title="next chapter">Isoform detection using RNA seq de novo Assembly</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/isoform-lab.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="identifying-isoforms-in-rna-seq-data">
+<h1>Identifying isoforms in RNA-seq data<a class="headerlink" href="#identifying-isoforms-in-rna-seq-data" title="Permalink to this headline">¶</a></h1>
+<p>One of the advantages of RNA-seq data compared to microarrays is that you get isoform-level information &#8216;for free&#8217; in addition to gene-level information. In this exercise, we are going to look at some ways to identify and visualize isoforms.</p>
+<p>As you have hopefully read on the introduction page, we will use RNA-seq and quantitative mass-spectrometry (MS) data sets from the A431 cell line. These data were measured by a group at SciLifeLab Stockholm in a &#8216;proteogenomics&#8217; study where the aim was to discover new genes or gene variants by deep proteomic profiling using an MS method, and mapping the obtained peptides back to the genome. The RNA-seq data was obtained to see if there was RNA-level support for the predicted novel peptides and transcript variants. We will look at some loci that were flagged by the research group as being interesting, and see what the RNA-seq data look like for those.</p>
+<div class="section" id="preliminaries">
+<h2>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://export.uppmax.uu.se/g2014046/files/RNAseqWorkshop/download/RNAseq">Link to RNA-seq exercise download area</a></p>
+<p>Start by logging in to Uppmax:</p>
+<div class="highlight-python"><pre>ssh -X &lt;USER&gt;@milou.uppmax.uu.se</pre>
+</div>
+<p>and issuing the command:</p>
+<div class="highlight-python"><pre>module load bioinfo-tools</pre>
+</div>
+<p>This means you will be able to load all the modules needed below.</p>
+<p>You are at present logged into a login node on the system but we shall request a compute node on the cluster to perform our analysis. This is done with the interactive command, and we shall ask for a whole node for 5 hours:</p>
+<div class="highlight-python"><pre>interactive -t 5:00:00 -A g2014046 -p core -n 8 --reservation=g2014046_tue</pre>
+</div>
+<p>(g2014046 is the course id)</p>
+<p>You should now be logged into a compute node with 8 processors and 64GB of memory at your disposal.</p>
+<p>First create a directory to work in. To create your own subdirectory under workshop do the following:</p>
+<div class="highlight-python"><pre>#Go to directory /proj/g2014046/nobackup/private/workshop/
+cd /proj/g2014046/nobackup/private/workshop
+
+#create a folder with your uppmax user account namne
+# this variable is defined as $USER
+
+mkdir $USER</pre>
+</div>
+<p>It will be useful to download a genome browser - a piece of software that can
+visualize genomic data in various ways. We will use the arguably most popular one,
+Integrated Genomics Viewer (IGV), in the following. IGV is installed on UPPMAX, but
+since you will then access it over a network connection, the graphics might be sluggish,
+so alternatively you could download and run the browsers locally and download the files
+you need from the course project&#8217;s <a class="reference external" href="https://export.uppmax.uu.se/g2014046/files/RNAseqWorkshop/download/RNAseq/">download area</a></p>
+<p>If you want to try to run IGV on Uppmax, please refer to the
+<a class="reference external" href="http://www.uppmax.uu.se/starting-integrative-genomics-viewer-igv-on-kalkyl">Uppmax page for IGV instructions</a>
+for advice.</p>
+</div>
+<div class="section" id="importing-the-peptide-track">
+<h2>Importing the peptide track<a class="headerlink" href="#importing-the-peptide-track" title="Permalink to this headline">¶</a></h2>
+<p>As mentioned above, we will compare some identified peptides from a mass-spectrometry
+experiment with RNA-seq data from the same cell line. Let&#8217;s start by importing the track
+with identified peptides from the MS experiment.</p>
+<p>If you are running a genome browser on Uppmax, you can find the file in
+<tt class="docutils literal"><span class="pre">/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/RNAseqhuman_A431_global-TDA-FDR1pc_green-known_red-novel.bed</span></tt></p>
+<p>If you are running locally, you can download the file from the
+<a class="reference external" href="https://export.uppmax.uu.se/g2014046/files/RNAseqWorkshop/download/RNAseq/human_A431_global-TDA-FDR1pc_green-known_red-novel.bed">download area</a>.</p>
+<p>Then, in IGV, select File &gt; Load from File ... and navigate to the BED file (on
+Uppmax according to above or to the location where you downloaded it locally). From
+the BED file extension, IGV will automatically know to color the track according to
+peptide status (green for annotated peptides, red for novel peptides.)</p>
+</div>
+<div class="section" id="going-to-a-locus">
+<h2>Going to a locus<a class="headerlink" href="#going-to-a-locus" title="Permalink to this headline">¶</a></h2>
+<p>We will look at the RAB11FIP5 gene, which was highlighted in the proteomics experiments
+as having a couple of unannotated peptides. In IGV, click the textbox which has the word
+Go on its right hand side. This textbox will typically contain genomic coordinates for
+the locus you are presently looking at, but it can also be used to find gene locations.
+Type RAB11FIP5 in it and press Enter.</p>
+<p>Look at what you see in the display. What kind of peptides (previously known or novel)
+have been identified and how do they correspond to existing annotation?</p>
+</div>
+<div class="section" id="strategies-for-using-the-rna-seq-data">
+<h2>Strategies for using the RNA-seq data<a class="headerlink" href="#strategies-for-using-the-rna-seq-data" title="Permalink to this headline">¶</a></h2>
+<p>There are different ways to find out how the RNA-seq data shows the RAB11FIP5 gene to
+be expressed. Roughly speaking, we can talk about three different strategies:</p>
+<ul class="simple">
+<li>Mapping the reads to a reference genome and quantifying the gene and isoform FPKMs</li>
+<li>Mapping the reads to a reference genome and assembling transcripts based on the mapping (reference guided assembly)</li>
+<li>Assembling the reads <em>de novo</em>, ignoring the reference genome for now</li>
+</ul>
+<p>In order to make these steps computationally feasible during the lab, we have extracted
+only those sequences that mapped to the RAB11FIP5 gene in each sample. These &#8220;sub-FASTQ&#8221;
+files can be found in <tt class="docutils literal"><span class="pre">/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/sub_fastq</span></tt>.</p>
+</div>
+<div class="section" id="mapping-to-hg19">
+<h2>Mapping to hg19<a class="headerlink" href="#mapping-to-hg19" title="Permalink to this headline">¶</a></h2>
+<p>We can start by mapping the reads to the hg19 reference genome using a popular RNA-seq
+aligner, TopHat. There are good alternatives such as STAR but we will use TopHat here,
+partly because STAR needs a bit more RAM and it might get inconvenient to have everyone
+run it at the same time.</p>
+<p>To load the TopHat package on Uppmax, execute:</p>
+<div class="highlight-python"><pre>module load tophat/2.0.4
+module load samtools</pre>
+</div>
+<p>Now you can map the reads from one of the samples (or several; it&#8217;s up to you
+which ones(s)) to map using a command such as the one below (look at the
+explanation of the flags below before you execute it; or type <tt class="docutils literal"><span class="pre">tophat</span> <span class="pre">--h</span></tt>
+to see the explanation of all options). Note that you can use gzip-compressed
+files directly with Tophat (not that it is really needed for these tiny files;
+we just show it because it might be good to know.):</p>
+<div class="highlight-python"><pre>tophat --phred64-quals -p 8 -o my_test /sw/data/uppnex/reference/Homo_sapiens/hg19/program_files/bowtie2/concat /proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/sub_fastq/sample12_RAB11FIP5_1.fastq.gz /proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/sub_fastq/sample12_RAB11FIP5_2.fastq.gz</pre>
+</div>
+<p>Since you should be on a full computing node with 4 processors, the flag <tt class="docutils literal"><span class="pre">-p</span> <span class="pre">8</span></tt>
+will make the program run faster by using 8 threads.</p>
+<p><tt class="docutils literal"><span class="pre">--phred64-quals</span></tt> tells TopHat that these FASTQ files have their quality scores
+encoded in Illumina&#8217;s older format called phred64, which is different from the standard Sanger (or phred33) format.</p>
+<p><tt class="docutils literal"><span class="pre">-o</span></tt> is the name of the output directory where the alignments will be written.
+You should put something that you can recognize as your own, like your name.</p>
+<p>The long string ending in <tt class="docutils literal"><span class="pre">concat</span></tt> is the location of a Bowtie2 genome reference
+index, and the other options are file names of the two FASTQ files corresponding to
+the reads (each mate, read 1 and read 2, is in its own file.)</p>
+<p>This should run fairly quickly and put a file called <tt class="docutils literal"><span class="pre">accepted_hits.bam</span></tt> in
+the directory that you specified with <tt class="docutils literal"><span class="pre">-o</span></tt>. You should probably rename this
+file to something like <tt class="docutils literal"><span class="pre">sample12_RAB11FIP5.bam</span></tt> (if you mapped sample 12) to
+keep track of what the file represents. Now you can visualize the read &#8220;pile-up&#8221;
+in your genome browser. Before the visualization, you need to build a so-called
+BAM file index:</p>
+<div class="highlight-python"><pre>samtools index sample12_RAB11FIP5.bam</pre>
+</div>
+<p>(substitute the actual name of your file if it is different from <tt class="docutils literal"><span class="pre">sample12_RAB11FIP5.bam</span></tt>.)
+Then, in IGV, just choose File &gt; Load from File ... and select the BAM file.
+(If you are running IGV locally and did the mapping on Uppmax, you will have to
+download the BAM file and the corresponding index file (.bai) from your work folder
+to your own computer first.) When the track has loaded (actually several tracks) you
+will see the coverage and a representation of the actual reads themselves. How do
+they relate to the three unknown peptides?</p>
+</div>
+<div class="section" id="quantification-with-cufflinks">
+<h2>Quantification with Cufflinks<a class="headerlink" href="#quantification-with-cufflinks" title="Permalink to this headline">¶</a></h2>
+<p>Cufflinks is a well-known software package for estimating gene and isoform
+abundances in a BAM or SAM files based on an annotation file in GTF format
+(or for doing reference guided assembly which we will do below). However, we run
+into problems here because of the small file size. Cufflinks needs a certain amount
+of data to be able to do its estimations so it will not work very well on our small
+alignment files. Therefore we have run it on the full alignment files on each sample
+and provided the merged results at <tt class="docutils literal"><span class="pre">/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/isoform_fpkm_table.txt</span></tt>
+(isoform FPKM) and <tt class="docutils literal"><span class="pre">/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/RNAseqfpkm_table.txt</span></tt>.
+If you are interested, you can check in the isoform FPKM file how much each isoform
+is deemed to have been expressed by Cufflinks, but we will not go into that today.
+(These results will be revisited tomorrow, in the differential expression lab exercise.)</p>
+<p>For reference, the commands we used were of the form:</p>
+<div class="highlight-python"><pre># Only for reference, does not need to be executed during the exercise
+cufflinks -p 8 -G /proj/g2013179/private/nobackup/RNAseqWorkshop/reference/Homo_sapiens.GRCh37.71.withchr.clean.gtf -o cufflinks_out_137_1 accepted_hits_137_1.bam</pre>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">-G</span></tt> option points to an annotation file in GTF format for which to calculate
+FPKM values. The input here is a BAM file which is just a binary version of a SAM file.</p>
+<p>Other options for doing abundance estimation are <a class="reference external" href="http://deweylab.biostat.wisc.edu/rsem/">RSEM</a>
+or the flexible <a class="reference external" href="http://sandberg.cmb.ki.se/media/data/rnaseq/instructions-rpkmforgenes.html">RPKMforgenes.py script</a>.</p>
+</div>
+<div class="section" id="reference-guided-assembly-using-cufflinks">
+<h2>Reference guided assembly using Cufflinks<a class="headerlink" href="#reference-guided-assembly-using-cufflinks" title="Permalink to this headline">¶</a></h2>
+<p>As mentioned above, Cufflinks can also do reference based assembly, which means
+that it tries to discover transcripts, disregarding gene annotation (actually there
+is an option to use it as well but we will ignore that for now), just based on the
+mappings to the genome. This functionality works even on our small files.</p>
+<p>Try to do a reference guided assembly. This is done simply by running Cufflinks
+without feeding it a GTF file with the -G flag:</p>
+<div class="highlight-python"><pre>module load cufflinks/2.0.2
+cufflinks -o my_cuff_denovo_sample12 sample12_RAB11FIP5.bam</pre>
+</div>
+<p>Substitute the appropriate names for the BAM file and the output directory. When
+Cufflinks has finished (which should hardly take any time at all), the output
+directory will contain a file called <tt class="docutils literal"><span class="pre">transcripts.gtf</span></tt>. You can import that in
+the usual way into IGV (perhaps after renaming it into something less anonymous
+than <tt class="docutils literal"><span class="pre">transcripts.gtf</span></tt>) as a track.</p>
+<p>Was Cufflinks able to assemble your alignments into something that makes sense?</p>
+<p>Other alternatives for reference-based assembly include
+<a class="reference external" href="http://www.broadinstitute.org/software/scripture">Scripture</a>,
+<a class="reference external" href="http://compbio.cs.toronto.edu/ireckon/">iReckon</a> and
+<a class="reference external" href="https://sites.google.com/site/jingyijli/">SLIDE</a>. These may require some
+annotation as input but they can discover (and quantify) new isoforms.</p>
+</div>
+<div class="section" id="de-novo-transcript-assembly">
+<h2>De novo transcript assembly<a class="headerlink" href="#de-novo-transcript-assembly" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes it is more useful to do a <em>de novo</em> assembly without using any
+reference genome information. Of course this is what you have to do if your
+organism doesn&#8217;t have a known reference genome, but it could also make sense
+for human tumors or cell lines with a lot of structural variations which
+interfere with the mapping. For example, when you want to find expressed
+fusion genes (fusion transcripts) in certain cancers, it may make sense to
+approach that via <em>de novo</em> assembly. See the following instructions for doing
+<em>de novo</em> assembly with Trinity and Oases. This is what you will do in the next
+exercise.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="isoform-denovo.html" title="Isoform detection using RNA seq de novo Assembly"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="General information"
+             >previous</a> |</li>
+        <li><a href="index.html">WABI RNA-seq Workshop 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Johan Reimegård, Mikael Huss, and Sanela Kjellqvist.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -6,14 +8,14 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Quality trimming Illumina paired-end reads &mdash; Assembly Workshop 0.0.1 documentation</title>
+    <title>Introduction &mdash; WABI RNA-seq Workshop 0.0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
+        URL_ROOT:    '',
         VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -23,9 +25,9 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Assembly Workshop 0.0.1 documentation" href="index.html" />
-    <link rel="next" title="Assembling reads with Velvet" href="velvet.html" />
-    <link rel="prev" title="Welcome to the Assembly Workshop" href="index.html" /> 
+    <link rel="top" title="WABI RNA-seq Workshop 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Isoform detection using RNA seq de novo Assembly" href="velvet.html" />
+    <link rel="prev" title="Welcome to the RNA-seq Workshop" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,12 +37,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="velvet.html" title="Assembling reads with Velvet"
+          <a href="velvet.html" title="Isoform detection using RNA seq de novo Assembly"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Welcome to the Assembly Workshop"
+          <a href="index.html" title="Welcome to the RNA-seq Workshop"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Assembly Workshop 0.0.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">WABI RNA-seq Workshop 0.0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -49,13 +51,17 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="quality-trimming-illumina-paired-end-reads">
-<h1>Quality trimming Illumina paired-end reads<a class="headerlink" href="#quality-trimming-illumina-paired-end-reads" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="sickle">
-<h2>Sickle<a class="headerlink" href="#sickle" title="Permalink to this headline">¶</a></h2>
-<p>For quality trimming Illumina paired end reads we use the library sickle which
-trims reads from 3&#8217; end to 5&#8217; end using a sliding window. If the mean quality
-drops below a specified number remaining part of the read will be trimmed.</p>
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>Today we are going to look at some RNA-seq data from the A431 cell line. It is an epidermoid carcinoma cell line which is often used to study cancer and the cell cycle, and as a sort of positive control of epidermal growth factor receptor (EGFR) expression. A431 cells express very high levels of EGFR, in contrast to normal human fibroblasts. In the experiment we are looking at today, A431 cells were treated with gefinitib, which is an EGFR inhibitor, and is used (under the trade name Iressa) as a drug to treat cancers with mutated and overactive EGFR. In the experiment, RNA was extracted at four time points: before the gefinitib treatment (t=0), and two, six and twenty-four hours after treatment (t=2, t=6, t=24, respectively), and sequenced using an Illumina HiSeq instrument in triplicates (thus there are 3x4=12 samples). In a parallel experiment, protein contents at those same time points were measured using mass spectrometry in duplicates (resulting in 8 samples).</p>
+<p>There are many relevant questions that could be asked based on these measurements, such as what genes, isoforms, and proteins that are differentially expressed between the different time points. Today, we are going to look at some specific regions where the mass-spectrometry data indicated that novel exons or splice variants could be present at the protein level. We will use (part of) the RNA-seq data to examine if there is corresponding evidence on the mRNA level, and how different software tools could be used to detect and visualize novel gene variants.</p>
+<div class="section" id="general-information">
+<h2>General information<a class="headerlink" href="#general-information" title="Permalink to this headline">¶</a></h2>
+<p>For this lab, we are going to work on UPPMAX, in the project g2013048, which has been set up for the purposes of this course. You reach the home directory of the project by changing working directory to /proj/g2013048:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cd</span> <span class="o">/</span><span class="n">proj</span><span class="o">/</span><span class="n">g2013048</span>
+</pre></div>
+</div>
+<p>The files we are going to use in the exercises are in /proj/g2013048/private/RNAseq-workshop. This document (the web-based workshop documentation) is hosted under /proj/g2013048/webexport/RNAseq-workshop/build. [not there yet]</p>
 </div>
 <div class="section" id="sickle-on-uppmax">
 <h2>Sickle on Uppmax<a class="headerlink" href="#sickle-on-uppmax" title="Permalink to this headline">¶</a></h2>
@@ -150,8 +156,8 @@ ls</pre>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Quality trimming Illumina paired-end reads</a><ul>
-<li><a class="reference internal" href="#sickle">Sickle</a></li>
+<li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#general-information">General information</a></li>
 <li><a class="reference internal" href="#sickle-on-uppmax">Sickle on Uppmax</a></li>
 <li><a class="reference internal" href="#optional-install-sickle-by-yourself">(Optional) Install sickle by yourself</a></li>
 <li><a class="reference internal" href="#downloading-a-test-set">Downloading a test set</a></li>
@@ -162,10 +168,10 @@ ls</pre>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="index.html"
-                        title="previous chapter">Welcome to the Assembly Workshop</a></p>
+                        title="previous chapter">Welcome to the RNA-seq Workshop</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="velvet.html"
-                        title="next chapter">Assembling reads with Velvet</a></p>
+                        title="next chapter">Isoform detection using RNA seq de novo Assembly</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/qtrim.txt"
@@ -195,17 +201,17 @@ ls</pre>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="velvet.html" title="Assembling reads with Velvet"
+          <a href="velvet.html" title="Isoform detection using RNA seq de novo Assembly"
              >next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Welcome to the Assembly Workshop"
+          <a href="index.html" title="Welcome to the RNA-seq Workshop"
              >previous</a> |</li>
-        <li><a href="index.html">Assembly Workshop 0.0.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">WABI RNA-seq Workshop 0.0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2013, inodb.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+        &copy; Copyright 2013, WABI.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
 </html>
