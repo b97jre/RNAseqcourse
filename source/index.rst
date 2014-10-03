@@ -1,19 +1,18 @@
 ==========================================
-Welcome to the Assembly Workshop
+Welcome to the RNA-seq/proteomics Workshop
 ==========================================
 
-Log in to uppmax
-================
-We are working on uppmax today so please login to Uppmax if you have an
-account. If you don't please work with your neighbor.
-
-Content:
+Welcome to the RNA-seq/proteomics workshop given in Uppsala June 10-12, 2014.
 
 .. toctree::
    :maxdepth: 2
 
-  qtrim 
-  velvet
-  ray
-  minimus2
-  bwa
+  schedule
+  intro 
+  isoform-lab
+  isoform-denovo
+  diffexp-lab
+  mva-enrich-lab 
+  links
+ 
+  		
