@@ -2,33 +2,33 @@
 Isoform detection using RNA seq de novo Assembly 
 ================================================
 
-We are going to use two of the open source cutting edge RNA *de novo* assemblers 
-during this practical. They are called **Oases** and **Trinity**. Independent assessment 
-of *de novo* assembly programs showed that Oases has a bit higher sensitivity at 
-the cost of a bit worse specificity compared to Trinity. 
+We are going to use one of the open source RNA *de novo* assemblers 
+during this practical. It is called **Trinity**. Independent assessment 
+of *de novo* assembly programs showed that Trinity was one of the best assemblers to use. 
+It is also one of the programs that is being updated and does also have downstream analysis tools. 
 
 .. image:: ../images/Compare.jpg
 
 Figure taken from `Optimizing de novo transcriptome assembly from short-read RNA-Seq data: a comparative study 
 <http://www.biomedcentral.com/1471-2105/12/S14/S2>`_.
 
-Both assemblers take your reads and turn them into *contigs*. For more details
-on how each of the assemblers work read the corresponding papers (`Oases 
-<http://bioinformatics.oxfordjournals.org/content/28/8/1086.long>`_
-, `Trinity 
+A de novo  take your reads and turn them into *contigs*. For more details
+on how **Trinity** work read the corresponding paper (`Trinity 
 <http://www.nature.com/nbt/journal/v29/n7/full/nbt.1883.html>`_
 ). 
 
 Preparation
 ===========
 
-Due to time restraints we will focus on reads that can be mapped to a region 
-surrounding the gene  **RAB11FIP5**.  
+To reduce the time for the assembler to run we will focus on reads that can be mapped to a small region 
+on the human chromosome.  
 
-Create a shell variable and make sure you are in the right place. ::
 
-   #make sure you are in your working folder and then chreate a new shell variable called WORKDIR
-   # this should be /home/johanr/workshop/nobackup/private/workshop/YOURUPPMAXNAME
+Make a new subdirectory and go there for this exercise.  ::
+
+   mkdir deNovoAssembly  
+   cd deNovoAssembly
+   
    
    
    WORKDIR=$(pwd)
@@ -38,12 +38,24 @@ Create a shell variable and make sure you are in the right place. ::
    cd $WORKDIR
    pwd 
    
-
-Load all programs that you will need for this exercise. ::
+   
+   
+Files used during the exercise 
+==============================
  
-    #Add oases programs to your PATH variable
-    PATH=/proj/g2014046/private/RNAseqWorkshop/bin:$PATH 
-    export PATH
+   
+Copy all the files that you will need for this exercise from here. ::
+
+    # load modules to make trinity work 
+    module load bioinfo-tools 
+
+
+
+If you are not on uppmax you can download them using a webinterface from here 
+  
+   
+
+Load all programs that you will need for trinity to work on uppmax this exercise. ::
  
     # load modules to make trinity work 
     module load bioinfo-tools 
@@ -51,8 +63,10 @@ Load all programs that you will need for this exercise. ::
     module load samtools
     module load trinity/2014-04-13 
     
-    # load modules for samtools 	
     
+
+
+Load all programs that you will need for STAR to work on uppmax this exercise. ::
 
     # load modules to make RNAseq aligner STAR work 
     
@@ -64,24 +78,23 @@ Load all programs that you will need for this exercise. ::
 Assemble the reads into contigs 
 ===============================
 
-Assemble the reads into de novo assembled transcripts::
+Since **Trinity** is often being updated you should make sure you are using the latest version.
+That means that the requirements and the command line to to run **Trinity** changes occasionally. 
+You can find the basic usage info for **Trinity** `here
+http://trinityrnaseq.sourceforge.net/#running_trinity
+ and the latest typical command line to type `here
+<http://trinityrnaseq.sourceforge.net/#running_trinity>`_ 
+
+
+  or 
   
-  #for oases the command is  
-  oases_pipeline.py  -p "-ins_length 200" -m 21 -M 29 -s 2 -g 27  -d "-fastq -separate /proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/sub_fastq/sample12_RAB11FIP5_1.fastq /proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/sub_fastq/sample12_RAB11FIP5_2.fastq "   
-    
-  #for trinity de novo assembly
   Trinity --seqType fq --JM 50G --left /proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/sub_fastq/sample12_RAB11FIP5_1.fastq --right /proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/sub_fastq/sample12_RAB11FIP5_2.fastq  --output Trinity --CPU 7  
     
-The assembled transcripts from oases will be located in the subdirectory ``oasesPipelineMerged`` and be called ``transcripts.fa``. 
-
-The assembled transcripts from trinity will be located in the subdirectory ``Trinity`` and be called ``Trinity.fasta``. 
 
 We have now used default settings for both programs. To fully use the potential 
-of the programs it is wortwhile to read the manual and use the correct flags. As 
+of the programs it is worthwhile to read the manual and use the correct flags. As 
 an example both programs handle strand specific RNA that reduces the complexity of 
 the algorothms and therefore produces better results.
-For information regarding the oases command go to the `Oases 
-<http://www.ebi.ac.uk/~zerbino/oases/OasesManual.pdf>`_ 
 or `Trinity
 <http://trinityrnaseq.sourceforge.net/#running_trinity>`_
 manuals.
