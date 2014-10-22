@@ -1,18 +1,17 @@
 ==========================================
-Welcome to the RNA-seq/proteomics Workshop
+Welcome to the RNA-seq Workshop
 ==========================================
 
-Welcome to the RNA-seq/proteomics workshop given in Uppsala June 10-12, 2014.
 
 .. toctree::
    :maxdepth: 2
 
-  schedule
-  intro 
+  intro
+  qc-lab 
   isoform-lab
   isoform-denovo
+  miRNA-lab
   diffexp-lab
-  mva-enrich-lab 
   links
  
   		
