@@ -17,26 +17,27 @@ on how **Trinity** work read the corresponding paper (`Trinity
 <http://www.nature.com/nbt/journal/v29/n7/full/nbt.1883.html>`_
 ). 
 
+
+Running an assembly using **Trinity** for ~20 million of reads takes at least a day and more than 50 GB of RAM. In order 
+to reduce the time for the **Trinity** to run during this course we will focus on reads that can be mapped to a small region on the human chromosome.  
+
+
 Preparation
 ===========
 
-To reduce the time for the assembler to run we will focus on reads that can be mapped to a small region 
-on the human chromosome.  
+If you are working on UPPMAX i suggest that you will do all your exercises from your glob folder. 
 
 
 Make a new subdirectory and go there for this exercise.  ::
 
+
+   #Go to your own glob folder mkdir deNovoAssembly  
+   cd ~/glob/RNAseqWorkshop
+   
+   #Create a new folder where you will do this exercise
    mkdir deNovoAssembly  
+   # go into that directory 
    cd deNovoAssembly
-   
-   
-   
-   WORKDIR=$(pwd)
-   
-   # Make sure the variable is correct and that you are in the right directory.
-	
-   cd $WORKDIR
-   pwd 
    
    
    
@@ -44,16 +45,27 @@ Files used during the exercise
 ==============================
  
    
+If you are on uppmax
+--------------------
+
 Copy all the files that you will need for this exercise from here. ::
 
-    # load modules to make trinity work 
-    module load bioinfo-tools 
+    # This assumes that you now are in the deNovoAssembly folder 
+    cp -r /proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/deNovo/data . 
 
 
+If you are somewhere else
+-------------------------
+You can download all data using a webinterface from `here
+<https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/deNovo/>`_ 
 
-If you are not on uppmax you can download them using a webinterface from here 
-  
+
    
+Programs used during the exercise 
+=================================
+
+When doing this course on UPPMAX all programs will be available to load as pre-installed modules. 
+In order to be able to use these programs you need to load the modules before using them. 
 
 Load all programs that you will need for trinity to work on uppmax this exercise. ::
  
@@ -61,18 +73,17 @@ Load all programs that you will need for trinity to work on uppmax this exercise
     module load bioinfo-tools 
     module load bowtie
     module load samtools
-    module load trinity/2014-04-13 
+    module load trinity/2014-07-17 
     
     
-
-
-Load all programs that you will need for STAR to work on uppmax this exercise. ::
+Load all programs that you will need for STAR to work on UPPMAX this exercise. ::
 
     # load modules to make RNAseq aligner STAR work 
     
     module load star
 
    
+If you are doing this exercise on somewhere else follow each program information on how to install it.
    
 
 Assemble the reads into contigs 
@@ -85,23 +96,32 @@ http://trinityrnaseq.sourceforge.net/#running_trinity
  and the latest typical command line to type `here
 <http://trinityrnaseq.sourceforge.net/#running_trinity>`_ 
 
+Go to the webpage and try out the code that is 
 
-  or 
-  
-  Trinity --seqType fq --JM 50G --left /proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/sub_fastq/sample12_RAB11FIP5_1.fastq --right /proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/sub_fastq/sample12_RAB11FIP5_2.fastq  --output Trinity --CPU 7  
-    
+Good things to know about the data used in this lab. ::
 
-We have now used default settings for both programs. To fully use the potential 
+    # You will use paired end data. 
+    # The file that trinity refers to as left is the fastq files that ends with _1.fastq
+    # The file that trinity refers to as right is the fastq files that ends with _2.fastq
+ 
+    # The RNA seq data that we use in this exercise is not strand specific.
+     
+	 
+
+
+To fully use the potential 
 of the programs it is worthwhile to read the manual and use the correct flags. As 
 an example both programs handle strand specific RNA that reduces the complexity of 
-the algorothms and therefore produces better results.
+the algorithm and also produces better results.
 or `Trinity
 <http://trinityrnaseq.sourceforge.net/#running_trinity>`_
 manuals.
 
 
 
-Assesing the new assemblies
+
+
+Assessing the new assemblies
 ===========================
 
 Now that the reads have been assembled into contigs you can map them back onto 
