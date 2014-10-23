@@ -1,5 +1,5 @@
 ==========================================
-Welcome to the RNA-seq Workshop
+Welcome to WABI RNA-seq tutorial packages
 ==========================================
 
 
@@ -10,8 +10,10 @@ Welcome to the RNA-seq Workshop
   qc-lab 
   isoform-lab
   isoform-denovo
-  miRNA-lab
+  smallRNA-lab
   diffexp-lab
   links
  
+ 
+ We will try to keep these tutorials up to date. If you find any errors or things that you think should be updated please contact 
   		
