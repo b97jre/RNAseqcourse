@@ -7,7 +7,7 @@ Welcome to WABI RNA-seq tutorial packages
    :maxdepth: 2
 
   intro
-  qc-lab 
+  QC_lab 
   isoform-lab
   isoform-denovo
   smallRNA-lab
