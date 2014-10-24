@@ -46,7 +46,7 @@ This includes:
 
 Copy these files in the directory you will use for this exercise. On UPPMAX you can use the following command :: 
 
-	cp –r /proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/smallRNA dest
+	cp -r /proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/smallRNA dest
 
 where dest is the destination directory. (This might take a while since the files are quite large)
 
@@ -74,7 +74,7 @@ Adapter trimming
 
 When sequencing small RNAs we are working with very short RNA fragments, typically shorter than the reads. 
 This means that most reads will contain parts of adapter sequences that were inserted during library preparation. 
-These are found at the (3’) end of the reads. Before we can do anything else with the data we have to remove these 
+These are found at the (3') end of the reads. Before we can do anything else with the data we have to remove these 
 sequences. 
 
 Look at any fastq file, e.g. using the less command: ::
@@ -99,7 +99,7 @@ this exercise, use the adapter sequence CTGTAGGCACCATC.
 Run this program on each of the 6 fastq files. This takes a few minutes per file. Make sure you give the 
 resulting files good names (e.g. kc167_TRIM.fastq) so you can keep track of all files.
 
-How many reads were removed because they didn’t have the adapter sequence or because they were to short?
+How many reads were removed because they didn't have the adapter sequence or because they were to short?
 
 Mapping
 =======
