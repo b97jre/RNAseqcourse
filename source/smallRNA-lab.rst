@@ -75,7 +75,7 @@ Adapter trimming
 When sequencing small RNAs we are working with very short RNA fragments, typically shorter than the reads. 
 This means that most reads will contain parts of adapter sequences that were inserted during library preparation. 
 These are found at the (3Õ) end of the reads. Before we can do anything else with the data we have to remove these 
-sequences.
+sequences. 
 
 Look at any fastq file, e.g. using the less command: ::
 
@@ -129,9 +129,9 @@ Quantification of microRNAs
 
 We can now summarize the mapped reads to see which microRNAs are expressed in the different samples, 
 and to do some global comparisons. We will use the sam files created by bowtie. If  you have not seen 
-a sam file before,  have a look at one of the files, for examples by running
+a sam file before,  have a look at one of the files, for examples by running ::
 
-less out.sam
+	less out.sam
 
 Press space to scroll down into the file and q to exit the viewer. 
 
