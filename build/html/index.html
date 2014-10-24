@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to the RNA-seq/proteomics Workshop &mdash; WABI RNA-seq Workshop 0.1 documentation</title>
+    <title>Welcome to WABI RNA-seq tutorial packages &mdash; WABI RNA-seq Workshop 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="WABI RNA-seq Workshop 0.1 documentation" href="#" />
-    <link rel="next" title="Schedule" href="schedule.html" /> 
+    <link rel="next" title="General information" href="intro.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,7 +34,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="schedule.html" title="Schedule"
+          <a href="intro.html" title="General information"
              accesskey="N">next</a> |</li>
         <li><a href="#">WABI RNA-seq Workshop 0.1 documentation</a> &raquo;</li> 
       </ul>
@@ -45,8 +45,8 @@
               <img class="logo" src="_static/scilife_logo.png" alt="Logo"/>
             </a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="schedule.html"
-                        title="next chapter">Schedule</a></p>
+  <p class="topless"><a href="intro.html"
+                        title="next chapter">General information</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/index.txt"
@@ -73,14 +73,22 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="welcome-to-the-rna-seq-proteomics-workshop">
-<h1>Welcome to the RNA-seq/proteomics Workshop<a class="headerlink" href="#welcome-to-the-rna-seq-proteomics-workshop" title="Permalink to this headline">¶</a></h1>
-<p>Welcome to the RNA-seq/proteomics workshop given in Uppsala June 10-12, 2014.</p>
-<div class="toctree-wrapper compound">
+  <div class="section" id="welcome-to-wabi-rna-seq-tutorial-packages">
+<h1>Welcome to WABI RNA-seq tutorial packages<a class="headerlink" href="#welcome-to-wabi-rna-seq-tutorial-packages" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><blockquote>
+<div><div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="schedule.html">Schedule</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">General information</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="intro.html#short-summary-of-the-exercises">Short summary of the exercises</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="QC_lab.html">Quality control</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="QC_lab.html#before-mapping-fastqc-statistics-on-the-reads">Before mapping - FastQC statistics on the reads.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QC_lab.html#mapping-of-reads">Mapping of reads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QC_lab.html#after-mapping-map-logs">After mapping, map logs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QC_lab.html#after-mapping-rseqc">After mapping, RseQC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QC_lab.html#outlier-detection-and-general-overview-of-data">Outlier detection and general overview of data</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="isoform-lab.html">Identifying isoforms in RNA-seq data</a><ul>
@@ -96,8 +104,14 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="isoform-denovo.html">Isoform detection using RNA seq de novo Assembly</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="isoform-denovo.html#preparation">Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="isoform-denovo.html#files-used-during-the-exercise">Files used during the exercise</a></li>
+<li class="toctree-l2"><a class="reference internal" href="isoform-denovo.html#programs-used-during-the-exercise">Programs used during the exercise</a></li>
 <li class="toctree-l2"><a class="reference internal" href="isoform-denovo.html#assemble-the-reads-into-contigs">Assemble the reads into contigs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="isoform-denovo.html#assesing-the-new-assemblies">Assesing the new assemblies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="isoform-denovo.html#assessing-the-new-assemblies">Assessing the new assemblies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="smallRNA-lab.html">Small RNA computer excercise</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="smallRNA-lab.html#preliminaries">Preliminaries</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="diffexp-lab.html">Differential expression analysis of RNA-seq data</a><ul>
@@ -106,12 +120,6 @@
 <li class="toctree-l2"><a class="reference internal" href="diffexp-lab.html#cuffdiff-and-cummerbund">CuffDiff and cummeRbund</a></li>
 <li class="toctree-l2"><a class="reference internal" href="diffexp-lab.html#deseq">DESeq</a></li>
 <li class="toctree-l2"><a class="reference internal" href="diffexp-lab.html#further-reading">Further reading</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="mva-enrich-lab.html">Multivariate analysis and pathway enrichment</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="mva-enrich-lab.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mva-enrich-lab.html#multivariate-analysis-with-simca">Multivariate analysis with SIMCA</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mva-enrich-lab.html#pathway-enrichment-with-cytoscape">Pathway enrichment with Cytoscape</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="links.html">Links and Files and FAQ</a><ul>
@@ -123,6 +131,9 @@
 </li>
 </ul>
 </div>
+</div></blockquote>
+<p>We will try to keep these tutorials up to date. If you find any errors or things that you think should be updated please contact</p>
+</div></blockquote>
 </div>
 
 
@@ -138,7 +149,7 @@
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="schedule.html" title="Schedule"
+          <a href="intro.html" title="General information"
              >next</a> |</li>
         <li><a href="#">WABI RNA-seq Workshop 0.1 documentation</a> &raquo;</li> 
       </ul>

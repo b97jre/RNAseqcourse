@@ -1,19 +1,18 @@
-==========================================
-Welcome to the Assembly Workshop
-==========================================
+=========================================
+Welcome to WABI RNA-seq tutorial packages
+=========================================
 
-Log in to uppmax
-================
-We are working on uppmax today so please login to Uppmax if you have an
-account. If you don't please work with your neighbor.
+  .. toctree::
+     :maxdepth: 2
 
-Content:
-
-.. toctree::
-   :maxdepth: 2
-
-  qtrim 
-  velvet
-  ray
-  minimus2
-  bwa
+     intro
+     QC_lab 
+     isoform-lab
+     isoform-denovo
+     smallRNA-lab
+     diffexp-lab
+     links
+ 
+ 
+ We will try to keep these tutorials up to date. If you find any errors or things that you think should be updated please contact 
+  		

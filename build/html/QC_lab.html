@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Quality control &mdash; WABI RNA-seq Workshop 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="WABI RNA-seq Workshop 0.1 documentation" href="index.html" />
+    <link rel="next" title="Identifying isoforms in RNA-seq data" href="isoform-lab.html" />
+    <link rel="prev" title="General information" href="intro.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="isoform-lab.html" title="Identifying isoforms in RNA-seq data"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="General information"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">WABI RNA-seq Workshop 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/scilife_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Quality control</a><ul>
+<li><a class="reference internal" href="#before-mapping-fastqc-statistics-on-the-reads">Before mapping - FastQC statistics on the reads.</a></li>
+<li><a class="reference internal" href="#mapping-of-reads">Mapping of reads</a></li>
+<li><a class="reference internal" href="#after-mapping-map-logs">After mapping, map logs</a></li>
+<li><a class="reference internal" href="#after-mapping-rseqc">After mapping, RseQC</a></li>
+<li><a class="reference internal" href="#outlier-detection-and-general-overview-of-data">Outlier detection and general overview of data</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="intro.html"
+                        title="previous chapter">General information</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="isoform-lab.html"
+                        title="next chapter">Identifying isoforms in RNA-seq data</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/QC_lab.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="quality-control">
+<h1>Quality control<a class="headerlink" href="#quality-control" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial we will go through some of the key steps in performing a quality control on your samples. We will start with the read based quality control, using FastQC, and continue with mapping based QC using RseqQC.</p>
+<p>All the data you need for this lab is available in the folder:
+<tt class="docutils literal"><span class="pre">/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/QC/data/</span></tt></p>
+<p>Or via web-browser at:
+<a class="reference external" href="https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/QC/data">https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/QC/data</a></p>
+<p>This folder contains:</p>
+<ul class="simple">
+<li>2 fastq files, with mate pair libraries for sample 1 that is used in several of the other exercises. A description of the dataset can be found at: <a class="reference external" href="https://export.uppmax.uu.se/b2013006/RNAseqWorkshop/build/html/intro.html">https://export.uppmax.uu.se/b2013006/RNAseqWorkshop/build/html/intro.html</a></li>
+<li>Bam-file and bam-file index (bam.bai) for that sample mapped to the human genome using STAR</li>
+<li>count_table.txt - a table with number of reads per gene, using Ensembl annotations, created with HTseq-count</li>
+</ul>
+<div class="section" id="before-mapping-fastqc-statistics-on-the-reads">
+<h2>Before mapping - FastQC statistics on the reads.<a class="headerlink" href="#before-mapping-fastqc-statistics-on-the-reads" title="Permalink to this headline">¶</a></h2>
+<p>FastQC aims to provide a simple way to do some quality control checks on raw sequence data coming from high throughput sequencing pipelines. It provides a modular set of analyses which you can use to give a quick impression of whether your data has any problems of which you should be aware before doing any further analysis.</p>
+<p>The main functions of FastQC are:
+* Import of data from BAM, SAM or FastQ files (any variant)
+* Providing a quick overview to tell you in which areas there may be problems
+* Summary graphs and tables to quickly assess your data
+* Export of results to an HTML based permanent report
+* Offline operation to allow automated generation of reports without running the interactive application</p>
+<p>You can read more about the program and have a look at example reports at <a class="reference external" href="http://www.bioinformatics.babraham.ac.uk/projects/fastqc/">http://www.bioinformatics.babraham.ac.uk/projects/fastqc/</a>.
+Note: This program can be used for any type of NGS data, not only RNA-seq.</p>
+<p>To run FastQC on uppmax you first need to load the module:</p>
+<div class="highlight-python"><pre>module add bioinfo-tools
+module add FastQC/0.11.1
+
+# To see help information on the fastqc package:
+fastqc --help
+# run for one fastq file:
+fastqc -o outdir fastqfile
+# run on multiple fastq files:
+fastqc -o outdir fastqfile1 fastqfile2 etc.
+# you can also use a wildcard extension eg: fastqc -o outdir /proj/b2013006/INBOX/FASTQ/*fastq to run on the the fastq-files in a directory</pre>
+</div>
+<p>In this case, only run fastqc on one file and take a look at the output. We have already prepared the outputs for all of the other samples that can be viewed via a web-browser at:
+<a class="reference external" href="https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/QC/fastQC/">https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/QC/fastQC/</a>
+Take a look at a few other files and see if they look similar in quality.</p>
+</div>
+<div class="section" id="mapping-of-reads">
+<h2>Mapping of reads<a class="headerlink" href="#mapping-of-reads" title="Permalink to this headline">¶</a></h2>
+<p>In this exercise we will actually not do any mapping, this will be done in a later exercise. But the commands used to run the mapping and postprocessing are:</p>
+<div class="highlight-python"><pre># OBS! do not run, just an example on how we ran the program
+/sw/apps/bioinfo/star/2.3.1o/milou/bin/STAR  --genomeDir /lynx/cvol/v104/b2013006/INBOX/hg19_Gencode14.overhang75 --readFilesIn /lynx/cvol/v104/b2013006/INBOX/FASTQ/7_111116_AD0341ACXX_137_10_index10_1.fastq /lynx/cvol/v104/b2013006/INBOX/FASTQ/7_111116_AD0341ACXX_137_10_index10_2.fastq --runThreadN 16 --outSAMstrandField intronMotif
+
+module load bioinfo-tools
+module load samtools
+
+samtools view -bSh -o /lynx/cvol/v104/b2013006/INBOX/FASTQ_hg19_Gencode14.overhang75/7_111116_AD0341ACXX_137_10_index10__hg19_Gencode14.overhang75/Aligned.out.bam /lynx/cvol/v104/b2013006/INBOX/FASTQ_hg19_Gencode14.overhang75/7_111116_AD0341ACXX_137_10_index10__hg19_Gencode14.overhang75/Aligned.out.sam
+samtools sort /lynx/cvol/v104/b2013006/INBOX/FASTQ_hg19_Gencode14.overhang75/7_111116_AD0341ACXX_137_10_index10__hg19_Gencode14.overhang75/Aligned.out.bam /lynx/cvol/v104/b2013006/INBOX/FASTQ_hg19_Gencode14.overhang75/7_111116_AD0341ACXX_137_10_index10__hg19_Gencode14.overhang75/Aligned.out.sorted
+samtools index /lynx/cvol/v104/b2013006/INBOX/FASTQ_hg19_Gencode14.overhang75/7_111116_AD0341ACXX_137_10_index10__hg19_Gencode14.overhang75/Aligned.out.sorted.bam</pre>
+</div>
+<p>Copy the finshed Aligned.out.sorted.bam and Aligned.out.sorted.bam.bai (which is the bam-file index) from the data directory into your own folder or use the full path to the bam-file where it is located in all your function calls. Most programs require that a bam-file is indexed to work, but it is always the bam-file that is included in the function calls, and the programs automatically looks for a file with the same name and the .bai extension.</p>
+</div>
+<div class="section" id="after-mapping-map-logs">
+<h2>After mapping, map logs<a class="headerlink" href="#after-mapping-map-logs" title="Permalink to this headline">¶</a></h2>
+<p>The first step after you have finished your mapping is to get a general feel of how the mapping went, most mapping programs produce some sort of summary output, either to a file or to standard out. In the case of e.g. bowtie you need to pipe that output to a file when mapping to see the summary statistics. In this case the samples were mapped with STAR, that by default creates one file Log.final.out in the mapping directory. Here is one example output from Log.final.out:</p>
+<div class="highlight-python"><pre>                          Started job on |       Oct 16 20:21:39
+                      Started mapping on |       Oct 16 20:27:04
+                             Finished on |       Oct 16 20:29:14
+Mapping speed, Million of reads per hour |       366.35
+
+                   Number of input reads |       13229276
+               Average input read length |       202
+                             UNIQUE READS:
+            Uniquely mapped reads number |       11913568
+                 Uniquely mapped reads % |       90.05%
+                   Average mapped length |       198.41
+                Number of splices: Total |       9523918
+     Number of splices: Annotated (sjdb) |       9443434
+                Number of splices: GT/AG |       9432792
+                Number of splices: GC/AG |       71488
+                Number of splices: AT/AC |       10675
+        Number of splices: Non-canonical |       8963
+               Mismatch rate per base, % |       0.33%
+                  Deletion rate per base |       0.01%
+                 Deletion average length |       1.75
+                 Insertion rate per base |       0.01%
+                Insertion average length |       1.39
+                      MULTI-MAPPING READS:
+ Number of reads mapped to multiple loci |       356839
+      % of reads mapped to multiple loci |       2.70%
+ Number of reads mapped to too many loci |       2102
+      % of reads mapped to too many loci |       0.02%
+                           UNMAPPED READS:
+% of reads unmapped: too many mismatches |       0.00%
+          % of reads unmapped: too short |       7.21%
+              % of reads unmapped: other |       0.02%</pre>
+</div>
+<p>The most important parts to look at is the proportion of uniquely mapping, multi-mapping and unmapped reads. We ideally want the uniquely mapping reads to be as high as possible. Multi-mapping or unmapped reads could indicate poor quality of the reads, adapter contamination or other reasons for low quality scores.</p>
+<p>Another key point is the mismatch and indel rates, if they are very high, this could indicate that there has been some problems during the sequencing or during the library prep.</p>
+</div>
+<div class="section" id="after-mapping-rseqc">
+<h2>After mapping, RseQC<a class="headerlink" href="#after-mapping-rseqc" title="Permalink to this headline">¶</a></h2>
+<p>The RseQC package is one of many tools to get basic mapping statistics from your bamfiles. RSeQC package provides a number of useful modules that can comprehensively evaluate high throughput sequence data especially RNA-seq data. Some basic modules quickly inspect sequence quality, nucleotide composition bias, PCR bias and GC bias, while RNA-seq specific modules evaluate sequencing saturation, mapped reads distribution, coverage uniformity, strand specificity, etc. You can read more about the package at: <a class="reference external" href="http://rseqc.sourceforge.net/">http://rseqc.sourceforge.net/</a></p>
+<p>The RseQC package contains many steps that are equivalent to FastQC analysis, e.g. read quality, sequence composition (NVC), GC-bias etc, but the results may be different since many of the low quality reads may not map to the genome and therefore will not be included in the bam-file.</p>
+<p>All the qc-steps takes a long time to run, so to save time, we only run the qc on a random selection of 10% of the reads. Random selection of reads can be performed with many different programs, here we will use samtools:</p>
+<div class="highlight-python"><pre>samtools view -s 0.1 Aligned.out.sorted.bam &gt; Aligned.out.0.1.bam
+# then index the bamfile (it is already sorted since you extracted reads from a sorted bamfile)
+samtools index Aligned.out.0.1.bam</pre>
+</div>
+<p>The RseQC package is allready installed at Uppmax, to load the package:</p>
+<div class="highlight-python"><pre>module add bioinfo-tools
+module add rseqc/2.4</pre>
+</div>
+<p>Some steps of the RseQC package requires a file with gene annotations in bed format. These can be downloaded from various sources, some of the more common ones are UCSC, RefSeq or Ensembl. In this case the RseQC team has already created annotation files in some common formats that can be downloaded from their website, but if you have a non-standard organism you may need to create a bed-file on your own.</p>
+<p>Two annotation files have already been downloaded into <tt class="docutils literal"><span class="pre">/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/QC/annotation/</span></tt> for you to use. These are: hg19.HouseKeepingGenes.bed and hg19_RefSeq.bed. The folder also contains a reduced annotation file hg19_RefSeq_top1000.bed to speed up things.</p>
+<p>In this tutorial we will not run all the different parts of the RseQC package, only the most relevant ones for this experiment. The different scripts in the RseQC package are well described at their website (<a class="reference external" href="http://rseqc.sourceforge.net/">http://rseqc.sourceforge.net/</a>), so read the instructions there and specify the input/output files to fit your file names and folder structure. OBS! use the Aligned.out.0.1.bam file that you created using sammtools!</p>
+<p>The steps that we are going to run are:</p>
+<ol class="arabic simple">
+<li>geneBody_coverage.py</li>
+<li>inner_distance.py</li>
+<li>junction_saturation.py</li>
+<li>read_distribution.py</li>
+</ol>
+<p>Note: The geneBody_coverage.py scripts take a very long time to run, so we have created a subsection of annotations to run it on, use the file hg19_RefSeq_top1000.bed. This file was created with the command:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># head -n 1000 hg19_RefSeq.bed &gt; hg19_RefSeq_top1000.bed</span>
+</pre></div>
+</div>
+<p>Note.2: When running read_distribution.py, an outfile cannot be specified, instead you need to pipe (&#8220;&gt;&#8221;) the output to a file, or look at the output in the terminal.</p>
+<p>Run the RseQC for one sample and have a look at your output.</p>
+<p>Do most of your reads map to genes?</p>
+<p>Do you have even coverage along the genes?</p>
+<p>Do the reads cover most splice junctions?</p>
+<p>Based on the inner distance plots, what do you think the average fragment size of the libraries was?</p>
+<p>We have run the QC for all the samples and compiled summary files <a class="reference external" href="https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/QC/output/">here</a>.
+This folder contains one table that summarizes all the Log.final.out files from all the samples (summary_starlog.txt), and one pdf file with a few different plots to summarize those statistics (summary_starqc.pdf).  Plus files with the outputs from junction_saturation, genebody_coverage, read_distribution and inner_distance for all the 13 samples.</p>
+<p>What is your conclusion, do your samples look good? Is there anything that looks strange in any sample, or do you feel comfortable using all the samples in your analysis?</p>
+</div>
+<div class="section" id="outlier-detection-and-general-overview-of-data">
+<h2>Outlier detection and general overview of data<a class="headerlink" href="#outlier-detection-and-general-overview-of-data" title="Permalink to this headline">¶</a></h2>
+<p>One of the first steps once you have your libraries mapped to the genome and have filtered out low quality samples is to get a general overview of the samples. A logic first step is to look for pairwise correlations between the samples, do some simple clustering and run PCA. With these steps you can easily find out what the variation within your sample groups looks like and detect possible outliers or mixed up samples. We will run this analysis with a few simple R commands, but there are of course other options on how to run this analysis.</p>
+<p>For this exercise we have pre-calculated read counts per gene (according to Ensembl annotations) with commands like:</p>
+<div class="highlight-python"><pre># OBS! Only given for reference, not supposed to be executed during the lab
+samtools view accepted_hits_137_1.bam | sort &gt; accepted_hits_prehtseq_137_1.sam
+htseq-count -s no -q accepted_hits_prehtseq_137_1.sam Homo_sapiens.GRCh37.71.gtf &gt; 137_1.counts</pre>
+</div>
+<p>This was run for each of the samples and the counts were combined into a single table. You can get the count table from the data directory. You can run R at uppmax, or download the file to your local computer and do the analysis locally if you chose.</p>
+<p>The code to run in R:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># read in the data</span>
+<span class="n">counts</span> <span class="o">&lt;-</span> <span class="n">read</span><span class="o">.</span><span class="n">delim</span><span class="p">(</span><span class="s">&quot;count_table.txt&quot;</span><span class="p">)</span>
+<span class="n">head</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As you can see, the samples are ordered with the 3 replicates from each group next to eachoter. So when we are to define colors for the samples we only have to repeat each color 3 times, this may not always be the case!</p>
+<div class="highlight-python"><pre># define colors:
+col.def&lt;-c(&quot;red&quot;,&quot;blue&quot;,&quot;green&quot;,&quot;magenta&quot;)
+sample.def&lt;-c(&quot;ctrl&quot;, &quot;t2h&quot;, &quot;t6h&quot;, &quot;t24h&quot;)
+colors &lt;- rep(col.def, each=3)</pre>
+</div>
+<p>Start with a PCA to se the general distribution. PCA of RNA-seq data is usually perfomed in log-scale, we also add a pseudo count of +1 to avoid logging zero (gives infinity). You need to make a transpose - t() - of the data, otherwise you will run pca on the genes instead of samples. For PCA we use the prcomp function in R.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">myPca</span> <span class="o">&lt;-</span> <span class="n">prcomp</span><span class="p">(</span><span class="n">t</span><span class="p">(</span><span class="n">log2</span><span class="p">(</span><span class="n">counts</span><span class="o">+</span><span class="mi">1</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>This creates a list object that contains:</p>
+<ul class="simple">
+<li>the samples mapping to each PC in myPca$x</li>
+<li>PC contribution to variance in myPca$sdev</li>
+<li>PC loadings for each gene in myPca$rotation</li>
+</ul>
+<p>Now some plotting, in R you can either plot into a default window or direct all your output to a &#8220;device&#8221;, that can be pdf, png, tiff etc. to open a new pdf device:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">pdf</span><span class="p">(</span><span class="s">&#39;pca_plot.pdf&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or use whatever file name you chose instead of pca_plot.pdf, will be written to the folder you are standing in if you do not also specify a path. Once you have plotted all you want to put into that file, you need to close it with dev.off()</p>
+<p>Lets first do a simple pc1 vs pc2 plot:</p>
+<div class="highlight-python"><pre>plot(myPca$x[,1],myPca$x[,2],col=colors,pch=1)
+legend(&quot;topright&quot;,sample.def,pch=1,col=col.def)
+dev.off()</pre>
+</div>
+<p>Sometimes the first two PCs may not be the ones that will best separate the sample groups, so it is a good idea to look at more PCs
+Here is one example that shows how to plot the top 5 pcs:</p>
+<div class="highlight-python"><pre>pdf(&#x27;pca_plot_5pc.pdf&#x27;)
+tmpPcaData &lt;- as.data.frame(myPca$x[,1:5])
+plot(tmpPcaData, col=colors,pch=1)
+dev.off()</pre>
+</div>
+<p>Which PC combination give the best separation of the sample groups?</p>
+<p>Which PC will best describe the time course separation.</p>
+<p>Note, if you want to know which genes that contributes most to the separation in a certain PC you can have a look at the loadings in myPCA$rotation.</p>
+<p>Another thing to look at is the pairwise correlation between all the samples and see how they group based on correlation. Lets create one matrix with all pairwise Pearson correlations (again in log-space).</p>
+<div class="highlight-python"><pre>nSamples&lt;-ncol(counts)
+C&lt;-mat.or.vec(nSamples,nSamples)
+for (i in 1:nSamples) {
+   for (j in i:nSamples){
+      if (i==j){ C[i,j]&lt;-NA }
+      else {
+           c&lt;-cor(log2(counts[,i]+1),log2(counts[,j]+1),method=&quot;pearson&quot;)
+           C[i,j] = c
+           C[j,i] = c
+      }
+   }
+}
+colnames(C)&lt;-colnames(counts)
+rownames(C)&lt;-colnames(counts)</pre>
+</div>
+<p>This can also be calculated as one command with the R apply function, but to clarify what is being calculated we included a more descriptive code. Another way to do the same thing would be:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">C</span><span class="o">&lt;-</span><span class="nb">apply</span><span class="p">(</span><span class="n">log2</span><span class="p">(</span><span class="n">counts</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="mi">2</span><span class="p">,</span><span class="n">cor</span><span class="p">,</span><span class="n">log2</span><span class="p">(</span><span class="n">counts</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="n">method</span><span class="o">=</span><span class="s">&quot;pearson&quot;</span><span class="p">)</span>
+<span class="n">diag</span><span class="p">(</span><span class="n">C</span><span class="p">)</span><span class="o">&lt;-</span><span class="n">NA</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Now you will plot a heatmap with the correlations: ::</dt>
+<dd>pdf(&#8216;correlation_heatmap.pdf&#8217;)
+heatmap(C,symm=TRUE)
+dev.off()</dd>
+</dl>
+<p>Do the clustering agree with what you expect?
+Which different sample groups are more similar to eachoter? Does any sample group stand out as less similar to the others?</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="isoform-lab.html" title="Identifying isoforms in RNA-seq data"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="General information"
+             >previous</a> |</li>
+        <li><a href="index.html">WABI RNA-seq Workshop 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Johan Reimegård, Mikael Huss, and Sanela Kjellqvist.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

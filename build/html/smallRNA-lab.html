@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Assembling reads with Ray &mdash; WABI RNA-seq Workshop 0.1 documentation</title>
+    <title>Small RNA computer excercise &mdash; WABI RNA-seq Workshop 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -23,7 +23,9 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="WABI RNA-seq Workshop 0.1 documentation" href="index.html" /> 
+    <link rel="top" title="WABI RNA-seq Workshop 0.1 documentation" href="index.html" />
+    <link rel="next" title="Differential expression analysis of RNA-seq data" href="diffexp-lab.html" />
+    <link rel="prev" title="Isoform detection using RNA seq de novo Assembly" href="isoform-denovo.html" /> 
   </head>
   <body>
     <div class="related">
@@ -32,6 +34,12 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="diffexp-lab.html" title="Differential expression analysis of RNA-seq data"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="isoform-denovo.html" title="Isoform detection using RNA seq de novo Assembly"
+             accesskey="P">previous</a> |</li>
         <li><a href="index.html">WABI RNA-seq Workshop 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
@@ -42,16 +50,21 @@
             </a></p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Assembling reads with Ray</a><ul>
-<li><a class="reference internal" href="#ray">Ray</a></li>
-<li><a class="reference internal" href="#assemstats">assemstats</a></li>
+<li><a class="reference internal" href="#">Small RNA computer excercise</a><ul>
+<li><a class="reference internal" href="#preliminaries">Preliminaries</a></li>
 </ul>
 </li>
 </ul>
 
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="isoform-denovo.html"
+                        title="previous chapter">Isoform detection using RNA seq de novo Assembly</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="diffexp-lab.html"
+                        title="next chapter">Differential expression analysis of RNA-seq data</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/ray.txt"
+    <li><a href="_sources/smallRNA-lab.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -75,40 +88,22 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="assembling-reads-with-ray">
-<h1>Assembling reads with Ray<a class="headerlink" href="#assembling-reads-with-ray" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="ray">
-<h2>Ray<a class="headerlink" href="#ray" title="Permalink to this headline">¶</a></h2>
-<p>Another assembler that takes your reads and turns them into contigs. It uses
-the Message Passing Interface
-(<a class="reference external" href="http://en.wikipedia.org/wiki/Message_Passing_Interface">http://en.wikipedia.org/wiki/Message_Passing_Interface</a>) to run over multiple
-cores and nodes. Again <tt class="docutils literal"><span class="pre">Ray</span></tt> is located in <tt class="docutils literal"><span class="pre">/proj/b2010008/bin</span></tt>.</p>
-<p>First one has to load the <tt class="docutils literal"><span class="pre">openmpi</span></tt> module on uppmax:</p>
-<div class="highlight-python"><pre>module load openmpi</pre>
-</div>
-<p>Check if Ray is working with:</p>
-<div class="highlight-python"><pre>mpiexec Ray --help</pre>
-</div>
-<p>Ray goes a lot slower on one machine than velvet since it was optimized for
-running on multiple. In this case the dataset is quite small so we will just be
-using one machine anyway. Create the directory structure as we did before:</p>
-<div class="highlight-python"><pre>mkdir -p ~/glob/asm-workshop/ray
-cd ~/glob/asm-workshop/ray
-ln -s ../velvet/pair.fastq pair.fastq</pre>
-</div>
-<p>Then run Ray over multiple assemblies like we did with velvet. I recommend to
-run this on an interactive node:</p>
-<div class="highlight-python"><pre>for k in {45..57..6}; do mpiexec Ray -k $k -i pair.fastq -o out_$k; done</pre>
-</div>
-<p>Note that using <tt class="docutils literal"><span class="pre">parallel</span></tt> here would not be benificial since you are using
-multiple cores already with <tt class="docutils literal"><span class="pre">Ray</span></tt>.</p>
-</div>
-<div class="section" id="assemstats">
-<h2>assemstats<a class="headerlink" href="#assemstats" title="Permalink to this headline">¶</a></h2>
-<p>Look at the results with assemstats and compare them to the velvet output:</p>
-<div class="highlight-python"><pre>cd ~/glob/asm-workshop/
-assemstats 100 ~/glob/asm-workshop/ray/out_*/Contigs.fasta ~/glob/asm-workshop/velvet/out_*/contigs.fa</pre>
-</div>
+  <div class="section" id="small-rna-computer-excercise">
+<h1>Small RNA computer excercise<a class="headerlink" href="#small-rna-computer-excercise" title="Permalink to this headline">¶</a></h1>
+<p>In this exercise we will analyze a few small RNA libraries, from Drosophila melanogaster (fruit fly) embryos and two cell lines (KC167 cells derived from whole embryos, and ML-DmD32 cells derived from adult wing discs). This is a subset of a much larger data set used to study microRNAs and other small RNAs in Drosophila:</p>
+<ul class="simple">
+<li>emb_0-1 0-1 hour embryos, SRR069840</li>
+<li>emb_6-10 6-10 hour embryos, SRR069839</li>
+<li>kc167_r1, KC167 cells, SRR028728</li>
+<li>ml-DmD32_r1, ML-DmD32 cells replicate1, SRR069508</li>
+<li>ml-DmD32_r2, ML-DmD32 cells replicate2, SRR488696</li>
+</ul>
+<p>(These data sets are described more in this paper: <a class="reference external" href="http://genome.cshlp.org/content/24/7/1236.full">http://genome.cshlp.org/content/24/7/1236.full</a>)</p>
+<p>The aim of the exercise is to show a simple way to process small RNA data and to quantify the expression of microRNAs.</p>
+<div class="section" id="preliminaries">
+<h2>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline">¶</a></h2>
+<p>Start by logging in to Uppmax:</p>
+<p>Just testing</p>
 </div>
 </div>
 
@@ -124,6 +119,12 @@ assemstats 100 ~/glob/asm-workshop/ray/out_*/Contigs.fasta ~/glob/asm-workshop/v
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="diffexp-lab.html" title="Differential expression analysis of RNA-seq data"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="isoform-denovo.html" title="Isoform detection using RNA seq de novo Assembly"
+             >previous</a> |</li>
         <li><a href="index.html">WABI RNA-seq Workshop 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>

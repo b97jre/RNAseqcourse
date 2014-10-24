@@ -1,0 +1,12 @@
+=========================================
+Welcome to WABI RNA-seq tutorial packages
+=========================================
+ 
+.. toctree::
+      :maxdepth: 2
+
+   intro
+   strings
+   datatypes
+
+	
