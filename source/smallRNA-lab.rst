@@ -82,7 +82,9 @@ Run this program on each of the 6 fastq files. This takes a few minutes per file
 
 How many reads were removed because they didn’t have the adapter sequence or because they were to short?
 
-3 Mapping
+Mapping
+=======
+
 The next step is to align (map) the reads to the genome sequence around the microRNA loci. We will use the program bowtie to do this. We will map the reads against the microRNA loci (this data was taken from mirBase (http://www.mirbase.org). To be able to map million of reads very fast, bowtie creates an index of the sequence we map against. You can create the index using the following command
 
 bowtie-build seq.fastq index.name
@@ -98,7 +100,9 @@ Here index.name is the bowtie index created above,  small_rna.fastq is the file 
 (If you feel like it, try mapping one of the fastq files where the adapter was not trimmed, and see what happens.)
 
 
-4 Quantification of microRNAs
+Quantification of microRNAs
+===========================
+
 We can now summarize the mapped reads to see which microRNAs are expressed in the different samples, and to do some global comparisons. We will use the sam files created by bowtie. If  you have not seen a sam file before,  have a look at one of the files, for examples by running
 
 less out.sam
