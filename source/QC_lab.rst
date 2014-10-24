@@ -131,7 +131,7 @@ The RseQC package is allready installed at Uppmax, to load the package: ::
 
 Some steps of the RseQC package requires a file with gene annotations in bed format. These can be downloaded from various sources, some of the more common ones are UCSC, RefSeq or Ensembl. In this case the RseQC team has already created annotation files in some common formats that can be downloaded from their website, but if you have a non-standard organism you may need to create a bed-file on your own. 
 
-Two annotation files have already been downloaded into `/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/QC/annotation`` for you to use. These are: hg19.HouseKeepingGenes.bed  and hg19_RefSeq.bed. The folder also contains a reduced annotation file hg19_RefSeq_top1000.bed to speed up things. 
+Two annotation files have already been downloaded into ``/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/QC/annotation`` for you to use. These are: hg19.HouseKeepingGenes.bed  and hg19_RefSeq.bed. The folder also contains a reduced annotation file hg19_RefSeq_top1000.bed to speed up things. 
 
 In this tutorial we will not run all the different parts of the RseQC package, only the most relevant ones for this experiment. The different scripts in the RseQC package are well described at their website (http://rseqc.sourceforge.net/), so read the instructions there and specify the input/output files to fit your file names and folder structure. 
 
