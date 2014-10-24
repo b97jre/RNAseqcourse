@@ -38,9 +38,12 @@ All data and scripts required for this exercise can be found in
 
 This includes: 
  A.	6 fastq files with the raw reads from the small RNA sequencing (in the subdirectory fastq)
+ 
  B.	A fasta file with the sequence of all microRNA loci and a gff file with the coordinates of all microRNA loci in 
  the Drosophila genome (in in the subdirectory mirbase).
+ 
  C.	A script ,"sam2expTable.pl" (in the subdirectory scripts), to count the reads mapping to each microRNA.
+ 
  D.	Precomputed bam files with the sequencing data mapped to the entire Drosophila genome, which can be used for 
  browsing in IGV (the are in the subdirectory  mapped_to_genome).
 
