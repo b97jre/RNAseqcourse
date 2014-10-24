@@ -183,7 +183,7 @@ In the resulting plot each library is a column and each microRNA is a row. The c
 
 (There are some problems displaying plots etc. on UPPMAX when running in interactive mode.  If you have trouble viewing the PCA plots and heatmaps, the you can do the following:
 
-¥	Log out of UPPMAX
-¥	Log into UPPMAX again
-¥	Do not go into interactive mode, just start R
-¥	Type in all R commands again. )
+*	Log out of UPPMAX
+*	Log into UPPMAX again
+*	Do not go into interactive mode, just start R
+*	Type in all R commands again. )
