@@ -28,7 +28,7 @@ Load the modules you will need: ::
 Next, create a directory to work in: ::
 
 
-	# create a subfolder called “smallRNA”
+	# create a subfolder called "smallRNA"
 	mkdir ~/glob/RNAseqCourse/smallRNA
 
 All data and scripts required for this exercise can be found in 
@@ -40,7 +40,7 @@ This includes:
  A.	6 fastq files with the raw reads from the small RNA sequencing (in the subdirectory fastq)
  B.	A fasta file with the sequence of all microRNA loci and a gff file with the coordinates of all microRNA loci in 
  the Drosophila genome (in in the subdirectory mirbase).
- C.	A script ,”sam2expTable.pl” (in the subdirectory scripts), to count the reads mapping to each microRNA.
+ C.	A script ,"sam2expTable.pl" (in the subdirectory scripts), to count the reads mapping to each microRNA.
  D.	Precomputed bam files with the sequencing data mapped to the entire Drosophila genome, which can be used for 
  browsing in IGV (the are in the subdirectory  mapped_to_genome).
 
@@ -59,15 +59,15 @@ pre-computed files, which can be viewed with IGV or some other genome browser.
 Start IGV and load the files emb_0_1.sorted.bam and ml-DmD32_r2.sorted.bam. Also load the file with all microRNA
  annotations, dme_mirbase.gff3.
 
-To load a file you first select the correct genome (“D. melanogaster r5.22”) in the top left menu.  
-The go to the File menu, and select “Load from file”, and select the two bam files described above.
+To load a file you first select the correct genome ("D. melanogaster r5.22") in the top left menu.  
+The go to the File menu, and select "Load from file", and select the two bam files described above.
 
-Type the name of a microRNA, e.g “mir-124”, to go to that locus. You can see that the read mapping patterns
+Type the name of a microRNA, e.g "mir-124", to go to that locus. You can see that the read mapping patterns
  are very distinct: Only (almost) the processed microRNAs end in the sequencing libraries. While many microRNAs 
- occur alone in the genome, other are arranged in clusters. Type “let-7”. How many microRNAs do you see in this 
+ occur alone in the genome, other are arranged in clusters. Type "let-7". How many microRNAs do you see in this 
  region?
 
-(To see something weird, go to “3R:18,118,436-18,118,767”. Do you have any idea what this could be?)
+(To see something weird, go to "3R:18,118,436-18,118,767". Do you have any idea what this could be?)
 
 Adapter trimming
 ================
@@ -112,7 +112,7 @@ we map against. You can create the index using the following command
 bowtie-build seq.fastq index.name
 
 Here seq.fastq is the file with sequences we want to map against (in our case dme_mirs.fa) and index.name 
-is the path and name of the bowtie index we create (e.g. “mydirectory/dme_mirs”).
+is the path and name of the bowtie index we create (e.g. "mydirectory/dme_mirs").
 
 Now we can map all reads. We do this using the following command:
 
@@ -156,7 +156,7 @@ R
 You will now see a different prompt, because you are now typing commands to R. (You can always exit R with quit().) 
 Start by loading the expression table you just created into R:
 
-exp.data <- read.table(“out.table”, header=TRUE, row.names=1, sep="\t")
+exp.data <- read.table("out.table", header=TRUE, row.names=1, sep="\t")
 
 (Here out.table is the full path to the file with the expression table.) You can look at the first 20 rows of 
 the table by typing
