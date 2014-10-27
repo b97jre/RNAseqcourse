@@ -32,20 +32,17 @@ Next, create a directory to work in: ::
 	mkdir ~/glob/RNAseqCourse/smallRNA
 
 All data and scripts required for this exercise can be found in 
-``/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/smallRNA`` on UPMMAX
- and through this `URL <https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/smallRNA/>`_ .
+``/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/smallRNA`` on UPMMAX and through this `URL <https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/smallRNA/>`_ .
 
 
 This includes: 
 - 6 fastq files with the raw reads from the small RNA sequencing (in the subdirectory fastq)
  
-- A fasta file with the sequence of all microRNA loci and a gff file with the coordinates of all microRNA loci in 
- the Drosophila genome (in in the subdirectory mirbase).
+- A fasta file with the sequence of all microRNA loci and a gff file with the coordinates of all microRNA loci in the Drosophila genome (in in the subdirectory mirbase).
  
 - A script ,"sam2expTable.pl" (in the subdirectory scripts), to count the reads mapping to each microRNA.
  
-- Precomputed bam files with the sequencing data mapped to the entire Drosophila genome, which can be used for 
- browsing in IGV (the are in the subdirectory  mapped_to_genome).
+- Precomputed bam files with the sequencing data mapped to the entire Drosophila genome, which can be used for  browsing in IGV (the are in the subdirectory  mapped_to_genome).
 
 Copy these files in the directory you will use for this exercise. On UPPMAX you can use the following command :: 
 
