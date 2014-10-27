@@ -4,11 +4,11 @@ Small RNA computer excercise
 
 In this exercise we will analyze a few small RNA libraries, from Drosophila melanogaster (fruit fly) embryos and two cell lines (KC167 cells derived from whole embryos, and ML-DmD32 cells derived from adult wing discs). This is a subset of a much larger data set used to study microRNAs and other small RNAs in Drosophila:
 
- - emb_0-1 0-1 hour embryos, SRR069840
- - emb_6-10 6-10 hour embryos, SRR069839 
- - kc167_r1, KC167 cells, SRR028728
- - ml-DmD32_r1, ML-DmD32 cells replicate1, SRR069508
- - ml-DmD32_r2, ML-DmD32 cells replicate1, SRR488696
+- emb_0-1 0-1 hour embryos, SRR069840
+- emb_6-10 6-10 hour embryos, SRR069839 
+- kc167_r1, KC167 cells, SRR028728
+- ml-DmD32_r1, ML-DmD32 cells replicate1, SRR069508
+- ml-DmD32_r2, ML-DmD32 cells replicate1, SRR488696
 
 These data sets are described more in this paper: 
 http://genome.cshlp.org/content/24/7/1236.full
@@ -37,14 +37,14 @@ All data and scripts required for this exercise can be found in
 
 
 This includes: 
- A)	6 fastq files with the raw reads from the small RNA sequencing (in the subdirectory fastq)
+- 6 fastq files with the raw reads from the small RNA sequencing (in the subdirectory fastq)
  
- B)	A fasta file with the sequence of all microRNA loci and a gff file with the coordinates of all microRNA loci in 
+- A fasta file with the sequence of all microRNA loci and a gff file with the coordinates of all microRNA loci in 
  the Drosophila genome (in in the subdirectory mirbase).
  
- C)	A script ,"sam2expTable.pl" (in the subdirectory scripts), to count the reads mapping to each microRNA.
+- A script ,"sam2expTable.pl" (in the subdirectory scripts), to count the reads mapping to each microRNA.
  
- D)	Precomputed bam files with the sequencing data mapped to the entire Drosophila genome, which can be used for 
+- Precomputed bam files with the sequencing data mapped to the entire Drosophila genome, which can be used for 
  browsing in IGV (the are in the subdirectory  mapped_to_genome).
 
 Copy these files in the directory you will use for this exercise. On UPPMAX you can use the following command :: 
@@ -58,9 +58,7 @@ Browse small RNA reads
 
 We will start by browsing how the small RNA reads look mapping to the Drosophila genome. For this we will use 
 pre-computed files, which can be viewed with IGV or some other genome browser. 
-
-Start IGV and load the files emb_0_1.sorted.bam and ml-DmD32_r2.sorted.bam. Also load the file with all microRNA
- annotations, dme_mirbase.gff3.
+Start IGV and load the files emb_0_1.sorted.bam and ml-DmD32_r2.sorted.bam. Also load the file with all microRNA annotations, dme_mirbase.gff3.
 
 To load a file you first select the correct genome ("D. melanogaster r5.22") in the top left menu.  
 The go to the File menu, and select "Load from file", and select the two bam files described above.
