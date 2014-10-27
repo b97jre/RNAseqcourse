@@ -12,8 +12,8 @@ Welcome to WABI RNA-seq tutorial packages
      isoform-denovo
      smallRNA-lab
      diffexp-lab
-     links
  
  
- We will try to keep these tutorials up to date. If you find any errors or things that you think should be updated please contact 
+ We will try to keep these tutorials up to date. If you find any errors or things that you think should be 
+ updated please contact Johan (johan.reimegard@scilifelab.se) 
   		
