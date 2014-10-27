@@ -27,7 +27,6 @@ Load the modules you will need: ::
 
 Next, create a directory to work in: ::
 
-
 	# create a subfolder called "smallRNA"
 	mkdir ~/glob/RNAseqCourse/smallRNA
 
@@ -66,7 +65,7 @@ Adapter trimming
 
 When sequencing small RNAs we are working with very short RNA fragments, typically shorter than the reads. This means that most reads will contain parts of adapter sequences that were inserted during library preparation. These are found at the (3') end of the reads. Before we can do anything else with the data we have to remove these sequences. 
 
-Look at any fastq file, e.g. using the less command: ::
+Look at any fastq file, e.g. using less: ::
 
 	less in.fastq
 
@@ -85,13 +84,13 @@ How many reads were removed because they didn't have the adapter sequence or bec
 Mapping
 =======
 
-The next step is to align (map) the reads to the genome sequence around the microRNA loci. We will use the program bowtie to do this. We will map the reads against the microRNA loci (this data was taken from mirBase (http://www.mirbase.org), which is a the "official" data base of microRNAs in many different species. To be able to map million of reads very fast, bowtie creates an index of the sequence we map against. You can create the index using the following command ::
+The next step is to align (map) the reads to the genome sequence around the microRNA loci. We will use the program bowtie to do this. We will map the reads against the microRNA loci (this data was taken from mirBase (http://www.mirbase.org), which is a the "official" data base of microRNAs in many different species. To be able to map million of reads very fast, bowtie creates an index of the sequence we map against. You can create the index using: ::
 
 	bowtie-build seq.fastq index.name
 
 Here seq.fastq is the file with sequences we want to map against (in our case dme_mirs.fa) and index.name is the path and name of the bowtie index we create (e.g. "mydirectory/dme_mirs").
 
-Now we can map all reads. We do this using the following command:
+Now we can map all reads. We do this using the following command: ::
 
 	bowtie -q -v 0 -k 10 -S -t index.name small_rna.fastq out.sam
 
@@ -104,37 +103,37 @@ after trimming and out.sam is the resulting file. This maps the reads with the f
 Quantification of microRNAs
 ===========================
 
-We can now summarize the mapped reads to see which microRNAs are expressed in the different samples, and to do some global comparisons. We will use the sam files created by bowtie. If you have not seen a sam file before,  have a look at one of the files, for examples by running ::
+We can now summarize the mapped reads to see which microRNAs are expressed in the different samples, and to do some global comparisons. We will use the sam files created by bowtie. If you have not seen a sam file before,  have a look at one of the files, for examples by running: ::
 
 	less out.sam
 
 Press space to scroll down into the file and q to exit the viewer. 
 
-In the folder with all files for this exercise you will find a script sam2expTable.pl. This script reads all sam files in a folder, and counts the reads mapping to each sequence (in this case each microRNA). It returns a table with one row per microRNA locus and one column for each sam file. Each element in the table is the number of reads mapping to a specific microRNA from a specific sam file. Copy this script to somewhere in your folder, and do ::
+In the folder with all files for this exercise you will find a script sam2expTable.pl. This script reads all sam files in a folder, and counts the reads mapping to each sequence (in this case each microRNA). It returns a table with one row per microRNA locus and one column for each sam file. Each element in the table is the number of reads mapping to a specific microRNA from a specific sam file. Copy this script to somewhere in your folder, and do: ::
 
 	chmod a+x sam2expTable.pl
 
-to make the script executable. Then run it with ::
+to make the script executable. Then run it with: ::
 
 	./sam2expTable.pl sam.dir > out.table
 
 Here sam.dir is the directory with all sam files and out.table the file to which the output is printed.
 
-Once the read mapping to each microRNA have been counted, we can analyze the microRNA expression levels using R. Start R by typing ::
+Once the read mapping to each microRNA have been counted, we can analyze the microRNA expression levels using R. Start R by typing: ::
 
 	R
 
-You will now see a different prompt, since you are now typing commands to R. (You can always exit R with quit().) Start by loading the expression table you just created into R: ::
+You will see a different prompt, since you are now typing commands to R. You can always exit R with quit(). Start by loading the expression table you just created into R: ::
 
 	exp.data <- read.table("out.table", header=TRUE, row.names=1, sep="\t")
 
-Here out.table is the full path to the file with the expression table. You can look at the first 20 rows of the table by typing ::
+Here out.table is the full path to the file with the expression table. You can look at the first 20 rows of the table by typing: ::
 
 	exp.data[1:20,]
 
-Some reads might map to several microRNAs, see e.g dme-mir2b-1 and dme-mir2b-2. In this exercise we don't handle such cases in any special way.  When can this be a problem? How would you deal with it?
+Some reads might map to several microRNAs, see e.g dme-mir2b-1 and dme-mir2b-2. In this exercise we don't handle such cases in any special way. When can this be a problem? How would you deal with it?
 
-Note that the log transformation we will do later cannot handle cases with zero reads, so we add a dummy value of 1 read to each microRNA. ::
+Note that the log transformation we will do later cannot handle cases with zero reads, so we add a dummy value of 1 read to each microRNA: ::
 
 	exp.data <- exp.data + 1
 
@@ -142,21 +141,21 @@ The read counts have to be normalized to compensate for different sequencing dep
 
 	library(edgeR)
 
-If you get an error message that the edgeR module is not installed on the computer you are using, you can download and install it with ::
+If you get an error message that the edgeR module is not installed on the computer you are using, you can download and install it with: ::
 
 	source("http://bioconductor.org/biocLite.R")
 	biocLite("edgeR")
 
-In the normalization, we start by computing the factors by which the read counts from each library are rescaled. ::
+In the normalization, we start by computing the factors by which the read counts from each library are rescaled: ::
 
 	lib.size <- apply(exp.data,2,sum)
 	scale.factors <- calcNormFactors(exp.data, method="TMM") 
 
-Next, we apply the rescaling to the read counts for each library. ::
+Next, we apply the rescaling to the read counts for each library: ::
 
 	norm.data <- t(t(exp.data)/(scale.factors*lib.size))
 
-Finally, we log transform all values. This makes the analysis less sensitive to microRNAs with a huge number of reads. ::
+Finally, we log transform all values. This makes the analysis less sensitive to microRNAs with a huge number of reads: ::
 
 	norm.data <- log(norm.data)
 
@@ -178,7 +177,7 @@ To see which microRNAs are highly expressed in samples with low PC1, type: ::
 
 (Some background about specific microRNAs: bantam is known to prevent apoptosis by repressing pro-apoptosis genes, so it makes sense that it is  highly expressed in cell lines. The function of mir-184 is not known but it is interesting that it is also higher in cell lines than in normal tissue. mir-124 is a nervous system specific microRNA. It is  not surprising that it is higher expressed in embryos than in (non-neural) cell lines.) ::
 
-Another way to get a global overview of the data is to use clustering and plot heatmaps. You can do this with the following command:
+Another way to get a global overview of the data is to use clustering and plot heatmaps. You can do this with the following command: ::
 
 	heatmap(norm.data, scale="none", cexCol=0.2)
 
