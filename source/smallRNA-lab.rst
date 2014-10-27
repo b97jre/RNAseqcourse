@@ -12,7 +12,7 @@ In this exercise we will analyze a few small RNA libraries, from Drosophila mela
 
 These data sets are described more in this paper: http://genome.cshlp.org/content/24/7/1236.full
 
-The aim of the exercise is to show a simple way to process small RNA data and to quantify the expression of microRNAs, and to make some plots of global expression patterns in R. The exercise consists of two parts: First you will use a genome browser to see get a feeling for what the small RNA reads mapped to the genome look like. Next, you will preprocess the samll RNA reads, map them to the known microRNA loci, and quantify the expression of the microRNAs.
+The aim of the exercise is to show a simple way to process small RNA data and to quantify the expression of microRNAs, and to make some plots of global expression patterns in R. The exercise consists of two parts: First you will use a genome browser to get a feeling for what the small RNA reads mapped to the genome look like. Next, you will preprocess the small RNA reads, map them to the known microRNA loci, and quantify the expression of the microRNAs.
 
 
 
@@ -25,7 +25,7 @@ Running this on UPPMAX, start by loading the modules you will need: ::
 	module load cutadapt
 	module load bowtie
 
-Next, create a directory to work in: ::
+And create a directory to work in: ::
 
 	# create a subfolder called "smallRNA"
 	mkdir ~/glob/RNAseqCourse/smallRNA
@@ -34,7 +34,8 @@ All data and scripts required for this exercise can be found in
 ``/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/smallRNA`` on UPPMAX and through this `URL <https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/smallRNA/>`_ .
 
 
-This includes: 
+This includes:
+
 - 6 fastq files with the raw reads from the small RNA sequencing (in the subdirectory fastq).
  
 - A fasta file with the sequence of all microRNA loci and a gff file with the coordinates of all microRNA loci in the Drosophila genome (in in the subdirectory mirbase).
@@ -52,11 +53,13 @@ where dest is the destination directory. (This might take a while since the fast
 Browse small RNA reads 
 ======================
 
-We will start by browsing how the small RNA reads look mapping to the Drosophila genome. For this we will use pre-computed files, which can be viewed with IGV or some other genome browser. Herem only instructions for IGV are given: Start IGV and load the files emb_0_1.sorted.bam and ml-DmD32_r2.sorted.bam. Also load the file with all microRNA annotations, dme_mirbase.gff3.
+We will start by browsing how the small RNA reads look when mapped to the Drosophila genome. For this we will use pre-computed files, which can be viewed with IGV or some other genome browser. (Here only instructions for IGV are given.) Start IGV and load the files emb_0_1.sorted.bam and ml-DmD32_r2.sorted.bam. Also load the file with all microRNA annotations, dme_mirbase.gff3.
 
 To load a file you first select the correct genome ("D. melanogaster r5.22") in the top left menu. Then go to the File menu, and select "Load from file", and select the files described above.
 
-Type the name of a microRNA, e.g "mir-124", to go to that locus. You can see that the read mapping patterns are very distinct: (Almost) only the processed microRNAs end in the sequencing libraries. While many microRNAs occur alone in the genome, other are arranged in clusters. Type "let-7" to browse such a cluster. How many microRNAs do you see in this region?
+Type the name of a microRNA, e.g "mir-124", to go to that locus. You can see that the read mapping patterns are very distinct: (Almost) only the processed microRNAs end in the sequencing libraries, and you can see reads from both arms of the hairpin structure. 
+
+While many microRNAs occur alone in the genome, other are arranged in clusters. Type "let-7" to browse such a cluster. How many microRNAs do you see in this region?
 
 (To see something weird, go to "3R:18,118,436-18,118,767". Do you have any idea what this could be?)
 
@@ -75,7 +78,7 @@ There are many programs available for trimming adaptors. We will use a program c
 
 	cutadapt -a adaptor --trimmed-only in.fastq --minimum-length=17 > trimmed.fastq
 
-This trims the sequence given in adaptor from the reads in in.fastq and prints the results to a new file trimmed.fastq. It also applies the following filters: only reads where the adaptor was trimmed are printed to the output, and only reads that are at least 17 nucleotides after trimming are kept. For the data in this exercise, use the adaptor sequence CTGTAGGCACCATC.
+This trims the sequence given in adaptor from the reads in in.fastq and prints the results to a new file trimmed.fastq. It also applies the following filters: only reads where the adaptor was trimmed are printed to the output, and only reads that are at least 17 nucleotides after trimming are printed. For the data in this exercise, use the adaptor sequence CTGTAGGCACCATC.
 
 Run this program on each of the 6 fastq files. This takes a few minutes per file. Make sure you give the resulting files good names (e.g. kc167_TRIM.fastq) so you can keep track of all files.
 
@@ -84,7 +87,7 @@ How many reads were removed because they didn't have the adaptor sequence or bec
 Mapping
 =======
 
-The next step is to align (map) the reads to the genome sequence around the microRNA loci. We will use the program bowtie to do this. We will map the reads against the microRNA loci in mirBase (http://www.mirbase.org), which is a the "official" data base of microRNAs in many different species. To be able to map millions of reads very fast, bowtie creates an index of the sequence we map against. You can create the index using: ::
+The next step is to align (map) the reads to the genome sequence around the microRNA loci. We will use the program bowtie (http://bowtie-bio.sourceforge.net/index.shtml) to do this. We will map the reads against the microRNA loci in mirBase (http://www.mirbase.org), which is "the official" data base of microRNAs in many different species. To be able to map millions of reads very fast, bowtie creates an index of the sequence we map against. You can create the index using: ::
 
 	bowtie-build seq.fastq index.name
 
@@ -102,13 +105,13 @@ Here, index.name is the bowtie index created above, small_rna.fastq is the file 
 Quantification of microRNAs
 ===========================
 
-We can now summarize the mapped reads to see which microRNAs are expressed in the different samples, and to do some global comparisons, using the sam files created by bowtie. If you have not seen a sam file before,  have a look at one of the files, for example by running: ::
+We can now summarize the mapped reads to see which microRNAs are expressed in the different samples, and to do some global comparisons. For this, we use the sam files created by bowtie. If you have not seen a sam file before,  have a look at one of the files, for example by running: ::
 
 	less out.sam
 
 Press space to scroll down into the file and q to exit the viewer. 
 
-In the folder with all files for this exercise you will find a script sam2expTable.pl. This script reads all sam files in a folder, and for each file counts the reads mapping to each sequence (i.e each microRNA). It returns a table with one row per microRNA locus and one column for each sam file, where each element is the number of reads mapping to a specific microRNA from a specific sam file. Copy this script to somewhere in your folder, and do: ::
+In the folder with all files for this exercise you will find a script sam2expTable.pl. This script reads all sam files in a folder, and for each file counts the reads mapping to each sequence (i.e. to each microRNA). It returns a table with one row per microRNA locus and one column for each sam file, where each element is the number of reads mapping to a specific microRNA from a specific sam file. Copy this script to somewhere in your folder, and do: ::
 
 	chmod a+x sam2expTable.pl
 
@@ -116,7 +119,7 @@ to make the script executable. Then run it with: ::
 
 	./sam2expTable.pl sam.dir > out.table
 
-Here sam.dir is the directory with all sam files and out.table the file to which the output is printed. This might take a few minutes.
+Here, sam.dir is the directory with all sam files and out.table the file to which the output is printed. This might take a few minutes.
 
 Once the reads mapping to each microRNA have been counted, we can analyze the microRNA expression levels using R. Start R by typing: ::
 
@@ -130,7 +133,7 @@ Here out.table is the full path to the file with the expression table. You can l
 
 	exp.data[1:20,]
 
-If some microRNAs are very similar, the same reads might map to several microRNAs. See for examples dme-mir2b-1 and dme-mir2b-2. In this exercise we don't handle such cases in any special way. But how can this be a problem? How would you deal with it?
+If some microRNAs are very similar, the same reads might map to several microRNAs. See for examples dme-mir2b-1 and dme-mir2b-2. In this exercise we don't handle such cases in any special way. Can this be a problem? If so, how would you deal with it?
 
 Since the log transformation we will do later cannot handle cases with zero reads, we add a dummy value of 1 read to each microRNA: ::
 
@@ -174,7 +177,7 @@ To see which microRNAs are highly expressed in samples with low PC1, type: ::
 
 	head(sort(mir.pca$rotation[,1], decreasing=FALSE))
 
-(Some background about some specific microRNAs: bantam is known to prevent apoptosis by repressing pro-apoptosis genes, so it makes sense that it is  highly expressed in cell lines. The function of mir-184 is not known but it is interesting that it is also higher in cell lines than in normal tissue. mir-124 is a nervous system specific microRNA. It is  not surprising that it is higher expressed in embryos than in (non-neural) cell lines.) ::
+(Some background about some specific microRNAs: bantam is known to prevent apoptosis by repressing pro-apoptosis genes, so it makes sense that it is  highly expressed in cell lines. The function of mir-184 is not known but it is interesting that it is also higher in cell lines than in normal tissue. mir-124 is a nervous system specific microRNA. It is  not surprising that it is higher expressed in embryos than in (non-neural) cell lines. mir-iab-4 is a developmental regulator. It is located in the Hox cluster and regulates Hox genes.) ::
 
 Another way to get a global overview of the data is to use clustering and plot heatmaps. You can do this with the following command: ::
 
