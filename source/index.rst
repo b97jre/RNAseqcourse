@@ -3,7 +3,7 @@ Welcome to WABI RNA-seq tutorial packages
 =========================================
 
   .. toctree::
-     :maxdepth: 2
+     :maxdepth: 1
 
      intro
      QC_lab 
