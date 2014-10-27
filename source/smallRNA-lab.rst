@@ -53,17 +53,13 @@ where dest is the destination directory. (This might take a while since the file
 Browse small RNA reads 
 ======================
 
-We will start by browsing how the small RNA reads look mapping to the Drosophila genome. For this we will use 
-pre-computed files, which can be viewed with IGV or some other genome browser. 
+We will start by browsing how the small RNA reads look mapping to the Drosophila genome. For this we will use pre-computed files, which can be viewed with IGV or some other genome browser. 
 Start IGV and load the files emb_0_1.sorted.bam and ml-DmD32_r2.sorted.bam. Also load the file with all microRNA annotations, dme_mirbase.gff3.
 
 To load a file you first select the correct genome ("D. melanogaster r5.22") in the top left menu.  
 The go to the File menu, and select "Load from file", and select the two bam files described above.
 
-Type the name of a microRNA, e.g "mir-124", to go to that locus. You can see that the read mapping patterns
- are very distinct: Only (almost) the processed microRNAs end in the sequencing libraries. While many microRNAs 
- occur alone in the genome, other are arranged in clusters. Type "let-7". How many microRNAs do you see in this 
- region?
+Type the name of a microRNA, e.g "mir-124", to go to that locus. You can see that the read mapping patterns are very distinct: Only (almost) the processed microRNAs end in the sequencing libraries. While many microRNAs occur alone in the genome, other are arranged in clusters. Type "let-7". How many microRNAs do you see in this region?
 
 (To see something weird, go to "3R:18,118,436-18,118,767". Do you have any idea what this could be?)
 
@@ -102,15 +98,11 @@ How many reads were removed because they didn't have the adapter sequence or bec
 Mapping
 =======
 
-The next step is to align (map) the reads to the genome sequence around the microRNA loci. We will use the 
-program bowtie to do this. We will map the reads against the microRNA loci (this data was taken from mirBase 
-(http://www.mirbase.org). To be able to map million of reads very fast, bowtie creates an index of the sequence 
-we map against. You can create the index using the following command
+The next step is to align (map) the reads to the genome sequence around the microRNA loci. We will use the program bowtie to do this. We will map the reads against the microRNA loci (this data was taken from mirBase (http://www.mirbase.org), which is a the "official" data base of microRNAs in many different species. To be able to map million of reads very fast, bowtie creates an index of the sequence we map against. You can create the index using the following command
 
 bowtie-build seq.fastq index.name
 
-Here seq.fastq is the file with sequences we want to map against (in our case dme_mirs.fa) and index.name 
-is the path and name of the bowtie index we create (e.g. "mydirectory/dme_mirs").
+Here seq.fastq is the file with sequences we want to map against (in our case dme_mirs.fa) and index.name is the path and name of the bowtie index we create (e.g. "mydirectory/dme_mirs").
 
 Now we can map all reads. We do this using the following command:
 
@@ -139,7 +131,7 @@ It returns a table with one row per microRNA locus and one column for each sam f
 Each element in the table is the number of reads mapping to a specific microRNA from a specific sam file. 
 Copy this script to somewhere in your folder, and do 
 
-chmod a+x sam2expTable.pl
+	chmod a+x sam2expTable.pl
 
 to make the script executable. Then run it with
 
@@ -149,17 +141,17 @@ Here sam.dir is the directory with all sam files and out.table the file to which
 
 You will now analyze the microRNA expression levels using R. Start R by typing
 
-R
+	R
 
 You will now see a different prompt, because you are now typing commands to R. (You can always exit R with quit().) 
 Start by loading the expression table you just created into R:
 
-exp.data <- read.table("out.table", header=TRUE, row.names=1, sep="\t")
+	exp.data <- read.table("out.table", header=TRUE, row.names=1, sep="\t")
 
 (Here out.table is the full path to the file with the expression table.) You can look at the first 20 rows of 
 the table by typing
 
-exp.data[1:20,]
+	exp.data[1:20,]
 
 Some reads might map to several microRNAs, see e.g dme-mir2b-1 and dme-mir2b-2. In this exercise we don't 
 handle such cases any special way.  When can this be a problem? How would you deal with it?
@@ -167,7 +159,7 @@ handle such cases any special way.  When can this be a problem? How would you de
 Note that the log transformation we will do later cannot handle cases with zero reads, so we add a dummy 
 value of 1 read to each microRNA.
 
-exp.data <- exp.data + 1
+	exp.data <- exp.data + 1
 
 The read counts have to be normalized to compensate for different sequencing depths etc. For this we will 
 use the TMM normalization. This normalization method uses a trimmed mean of M- values (TMM) between each 
@@ -176,46 +168,46 @@ between the samples for most genes (see http://genomebiology.com/2010/11/3/r25).
 to load the edgeR module. edgeR is an R module with many useful functions for normalizing RNA-seq data and 
 finding differentially expressed genes. Here we will only use one of the normalization functions.
 
-library(edgeR)
+	library(edgeR)
 
 If you get an error message that the edgeR module is not installed on the computer you are using, you 
 can download and install it with
 
-source("http://bioconductor.org/biocLite.R")
-biocLite("edgeR")
+	source("http://bioconductor.org/biocLite.R")
+	biocLite("edgeR")
 
 For each library we compute the factors by which the read counts are rescaled. 
 
-lib.size <- apply(exp.data,2,sum)
-scale.factors <- calcNormFactors(exp.data, method="TMM") 
+	lib.size <- apply(exp.data,2,sum)
+	scale.factors <- calcNormFactors(exp.data, method="TMM") 
 
 Next, we apply the rescaling to the read counts for each library.
 
-norm.data <- t(t(exp.data)/(scale.factors*lib.size))
+	norm.data <- t(t(exp.data)/(scale.factors*lib.size))
 
 Finally, we log transform all values. This makes the analysis less sensitive to microRNAs with a huge number of reads. 
 
-norm.data <- log(norm.data)
+	norm.data <- log(norm.data)
 
 We can use principal component analysis (PCA) to get a global look of how similar the microRNA 
 expression profiles are in the different libraries:
 
-mir.pca <- prcomp(t(norm.data))     ## compute principal components
+	mir.pca <- prcomp(t(norm.data))     ## compute principal components
 
-plot(mir.pca$x[,1], mir.pca$x[,2])  ## plot  PC1 and PC2
+	plot(mir.pca$x[,1], mir.pca$x[,2])  ## plot  PC1 and PC2
 
-text(mir.pca$x[,1], mir.pca$x[,2], rownames(mir.pca$x), cex=0.7, pos=4, col="red")
+	text(mir.pca$x[,1], mir.pca$x[,2], rownames(mir.pca$x), cex=0.7, pos=4, col="red")
 
 What can we learn from looking at the PCA plot?
 
 We can also look at the loadings, i.e. how much each microRNA contributes to each principal component. 
 To see which microRNAs are highly expressed in samples with high PC1, type:
 
-head(sort(mir.pca$rotation[,1], decreasing=TRUE))
+	head(sort(mir.pca$rotation[,1], decreasing=TRUE))
 
 To see which microRNAs are highly expressed in samples with low PC1, type:
 
-head(sort(mir.pca$rotation[,1]))
+	head(sort(mir.pca$rotation[,1]))
 
 (Some background about specific microRNAs: bantam is known to prevent apoptosis by repressing pro-apoptosis 
 genes, so it makes sense that it is  highly expressed in cell lines. The function of mir-184 is not known 
@@ -225,7 +217,7 @@ system specific microRNA. It is  not surprising that it is higher expressed in e
 Another way to get a global overview of the data is to use clustering and plot heatmaps. You can do 
 this with the following command:
 
-heatmap(norm.data, scale="none", cexCol=0.2)
+	heatmap(norm.data, scale="none", cexCol=0.2)
 
 In the resulting plot each library is a column and each microRNA is a row. The color indicates the expression 
 levels, with red being no reads and more yellow indicating higher expression. The dendrogram at the top shows 
@@ -234,7 +226,7 @@ how the libraries cluster together. What can you learn from looking at this plot
 (There are some problems displaying plots etc. on UPPMAX when running in interactive mode.  If you have trouble 
 viewing the PCA plots and heatmaps, the you can do the following:
 
-*	Log out of UPPMAX
-*	Log into UPPMAX again
-*	Do not go into interactive mode, just start R
-*	Type in all R commands again. )
+- Log out of UPPMAX
+- Log into UPPMAX again
+- Do not go into interactive mode, just start R
+- Type in all R commands again. )
