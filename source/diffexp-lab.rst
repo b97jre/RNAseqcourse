@@ -20,9 +20,6 @@ testing into one framework and claim that they achieve better results
 because they are able to take into account the uncertainty of isoform
 quantification.
 
-This differential expression tutorial was originally written by Mikel
-Huss, and adapted and extended for this course by Pär Engström.
-
 Data set
 ========
 
@@ -76,12 +73,10 @@ the commands used::
    $ALI/sample_7/accepted_hits.bam,$ALI/sample_8/accepted_hits.bam,$ALI/sample_9/accepted_hits.bam \
    $ALI/sample_10/accepted_hits.bam,$ALI/sample_11/accepted_hits.bam,$ALI/sample_12/accepted_hits.bam
 
-
-
 It may be advantageous to download the output to your own computer, install the cummeRbund package 
 (after installing R if you don't have it) and do the visualizations there. Uppmax has R installed. 
 If you haven't installed R ahead of the course, please find the appropriate download for your system 
-`here <http://ftp.sunet.se/pub/lang/CRAN/>`_. You might as well take the latest version (3.1.0).
+`here <http://ftp.sunet.se/pub/lang/CRAN/>`_. You might as well take the latest version (3.1.1).
 
 If you want to work on Uppmax (note this is not necessary if you are running R on your own computer),
 login as we did yesterday. 
@@ -90,25 +85,19 @@ You can find a (gzipped archive of a) directory with CuffDiff output for a pairw
 differential expression analysis between all the time points at 
 ``/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/cuffdiff_all.tar.gz``.
 
-Remember to untar and unzip it ::
- tar -zxf cuffdiff_all.tar.gz
+Remember to untar and unzip it::
+
+    tar -zxf cuffdiff_all.tar.gz
  
+Then start R (either on your own system, or on Uppmax by simply typing
+``R``) and install cummeRbund with these commands::
 
-
-
-
-If you are on Uppmax, load the R module::
-
-     module load R/3.1.0
-
-Then start R (either on your own system, or on Uppmax by simply typing ``R``) and install cummeRbund with these commands::
-
-     source("http://bioconductor.org/biocLite.R")
-     biocLite("cummeRbund")
+    source("http://bioconductor.org/biocLite.R")
+    biocLite("cummeRbund")
 
 Load the package::
 
-     library(cummeRbund)
+    library(cummeRbund)
 
 If you were running R on your local computer, you could bring up a
 tutorial with the command ``vignette("cummeRbund-manual")``. However,
@@ -249,12 +238,8 @@ For this exercise we have pre-calculated read counts per gene
 
 and combined the counts into a single table. You will import this
 table into R and use DESeq2 to get a list of differentially expressed
-genes. You can get the count table here 
+genes. You can get the count table here: 
 ``/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/count_table.txt``
-
-
-We will just look at the 24h vs control comparison here rather than
-doing anything more complex.
 
 Start R and load the DESeq2 package::
 
@@ -267,8 +252,8 @@ the package::
      biocLite("DESeq2")
 
 The actual analysis is rather simple, after you have set up the data
-you are going to feed to DESeq2. Start by reading the
-``count_table.txt`` file. Of course you need to be in the same
+you are going to feed to DESeq2. Start by reading the file
+``count_table.txt``. Of course you need to be in the same
 directory as the file for the following command to run cleanly::
 
     counts <- read.delim("count_table.txt")
@@ -319,6 +304,10 @@ arising from the timepoints. For example::
     ds <- DESeqDataSetFromMatrix(countData=counts, colData=expr.desc, design=~timepoint + individual) # to test for differences between individuals    
     ds <- DESeqDataSetFromMatrix(countData=counts, colData=expr.desc, design=~individual + timepoint) #	to test	for differences	between	timepoints 
 
+It can be useful to include the sample names in the data set object::
+
+    colnames(ds) <- colnames(counts)
+
 Now that we are set, we can proceed with the differential expression testing::
 
     ds <- DESeq(ds)
@@ -335,27 +324,23 @@ For more details, see the manual page for the function::
 
   ? DESeq
 
-You can also have a look at the vignette for the DESeq2 package, which
+You can also have a look at the manual for the DESeq2 package, which
 can be found on the
 `DESeq2 web page <http://www.bioconductor.org/packages/release/bioc/html/DESeq2.html>`_.
 If you were running R locally, you would also be able to
-bring up the vignette with the command ``vignette("DESeq2")``.
+bring up the manual with the command ``vignette("DESeq2")``.
 
-Now we just need to extract the results, but how do we see the
-specific comparison we want, e.g. 24h vs control? We can use the
-following function to see which comparisons that have been made by
-DESeq2::
+Now we just need to extract the results. Recall that we have
+expression data for four different time points. We can use the
+function ``results()`` to see the results of comparing two time
+points. Choose two time points that you would like to compare and give
+a command like::
 
-     resultsNames(ds)
+    res <- results(ds, c("timepoint","t24h","ctrl"))
 
-You should see names of different comparisons here. Choose one of them
-and give a command like::
-
-     res <- results(ds, c("timepoint","t24h","ctrl"))
-
-The resuling object is a table with test results for each gene in the
+The object *res* is now a table with test results for each gene in the
 original count table, i.e. all annotated genes, both protein-coding
-and non-coding.  Use the function head() to inspect the results table.
+and non-coding.  Use the function ``head()`` to inspect the results table.
 
 Do you understand what the columns mean? You can see information such
 as the "base mean" (an average of the normalized mean counts per
@@ -399,23 +384,65 @@ view it more easily::
     sig <- as.data.frame(sig)
     head(sig, n=20)
 
-If the table wraps over several lines, you can try to change some R options, before viewing the table::
+If the table wraps over several lines, you can try to change some R
+options before viewing the table::
 
     options(width=120)  ## Display width (number of characters)
     options(digits=5)   ## Number of digits to show for numbers
     head(sig, n=20)
 
 You might want to compare the results from CuffDiff and DESeq2. The
-names of the significant genes from DESeq2 can be easily obtained by::
+identifiers of the significant genes from DESeq2 can be easily
+obtained by::
 
     deseqgenes.24h.ctrl <- rownames(sig)
 
 If you still have the list of significant genes between 0h and 24h
 from the CuffDiff/cummeRbund analysis in your R session, or if you
-have saved it to file, you might want to check how many of them that
-were picked up by both programs::
+have saved it to file, you can check how many of them that were picked
+up by both programs::
 
     common.24h.ctrl <- intersect(deseqgenes.24h.ctrl, cuffgenes.24h.ctrl)
+
+The gene identifiers we work with above are Ensembl gene IDs. These
+are useful as unique identifiers, but does not tell us anything about
+what the genes do. One way to find out more about individual genes is
+to look up the identifiers at the `Ensembl web site
+<http://www.ensembl.org>`_. We can also use the R package ``biomaRt`` to
+download a table of corresponding gene symbols (i.e. short gene names)
+from Ensembl. First we load the package::
+
+    library(biomaRt)
+
+If this does not work, you may need to install the package::
+
+    source("http://bioconductor.org/biocLite.R")
+    biocLite("biomaRt")
+    library(biomaRt)
+
+When you have successfully loaded the package, run the following::
+
+    ensembl <- useMart( "ensembl", dataset = "hsapiens_gene_ensembl" )
+    genemap <- getBM(attributes = c("ensembl_gene_id", "hgnc_symbol"),
+                     filters = "ensembl_gene_id",
+                     values = rownames(sig),
+                     mart = ensembl )
+
+The data frame *genemap* now contains a mapping of Ensembl gene IDs to
+gene symbols::
+
+    head(genemap)
+
+Let's add these gene symbols to the result table::
+
+    symbols <- tapply(genemap$hgnc_symbol, genemap$ensembl_gene_id, paste, collapse="; ")
+    sig$symbol <- symbols[ rownames(sig) ]
+    head(sig)
+
+(The ``tapply()`` function call above is needed to deal with cases where
+there are multiple symbols for the same gene. This call maps each
+Ensembl gene ID to a string of one more more gene symbols separated by
+semi-colon.)
 
 The DESeq2 package contains a function plotMA() that can be used to
 visualize the differences in gene expression::
@@ -423,14 +450,37 @@ visualize the differences in gene expression::
     plotMA(ds)
 
 Do you understand what this plot shows? Look at the manual page for
-the function, and run it again with the argument pvalCutoff set to
+the function, and run it again with the argument alpha set to
 different values. Discuss with an instructor if you are unsure how to
 interpret the plot.
 
-If time allows, try some of the additional functions described in the
-DESeq2 vignette. For example, you may interested in the chapter on
-*Data quality assessment*, which describes ways to visualize results
-using heatmaps.
+If time allows, have a look at the `RNA-seq analysis workflow example <http://www.bioconductor.org/help/workflows/rnaseqGene/>`_ on the BioConductor web site.
+There is a section called `Visually exploring the dataset <http://www.bioconductor.org/help/workflows/rnaseqGene/#eda>`_ about
+exploratory analysis of count data after regularized log
+transformation. This section shows how to make several plots that are
+useful for exploring RNA-seq data sets. If you don't have time to go
+through it now, try these commands and admire the resulting plots::
+
+  ## Apply regularized-log transform to counts
+  rld <- rlog(ds)
+
+  ## Principal component analysis
+  plotPCA(rld, intgroup="timepoint")
+  
+  ## Heatmap of sample distances
+  library("gplots")   # If this fails, run: install.packages("gplots")
+  library("RColorBrewer")
+  sampleDists <- dist(t(assay(rld)))
+  sampleDistMatrix <- as.matrix( sampleDists )
+  colours <- colorRampPalette(rev(brewer.pal(9, "Blues")))(255)
+  heatmap.2(sampleDistMatrix, trace="none", col=colours)
+  
+  ## Heatmap of 35 most variable genes
+  library("genefilter")
+  topVarGenes <- head(order(rowVars(assay(rld)), decreasing=TRUE), 35)
+  heatmap.2(assay(rld)[topVarGenes, ], scale="row",
+            trace="none", dendrogram="column", margins=c(5, 10),
+            col=colorRampPalette(rev(brewer.pal(9, "RdBu")))(255))
 
 You may also want to try some of the examples from the cummeRbund
 manual.
@@ -439,11 +489,13 @@ Further reading
 ===============
 
 The algorithms used by Cuffdiff and DESeq are described in the papers by
-`Trapnell et al. (2013) <http://www.ncbi.nlm.nih.gov/pubmed/23222703>`_ and 
-`Anders and Huber (2010) <http://genomebiology.com/content/11/10/R106>`_
-, respectively.
+`Trapnell et al. (2013) <http://www.ncbi.nlm.nih.gov/pubmed/23222703>`_,
+`Anders and Huber (2010) <http://genomebiology.com/content/11/10/R106>`_ and
+`Love et al. (2014) <http://biorxiv.org/content/early/2014/05/27/002832>`_.
 
-Both groups have also published descriptions of how to use their tools in *Nature Protocols*: `Trapnell et al. (2012) <http://www.ncbi.nlm.nih.gov/pubmed/22383036>`_, `Anders et al. (2013) <http://www.ncbi.nlm.nih.gov/pubmed/23975260>`_
+Both groups have also published descriptions of how to use their tools in *Nature Protocols*:
+`Trapnell et al. (2012) <http://www.ncbi.nlm.nih.gov/pubmed/22383036>`_,
+`Anders et al. (2013) <http://www.ncbi.nlm.nih.gov/pubmed/23975260>`_
 
 For a recent review and evaluation of a range of methods for
 normalization and differential expression analysis of RNA-seq data,
