@@ -85,7 +85,7 @@ How many reads were removed because they didn't have the adapter sequence or bec
 Mapping
 =======
 
-The next step is to align (map) the reads to the genome sequence around the microRNA loci. We will use the program bowtie to do this. We will map the reads against the microRNA loci (this data was taken from mirBase (http://www.mirbase.org), which is a the "official" data base of microRNAs in many different species. To be able to map million of reads very fast, bowtie creates an index of the sequence we map against. You can create the index using the following command
+The next step is to align (map) the reads to the genome sequence around the microRNA loci. We will use the program bowtie to do this. We will map the reads against the microRNA loci (this data was taken from mirBase (http://www.mirbase.org), which is a the "official" data base of microRNAs in many different species. To be able to map million of reads very fast, bowtie creates an index of the sequence we map against. You can create the index using the following command ::
 
 	bowtie-build seq.fastq index.name
 
@@ -110,57 +110,57 @@ We can now summarize the mapped reads to see which microRNAs are expressed in th
 
 Press space to scroll down into the file and q to exit the viewer. 
 
-In the folder with all files for this exercise you will find a script sam2expTable.pl. This script reads all sam files in a folder, and counts the reads mapping to each sequence (in this case each microRNA). It returns a table with one row per microRNA locus and one column for each sam file. Each element in the table is the number of reads mapping to a specific microRNA from a specific sam file. Copy this script to somewhere in your folder, and do 
+In the folder with all files for this exercise you will find a script sam2expTable.pl. This script reads all sam files in a folder, and counts the reads mapping to each sequence (in this case each microRNA). It returns a table with one row per microRNA locus and one column for each sam file. Each element in the table is the number of reads mapping to a specific microRNA from a specific sam file. Copy this script to somewhere in your folder, and do ::
 
 	chmod a+x sam2expTable.pl
 
-to make the script executable. Then run it with
+to make the script executable. Then run it with ::
 
 	./sam2expTable.pl sam.dir > out.table
 
 Here sam.dir is the directory with all sam files and out.table the file to which the output is printed.
 
-Once the read mapping to each microRNA have been counted, we can analyze the microRNA expression levels using R. Start R by typing
+Once the read mapping to each microRNA have been counted, we can analyze the microRNA expression levels using R. Start R by typing ::
 
 	R
 
-You will now see a different prompt, since you are now typing commands to R. (You can always exit R with quit().) Start by loading the expression table you just created into R:
+You will now see a different prompt, since you are now typing commands to R. (You can always exit R with quit().) Start by loading the expression table you just created into R: ::
 
 	exp.data <- read.table("out.table", header=TRUE, row.names=1, sep="\t")
 
-Here out.table is the full path to the file with the expression table. You can look at the first 20 rows of the table by typing
+Here out.table is the full path to the file with the expression table. You can look at the first 20 rows of the table by typing ::
 
 	exp.data[1:20,]
 
 Some reads might map to several microRNAs, see e.g dme-mir2b-1 and dme-mir2b-2. In this exercise we don't handle such cases in any special way.  When can this be a problem? How would you deal with it?
 
-Note that the log transformation we will do later cannot handle cases with zero reads, so we add a dummy value of 1 read to each microRNA.
+Note that the log transformation we will do later cannot handle cases with zero reads, so we add a dummy value of 1 read to each microRNA. ::
 
 	exp.data <- exp.data + 1
 
-The read counts have to be normalized to compensate for different sequencing depths etc. For this we will use the TMM normalization. This normalization method uses a trimmed mean of M- values (TMM) between each pair of samples to find a set of scaling factors for the library sizes that minimize the log-fold changes between the samples for most genes (see http://genomebiology.com/2010/11/3/r25). To use this method we need to load the edgeR module. edgeR is an R module with many useful functions for normalizing RNA-seq data and finding differentially expressed genes. Here we will only use one of the normalization functions.
+The read counts have to be normalized to compensate for different sequencing depths etc. For this we will use the TMM normalization. This normalization method uses a trimmed mean of M- values (TMM) between each pair of samples to find a set of scaling factors for the library sizes that minimize the log-fold changes between the samples for most genes (see http://genomebiology.com/2010/11/3/r25). To use this method we need to load the edgeR module. edgeR is an R module with many useful functions for normalizing RNA-seq data and finding differentially expressed genes. Here we will only use one of the normalization functions. ::
 
 	library(edgeR)
 
-If you get an error message that the edgeR module is not installed on the computer you are using, you can download and install it with
+If you get an error message that the edgeR module is not installed on the computer you are using, you can download and install it with ::
 
 	source("http://bioconductor.org/biocLite.R")
 	biocLite("edgeR")
 
-In the normalization, we start by computing the factors by which the read counts from each library are rescaled. 
+In the normalization, we start by computing the factors by which the read counts from each library are rescaled. ::
 
 	lib.size <- apply(exp.data,2,sum)
 	scale.factors <- calcNormFactors(exp.data, method="TMM") 
 
-Next, we apply the rescaling to the read counts for each library.
+Next, we apply the rescaling to the read counts for each library. ::
 
 	norm.data <- t(t(exp.data)/(scale.factors*lib.size))
 
-Finally, we log transform all values. This makes the analysis less sensitive to microRNAs with a huge number of reads. 
+Finally, we log transform all values. This makes the analysis less sensitive to microRNAs with a huge number of reads. ::
 
 	norm.data <- log(norm.data)
 
-We can use principal component analysis (PCA) to get a global look of how similar the microRNA expression profiles are in the different libraries:
+We can use principal component analysis (PCA) to get a global look of how similar the microRNA expression profiles are in the different libraries: ::
 
 	mir.pca <- prcomp(t(norm.data))     ## compute principal components
 	plot(mir.pca$x[,1], mir.pca$x[,2])  ## plot  PC1 and PC2
@@ -168,15 +168,15 @@ We can use principal component analysis (PCA) to get a global look of how simila
 
 What can we learn from looking at the PCA plot?
 
-We can also look at the loadings, i.e. how much each microRNA contributes to each principal component. To see which microRNAs are highly expressed in samples with high PC1, type:
+We can also look at the loadings, i.e. how much each microRNA contributes to each principal component. To see which microRNAs are highly expressed in samples with high PC1, type: ::
 
 	head(sort(mir.pca$rotation[,1], decreasing=TRUE))
 
-To see which microRNAs are highly expressed in samples with low PC1, type:
+To see which microRNAs are highly expressed in samples with low PC1, type: ::
 
 	head(sort(mir.pca$rotation[,1]))
 
-(Some background about specific microRNAs: bantam is known to prevent apoptosis by repressing pro-apoptosis genes, so it makes sense that it is  highly expressed in cell lines. The function of mir-184 is not known but it is interesting that it is also higher in cell lines than in normal tissue. mir-124 is a nervous system specific microRNA. It is  not surprising that it is higher expressed in embryos than in (non-neural) cell lines.)
+(Some background about specific microRNAs: bantam is known to prevent apoptosis by repressing pro-apoptosis genes, so it makes sense that it is  highly expressed in cell lines. The function of mir-184 is not known but it is interesting that it is also higher in cell lines than in normal tissue. mir-124 is a nervous system specific microRNA. It is  not surprising that it is higher expressed in embryos than in (non-neural) cell lines.) ::
 
 Another way to get a global overview of the data is to use clustering and plot heatmaps. You can do this with the following command:
 
