@@ -133,7 +133,7 @@ Here out.table is the full path to the file with the expression table. You can l
 
 	exp.data[1:20,]
 
-If some microRNAs are very similar, the same reads might map to several microRNAs. See for examples dme-mir2b-1 and dme-mir2b-2. In this exercise we don't handle such cases in any special way. Can this be a problem? If so, how would you deal with it?
+If some microRNAs are very similar, the same reads might map to them. See for examples dme-mir2b-1 and dme-mir2b-2. In this exercise we don't handle such cases in any special way. Can this be a problem? If so, how would you deal with it?
 
 Since the log transformation we will do later cannot handle cases with zero reads, we add a dummy value of 1 read to each microRNA: ::
 
