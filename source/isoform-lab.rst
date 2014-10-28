@@ -1,56 +1,20 @@
-===========================================
+====================================
 Identifying isoforms in RNA-seq data
-===========================================
+====================================
 
-One of the advantages of RNA-seq data compared to microarrays is that you get isoform-level information 'for free' in addition to gene-level information. In this exercise, we are going to look at some ways to identify and visualize isoforms.
+One of the advantages of RNA-seq data compared to microarrays is that you get 
+isoform-level information 'for free' in addition to gene-level information. 
+In this exercise, we are going to look at some ways to identify and visualize isoforms.
 
-As you have hopefully read on the introduction page, we will use RNA-seq and quantitative mass-spectrometry (MS) data sets from the A431 cell line. These data were measured by a group at SciLifeLab Stockholm in a 'proteogenomics' study where the aim was to discover new genes or gene variants by deep proteomic profiling using an MS method, and mapping the obtained peptides back to the genome. The RNA-seq data was obtained to see if there was RNA-level support for the predicted novel peptides and transcript variants. We will look at some loci that were flagged by the research group as being interesting, and see what the RNA-seq data look like for those.
+As you have hopefully read on the introduction page, we will use RNA-seq and quantitative 
+mass-spectrometry (MS) data sets from the A431 cell line. These data were measured by a 
+group at SciLifeLab Stockholm in a 'proteogenomics' study where the aim was to discover 
+new genes or gene variants by deep proteomic profiling using an MS method, and mapping 
+the obtained peptides back to the genome. 
+The RNA-seq data was obtained to see if there was RNA-level support for the predicted novel 
+peptides and transcript variants. We will look at one loci that were flagged by the research 
+group as being interesting, and see what the RNA-seq data look like for that gene.
 
-Preliminaries
-=============
-
-`Link to RNA-seq exercise download area <https://export.uppmax.uu.se/g2014046/files/RNAseqWorkshop/download/RNAseq>`_
-
-Start by logging in to Uppmax:: 
-
-     ssh -X <USER>@milou.uppmax.uu.se
-
-and issuing the command::
-
-     module load bioinfo-tools
-
-This means you will be able to load all the modules needed below.
-
-You are at present logged into a login node on the system but we shall request a compute node on the cluster to perform our analysis. This is done with the interactive command, and we shall ask for a whole node for 5 hours::
-
-     interactive -t 5:00:00 -A g2014046 -p core -n 8 --reservation=g2014046_tue
-
-(g2014046 is the course id)
-
-You should now be logged into a compute node with 8 processors and 64GB of memory at your disposal.
-
-First create a directory to work in. To create your own subdirectory under workshop do the following::
-
-    #Go to directory /proj/g2014046/nobackup/private/workshop/
-    cd /proj/g2014046/nobackup/private/workshop
-    
-    #create a folder with your uppmax user account namne
-    # this variable is defined as $USER
-    
-    mkdir $USER
-     
-
-
-It will be useful to download a genome browser - a piece of software that can
-visualize genomic data in various ways. We will use the arguably most popular one, 
-Integrated Genomics Viewer (IGV), in the following. IGV is installed on UPPMAX, but 
-since you will then access it over a network connection, the graphics might be sluggish, 
-so alternatively you could download and run the browsers locally and download the files 
-you need from the course project's `download area <https://export.uppmax.uu.se/g2014046/files/RNAseqWorkshop/download/RNAseq/>`_
-
-If you want to try to run IGV on Uppmax, please refer to the 
-`Uppmax page for IGV instructions <http://www.uppmax.uu.se/starting-integrative-genomics-viewer-igv-on-kalkyl>`_ 
-for advice.
 
 Importing the peptide track                                                          
 ===========================
@@ -59,7 +23,7 @@ As mentioned above, we will compare some identified peptides from a mass-spectro
 experiment with RNA-seq data from the same cell line. Let's start by importing the track 
 with identified peptides from the MS experiment. 
 
-If you are running a genome browser on Uppmax, you can find the file in 
+If you are running a genome browser on Uppmax, you can find the file in the download area 
 ``/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/RNAseqhuman_A431_global-TDA-FDR1pc_green-known_red-novel.bed`` 
 
 If you are running locally, you can download the file from the 
@@ -75,9 +39,7 @@ Going to a locus
 
 We will look at the RAB11FIP5 gene, which was highlighted in the proteomics experiments 
 as having a couple of unannotated peptides. In IGV, click the textbox which has the word 
-Go on its right hand side. This textbox will typically contain genomic coordinates for 
-the locus you are presently looking at, but it can also be used to find gene locations. 
-Type RAB11FIP5 in it and press Enter.
+Go on its right hand side. Type RAB11FIP5 in it and press Enter.
 
 Look at what you see in the display. What kind of peptides (previously known or novel) 
 have been identified and how do they correspond to existing annotation?
@@ -98,13 +60,11 @@ In order to make these steps computationally feasible during the lab, we have ex
 only those sequences that mapped to the RAB11FIP5 gene in each sample. These "sub-FASTQ" 
 files can be found in ``/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/sub_fastq``.
 
-Mapping to hg19
-===============
+Mapping short reads to reference
+=================================
 
-We can start by mapping the reads to the hg19 reference genome using a popular RNA-seq 
-aligner, TopHat. There are good alternatives such as STAR but we will use TopHat here, 
-partly because STAR needs a bit more RAM and it might get inconvenient to have everyone 
-run it at the same time.
+Here we will map the reads to the hg19 reference genome using a popular RNA-seq 
+aligner, STAR. There are many many features that can be tweaked using STAR. We will only use 
 
 To load the TopHat package on Uppmax, execute::
 
@@ -112,9 +72,8 @@ To load the TopHat package on Uppmax, execute::
      module load samtools
 
 Now you can map the reads from one of the samples (or several; it's up to you 
-which ones(s)) to map using a command such as the one below (look at the 
-explanation of the flags below before you execute it; or type ``tophat --h`` 
-to see the explanation of all options). Note that you can use gzip-compressed 
+which ones(s)) to map using a command such as the one below. More important is that you understand (look at the 
+the reason for using the flags you are using.  Note that you can use gzip-compressed 
 files directly with Tophat (not that it is really needed for these tiny files; 
 we just show it because it might be good to know.)::
 

@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'WABI RNA-seq Workshop'
-copyright = u'2013, Johan Reimegård, Mikael Huss, and Sanela Kjellqvist'
+copyright = u'2014, Science for Life Laboratories'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
