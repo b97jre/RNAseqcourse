@@ -62,7 +62,7 @@ This contains results files from the subset of reads that map to the **RAB11FIP5
 reference based assembly of isoforms. 
 
 You can download all BAM files and GTF files for all samples using a webinterface from `here. 
-<https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/otherData/refBasedAssembly/RAB11FIP5>_`
+<https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/otherData/refBasedAssembly/RAB11FIP5>`_
 
 Importing de novo assembled transcripts mapped to the **RAB11FIP5** gene
 ========================================================================
@@ -70,7 +70,7 @@ This contains results files from the subset of reads that map to the **RAB11FIP5
 de novo assembled transcriptome and then mapped back on the genome. 
 
 You can download all BAM files and GTF files for all samples using a webinterface from `here
-<https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/otherData/deNovo/BAMfiles>_`
+<https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/otherData/deNovo/BAMfiles>`_
 
 
 Importing reference based isoform info to the genome
@@ -80,7 +80,7 @@ reference based assembly of isoforms in the genome. There is also a GTF file wit
 information from all 12 samples.  
 
 You can download all BAM files and GTF files for all samples using a webinterface from `here
-<https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/otherData/refBasedAssembly/Genome>_`
+<https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/otherData/refBasedAssembly/Genome>`_
 
 Importing the peptide track to the **RAB11FIP5** gene and the genome                                                           
 ===================================================================
@@ -89,7 +89,7 @@ experiment with RNA-seq data from the same cell line. Let's start by importing t
 with identified peptides from the MS experiment. 
 
 You can download the BED file containing all mapped peptides to the genomeusing a webinterface from `here
-<https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/otherData/>_`
+<https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/otherData/>`_
 
 
 From the BED file extension, IGV will automatically know to color the track according to peptide status
@@ -102,7 +102,7 @@ Unfortunately there are no pacbio reads that mapped to the **RAB11FIP5** gene bu
 full length transcripts and compare them with reference based transcripts 
 
 You can download the BAM file containing all mapped pac bio reads to the genome using a webinterface from `here 
-<https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/otherData/>_`
+<https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/otherData/>`_
 
 
 
