@@ -13,27 +13,20 @@ Figure taken from `Optimizing de novo transcriptome assembly from short-read RNA
 <http://www.biomedcentral.com/1471-2105/12/S14/S2>`_.
 
 A de novo  take your reads and turn them into *contigs*. For more details
-on how **Trinity** work read the corresponding paper (`Trinity 
+on how **Trinity** work read the corresponding (`paper 
 <http://www.nature.com/nbt/journal/v29/n7/full/nbt.1883.html>`_
 ). 
 
 
-Running an assembly using **Trinity** for ~20 million of reads takes at least a day and more than 50 GB of RAM. In order 
-to reduce the time for the **Trinity** to run during this course we will focus on reads that can be mapped to a small region on the human chromosome.  
 
 
 Preparation
 ===========
 
-If you are working on UPPMAX i suggest that you will do all your exercises from your glob folder. 
-
 
 Make a new subdirectory and go there for this exercise.  ::
 
 
-   #Go to your own glob folder mkdir deNovoAssembly  
-   cd ~/glob/RNAseqWorkshop
-   
    #Create a new folder where you will do this exercise
    mkdir deNovoAssembly  
    # go into that directory 
@@ -43,26 +36,37 @@ Make a new subdirectory and go there for this exercise.  ::
    
 Files used during the exercise 
 ==============================
+
+Running an assembly using **Trinity** for ~20 million of reads takes at least a day and more than 50 GB of RAM. In order 
+to reduce the time for the **Trinity** to run during this course we will focus on reads that can be mapped to a small region on the human chromosome.  
+A description of the dataset can be found at: https://export.uppmax.uu.se/b2013006/courses/RNAseq201410/build/html/courseSource/intro.html
+
+
+* 2 fastq files, with mate pair libraries for sample 1 from the A431 cell line. 
  
+To acces the data there are two options. 
    
-If you are on uppmax
---------------------
+If you are working on uppmax
+----------------------------
 
-Copy all the files that you will need for this exercise from here. ::
-
-    # This assumes that you now are in the deNovoAssembly folder 
-    cp -r /proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/deNovo/data . 
+All the data you need for this lab is available in the folder:
+``/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/deNovo/data/``
 
 
-If you are somewhere else
--------------------------
-You can download all data using a webinterface from `here
-<https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/deNovo/>`_ 
+If you are working from somewhere else
+--------------------------------------
+
+You can download all data using a webinterface from:
+https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/deNovo/data
+
+Copy the files to your present working directory.
 
 
-   
 Programs used during the exercise 
 =================================
+
+If you are on uppmax
+--------------------
 
 When doing this course on UPPMAX all programs will be available to load as pre-installed modules. 
 In order to be able to use these programs you need to load the modules before using them. 
@@ -76,12 +80,14 @@ Load all programs that you will need for trinity to work on uppmax this exercise
     module load trinity/2014-07-17 
     
     
-Load all programs that you will need for STAR to work on UPPMAX this exercise. ::
+If you have not loaded the the STAR module yet to that as well. ::
 
     # load modules to make RNAseq aligner STAR work 
     
     module load star
 
+If you are somewhere else
+-------------------------
    
 If you are doing this exercise on somewhere else follow each program information on how to install it.
    
@@ -91,38 +97,32 @@ Assemble the reads into contigs
 
 Since **Trinity** is often being updated you should make sure you are using the latest version.
 That means that the requirements and the command line to to run **Trinity** changes occasionally. 
-You can find the basic usage info for **Trinity** `here
+You can find the basic usage info for **Trinity** here:
 http://trinityrnaseq.sourceforge.net/#running_trinity
- and the latest typical command line to type `here
-<http://trinityrnaseq.sourceforge.net/#running_trinity>`_ 
-
-Go to the webpage and try out the code that is 
-
-Good things to know about the data used in this lab. ::
-
-    # You will use paired end data. 
-    # The file that trinity refers to as left is the fastq files that ends with _1.fastq
-    # The file that trinity refers to as right is the fastq files that ends with _2.fastq
  
-    # The RNA seq data that we use in this exercise is not strand specific.
+A typical command line to type run trinity looks like this:
+http://trinityrnaseq.sourceforge.net/#typical_usage
+
+Adapt the trinity command line so it fits with your data and run it.  
+
+
+Good things to know about the data used in this lab :
+
+    * You will use paired end data. 
+ 	* The RNA seq data that we use in this exercise is not strand specific.
+    * The file that Trinity refers to as left are the fastq file that ends with _1.fastq
+    * The file that Trinity refers to as right are the fastq file that ends with _2.fastq
+    * You are using two cores with a maximum of 16 GB of RAM
      
 	 
+In general to fully use the potential 
+of a program it is worthwhile to read the manual and use the correct flags. As 
+an example **Trinity** handle strand specific RNA which reduces the complexity of 
+the algorithm and produces better results.
 
 
-To fully use the potential 
-of the programs it is worthwhile to read the manual and use the correct flags. As 
-an example both programs handle strand specific RNA that reduces the complexity of 
-the algorithm and also produces better results.
-or `Trinity
-<http://trinityrnaseq.sourceforge.net/#running_trinity>`_
-manuals.
-
-
-
-
-
-Assessing the new assemblies
-===========================
+Mapping the new assemblies on to a reference genome
+===================================================
 
 Now that the reads have been assembled into contigs you can map them back onto 
 the human genome sequence to see how they were assembled. Note that in 
@@ -131,29 +131,20 @@ of transcripts without a reference genome Trinity has a downstream analysis pipe
 that is worth following `Trinotate
 <http://trinityrnaseq.sourceforge.net/annotation/Trinotate.html>`_ . This is not something we will 
 do in this course but if you have time over feel free to try it out. 
-    
+
 Start with mapping the trinity assembled transcripts to the human genome using STAR. 
 Convert them to bam format, sort and index them using samtools::
   
   mkdir STARtrinityMapping
     
-  STAR  --genomeDir /proj/g2014046/private/RNAseqWorkshop/reference/hg19_Gencode14.overhang75  --readFilesIn Trinity/Trinity.fasta --runThreadN 1 --outSAMstrandField intronMotif --outFileNamePrefix STARtrinityMapping/
+  STAR  --genomeDir /proj/b2013006/downloads/courses/RNAseqWorkshop/reference/hg19_Gencode14.overhang75  --readFilesIn Trinity/Trinity.fasta --runThreadN 2 --outSAMstrandField intronMotif --outFileNamePrefix STARtrinityMapping/
   samtools view -bSh -o trinityTranscripts.bam STARtrinityMapping/Aligned.out.sam
   samtools sort trinityTranscripts.bam  trinityTranscripts.sorted
   samtools index trinityTranscripts.sorted.bam
 	
-Do the same procedure for the oases assembled transcripts::
-	
-  mkdir STARoasesMapping
-  STAR  --genomeDir /proj/g2014046/private/RNAseqWorkshop/reference/hg19_Gencode14.overhang75  --readFilesIn oasesPipelineMerged/transcripts.fa --runThreadN 1 --outSAMstrandField intronMotif --outFileNamePrefix STARoasesMapping/
-  samtools view -bSh -o oasesTranscripts.bam STARoasesMapping/Aligned.out.sam
-  samtools sort oasesTranscripts.bam  oasesTranscripts.sorted
-  samtools index oasesTranscripts.sorted.bam
-	
-    
-When ready there should be two bam files that are sorted and indexed. These can now be viewed in the IGV 
-or Savant genome browsers. In total there were 12 samples and you have now assembled one of those samples. 
-If time permits do one more sample. If time is running out you can download and view all the 24 different samples. 
+When ready there should be a BAM file that is sorted and indexed. These can now be viewed in the IGV 
+genome browsers. In total there were 12 samples and you have now assembled one of those samples. 
+If time permits do one more sample. If time is running out you can download and view all the 12 different samples. 
 We have also merged the reads from all the 12 samples and used all the reads to create assembled transcripts.
 All these files can be found `here 
 <https://export.uppmax.uu.se/g2014046/files/RNAseqWorkshop/download/RNAseq/deNovoFinishedFiles/AllBamFiles/>`_

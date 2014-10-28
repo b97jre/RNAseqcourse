@@ -16,6 +16,14 @@ peptides and transcript variants. We will look at one loci that were flagged by 
 group as being interesting, and see what the RNA-seq data look like for that gene.
 
 
+
+
+
+
+
+
+
+
 Importing the peptide track                                                          
 ===========================
 
@@ -24,9 +32,11 @@ experiment with RNA-seq data from the same cell line. Let's start by importing t
 with identified peptides from the MS experiment. 
 
 If you are running a genome browser on Uppmax, you can find the file in the download area 
+
 ``/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/RNAseqhuman_A431_global-TDA-FDR1pc_green-known_red-novel.bed`` 
 
 If you are running locally, you can download the file from the 
+
 `download area <https://export.uppmax.uu.se/g2014046/files/RNAseqWorkshop/download/RNAseq/human_A431_global-TDA-FDR1pc_green-known_red-novel.bed>`_.
 
 Then, in IGV, select File > Load from File ... and navigate to the BED file (on 
@@ -162,18 +172,5 @@ Other alternatives for reference-based assembly include
 `iReckon <http://compbio.cs.toronto.edu/ireckon/>`_ and 
 `SLIDE <https://sites.google.com/site/jingyijli/>`_. These may require some 
 annotation as input but they can discover (and quantify) new isoforms. 
-
-De novo transcript assembly
-===========================
-
-Sometimes it is more useful to do a *de novo* assembly without using any 
-reference genome information. Of course this is what you have to do if your 
-organism doesn't have a known reference genome, but it could also make sense 
-for human tumors or cell lines with a lot of structural variations which 
-interfere with the mapping. For example, when you want to find expressed 
-fusion genes (fusion transcripts) in certain cancers, it may make sense to 
-approach that via *de novo* assembly. See the following instructions for doing 
-*de novo* assembly with Trinity and Oases. This is what you will do in the next 
-exercise.
 
 
