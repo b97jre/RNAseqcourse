@@ -2,8 +2,8 @@
 Isoform detection using RNA seq de novo Assembly 
 ================================================
 
-We are going to use one of the open source RNA *de novo* assemblers 
-during this practical. It is called **Trinity**. Independent assessment 
+There are many programs to do RNA de novo assembly We are going to use one of the open source RNA *de novo* assemblers 
+called **Trinity** in this practical. Independent assessment 
 of *de novo* assembly programs showed that Trinity was one of the best assemblers to use. 
 It is also one of the programs that is being updated and does also have downstream analysis tools. 
 
@@ -13,9 +13,9 @@ Figure taken from `Optimizing de novo transcriptome assembly from short-read RNA
 <http://www.biomedcentral.com/1471-2105/12/S14/S2>`_.
 
 A de novo  take your reads and turn them into *contigs*. For more details
-on how **Trinity** work read the corresponding (`paper 
+on how **Trinity** work read the corresponding `paper 
 <http://www.nature.com/nbt/journal/v29/n7/full/nbt.1883.html>`_
-). 
+. 
 
 
 
@@ -39,10 +39,11 @@ Files used during the exercise
 
 Running an assembly using **Trinity** for ~20 million of reads takes at least a day and more than 50 GB of RAM. In order 
 to reduce the time for the **Trinity** to run during this course we will focus on reads that can be mapped to a small region on the human chromosome.  
+
+
+The RNA seq data comes from 1 experiment with mate pair libraries for sample 1 from the A431 cell line. 
 A description of the dataset can be found at: https://export.uppmax.uu.se/b2013006/courses/RNAseq201410/build/html/courseSource/intro.html
 
-
-* 2 fastq files, with mate pair libraries for sample 1 from the A431 cell line. 
  
 To acces the data there are two options. 
    
@@ -50,7 +51,11 @@ If you are working on uppmax
 ----------------------------
 
 All the data you need for this lab is available in the folder:
-``/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/deNovo/data/``
+``/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/isoform/deNovo/data/``
+
+Copy the data to your folder  ::
+
+   cp /proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/isoform/deNovo/data/*.* . 
 
 
 If you are working from somewhere else
@@ -59,7 +64,11 @@ If you are working from somewhere else
 You can download all data using a webinterface from:
 https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/deNovo/data
 
-Copy the files to your present working directory.
+and put it in your working folder. 
+
+
+
+You should now have two fastq files in your working folder.
 
 
 Programs used during the exercise 
@@ -108,10 +117,9 @@ Adapt the trinity command line so it fits with your data and run it.
 
 Good things to know about the data used in this lab :
 
-    * You will use paired end data. 
+    * You are using fastq files. 
+    * You are using paired end data. 
  	* The RNA seq data that we use in this exercise is not strand specific.
-    * The file that Trinity refers to as left are the fastq file that ends with _1.fastq
-    * The file that Trinity refers to as right are the fastq file that ends with _2.fastq
     * You are using two cores with a maximum of 16 GB of RAM
      
 	 
@@ -142,48 +150,25 @@ Convert them to bam format, sort and index them using samtools::
   samtools sort trinityTranscripts.bam  trinityTranscripts.sorted
   samtools index trinityTranscripts.sorted.bam
 	
-When ready there should be a BAM file that is sorted and indexed. These can now be viewed in the IGV 
-genome browsers. In total there were 12 samples and you have now assembled one of those samples. 
-If time permits do one more sample. If time is running out you can download and view all the 12 different samples. 
-We have also merged the reads from all the 12 samples and used all the reads to create assembled transcripts.
-All these files can be found `here 
-<https://export.uppmax.uu.se/g2014046/files/RNAseqWorkshop/download/RNAseq/deNovoFinishedFiles/AllBamFiles/>`_
+When ready there should be a BAM file that is sorted and indexed. It can now be viewed in the IGV 
+genome browsers. 
 
-Download a few of them and compare the differents states to see if you can identify different isoforms. How does the 
+In total there were 12 samples and you have now assembled one of those samples. 
+If you want to view all the 12 different samples you can download the assembled and mapped samples. 
+We have also merged the reads from all the 12 samples and used all the reads to create assembled transcripts.
+On uppmax you can copy the BAM files folder to your folder  ::
+
+   cp -r /proj//b2013006/webexport/downloads/courses/RNAseqWorkshop/isoform/deNovo/mappedTrinityBAMfiles .  
+
+They can also be dpwnloaded from `here 
+<https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/deNovo/mappedTrinityBAMfiles/>`_
+
+Download a few of them and compare the experiments to see if you can identify different isoforms. How does the 
 de novo assembled transcripts compare to the reference based isoform detection programs. 
     
-
-
-**OPTIONAL**
-I recomend to download the bamFiles and view them in a genome browser on your laptop.
-The interactive genome view experience on UPPMAX, especially when loading many tracks, can 
-be slow.This is done in two steps. ::
-
-    #create a folder for all the bamfiles
-    mkdir AllBamFiles 
-    
-    # move all the bamfiles into that folder 
-    mv *.sorted.bam AllBamFiles
-    
-    #create a tar file with all the bamFiles so that you can download them to your laptop
-
-    tar -cf AllBamFiles.tar AllBamFiles 
-    
-    #Use any sftp program of your choice to download the files from uppmax
-    
-    # If you are using shell you can open up a new terminal window and go to 
-    # the place where you want to store your bamFiles
-    
-    cd $YOURLOCALPATH
-    scp yourUppmaxName@milou.uppmax.uu.se:$WORKDIR/deNovo/AllBamFiles.tar . 
     
     
-    
-    
-Now that you have all the bam files in with individual names try to view them in 
-a genome brower, both IGV and Savant works fine. Here we will describe how to view them
-in IGV but SAVANT has a nice feature of viewing paired end reads as arcs that IGV
-misses. If you have time i recomend trying both of them out. 
+Now that you have all the bam files in with individual names try to view them in IGV
 
 First have a look on the  two bamfiles that contains the assemblies of all
 reads from all twelve timepoints with the two different assemblers. They have the 
