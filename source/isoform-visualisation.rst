@@ -31,7 +31,7 @@ be expressed. Roughly speaking, we can talk about three different strategies:
 In order to make these steps computationally feasible during the lab, we have extracted 
 only those sequences that mapped to the RAB11FIP5 gene in each sample. These "sub-FASTQ" 
 files can be found in ``/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/sub_fastq``.
-
+ 
 
 To do the reference guided assembly yourself go to `Reference guided assembly using Cufflinks 
 <https://export.uppmax.uu.se/b2013006/courses/RNAseq201410/build/html/courseSource/isoform-lab.html>`_. 
