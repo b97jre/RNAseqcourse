@@ -156,7 +156,7 @@ Run the RseQC for one sample and have a look at your output.
 * Do the reads cover most splice junctions? 
 * Based on the inner distance plots, what do you think the average fragment size of the libraries was?
 
-We have run the QC for all the samples and compiled summary files `here <https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/QC/fastQC/>`_.
+We have run the QC for all the samples and compiled summary files `here <https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/QC/output/>`_.
 This folder contains one table that summarizes all the Log.final.out files from all the samples (summary_starlog.txt), and one pdf file with a few different plots to summarize those statistics (summary_starqc.pdf). There are also plots for all the samples with read_distribution, juncion_saturation, genebody_coverage and inner_distance.  
 
 What is your conclusion, do your samples look good? Is there anything that looks strange in any sample, or do you feel comfortable using all the samples in your analysis?
