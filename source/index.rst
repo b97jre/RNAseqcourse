@@ -7,6 +7,7 @@ Welcome to WABI RNA-seq tutorial packages
 
      intro
      R_intro
+     IGV
      QC_lab 
      isoform-lab
      isoform-denovo
