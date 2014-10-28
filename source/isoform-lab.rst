@@ -111,7 +111,7 @@ name that reflects what created the GTF file.  You can import that in
 the usual way into IGV as a track.
 
 Was Cufflinks able to assemble your alignments into something that makes sense?
-
+ 
 Other alternatives for reference-based assembly include 
 `Scripture <http://www.broadinstitute.org/software/scripture>`_, 
 `iReckon <http://compbio.cs.toronto.edu/ireckon/>`_ and 
