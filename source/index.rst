@@ -9,6 +9,7 @@ Welcome to WABI RNA-seq tutorial packages
      R_intro
      IGV
      QC_lab 
+     isoform-visualisation
      isoform-lab
      isoform-denovo
      smallRNA-lab
