@@ -55,76 +55,51 @@ Since it takes time to generate all data we have already created other files tha
 
 Importing reference based isoform info to the **RAB11FIP5** gene
 ================================================================
+This contains results files from the subset of reads that map to the **RAB11FIP5** gene that has then been used for 
+reference based assembly of isoforms. 
 
-
-
+You can download all BAM files and GTF files for all samples using a webinterface from:
+https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/otherData/refBasedAssembly/RAB11FIP5
 
 Importing de novo assembled transcripts mapped to the **RAB11FIP5** gene
 ========================================================================
+This contains results files from the subset of reads that map to the **RAB11FIP5** gene that has then been used for 
+de novo assembled transcriptome and then mapped back on the genome. 
 
+You can download all BAM files and GTF files for all samples using a webinterface from:
+https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/otherData/deNovo/BAMfiles
 
 
 Importing reference based isoform info to the genome
 ====================================================
+This contains results files from all the reads that map to the genome, which then been used for 
+reference based assembly of isoforms in the genome. There is also a GTF file with the final merged isoform  
+information from all 12 samples.  
 
+You can download all BAM files and GTF files for all samples using a webinterface from:
+https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/otherData/refBasedAssembly/Genome
 
-
-Importing the peptide track to the **RAB11FIP5** gene or the genome                                                           
+Importing the peptide track to the **RAB11FIP5** gene and the genome                                                           
 ===================================================================
 As mentioned above, we will compare some identified peptides from a mass-spectrometry 
 experiment with RNA-seq data from the same cell line. Let's start by importing the track 
 with identified peptides from the MS experiment. 
 
+You can download the BED file containing all mapped peptides to the genomeusing a webinterface from:
+https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/otherData/
+
+
+From the BED file extension, IGV will automatically know to color the track according to peptide status
+(green for annotated peptides, red for novel peptides).
 
 
 Importing the Pac bio reads mapped to the genome                                                         
 ================================================
-Unfortunately there are no pacbio reads that mapped to the **RAB11FIP5** gene but if you 
+Unfortunately there are no pacbio reads that mapped to the **RAB11FIP5** gene but if you want to compare pacbio  reads from 
+full length transcripts and compare them with reference based transcripts 
 
-
-If you are running a genome browser on Uppmax, you can find the file in the download area 
-
-``/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/RNAseqhuman_A431_global-TDA-FDR1pc_green-known_red-novel.bed`` 
-
-If you are running locally, you can download the file from the 
-
-`download area <https://export.uppmax.uu.se/g2014046/files/RNAseqWorkshop/download/RNAseq/human_A431_global-TDA-FDR1pc_green-known_red-novel.bed>`_.
-
-Then, in IGV, select File > Load from File ... and navigate to the BED file (on 
-Uppmax according to above or to the location where you downloaded it locally). From 
-the BED file extension, IGV will automatically know to color the track according to 
-peptide status (green for annotated peptides, red for novel peptides.)
-
-
-
-
-As mentioned above, we will compare some identified peptides from a mass-spectrometry 
-experiment with RNA-seq data from the same cell line. Let's start by importing the track 
-with identified peptides from the MS experiment. 
-
-If you are running a genome browser on Uppmax, you can find the file in the download area 
-
-``/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/RNAseqhuman_A431_global-TDA-FDR1pc_green-known_red-novel.bed`` 
-
-If you are running locally, you can download the file from the 
-
-`download area <https://export.uppmax.uu.se/g2014046/files/RNAseqWorkshop/download/RNAseq/human_A431_global-TDA-FDR1pc_green-known_red-novel.bed>`_.
-
-Then, in IGV, select File > Load from File ... and navigate to the BED file (on 
-Uppmax according to above or to the location where you downloaded it locally). From 
-the BED file extension, IGV will automatically know to color the track according to 
-peptide status (green for annotated peptides, red for novel peptides.)
-
-
-Going to a locus
-================
-
-We will look at the RAB11FIP5 gene, which was highlighted in the proteomics experiments 
-as having a couple of unannotated peptides. In IGV, click the textbox which has the word 
-Go on its right hand side. Type RAB11FIP5 in it and press Enter.
-
-Look at what you see in the display. What kind of peptides (previously known or novel) 
-have been identified and how do they correspond to existing annotation?
+You can download the BAM file containing all mapped pac bio reads to the genome using a webinterface from: 
+https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/otherData/
 
 
 
@@ -146,47 +121,6 @@ have been identified and how do they correspond to existing annotation?
 
 
 
-
-
-
-
-
-
-
-
-
-
-Visualising the different 
-
-Importing the peptide track                                                          
-===========================
-
-As mentioned above, we will compare some identified peptides from a mass-spectrometry 
-experiment with RNA-seq data from the same cell line. Let's start by importing the track 
-with identified peptides from the MS experiment. 
-
-If you are running a genome browser on Uppmax, you can find the file in the download area 
-
-``/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/RNAseqhuman_A431_global-TDA-FDR1pc_green-known_red-novel.bed`` 
-
-If you are running locally, you can download the file from the 
-
-`download area <https://export.uppmax.uu.se/g2014046/files/RNAseqWorkshop/download/RNAseq/human_A431_global-TDA-FDR1pc_green-known_red-novel.bed>`_.
-
-Then, in IGV, select File > Load from File ... and navigate to the BED file (on 
-Uppmax according to above or to the location where you downloaded it locally). From 
-the BED file extension, IGV will automatically know to color the track according to 
-peptide status (green for annotated peptides, red for novel peptides.)
-
-Going to a locus
-================
-
-We will look at the RAB11FIP5 gene, which was highlighted in the proteomics experiments 
-as having a couple of unannotated peptides. In IGV, click the textbox which has the word 
-Go on its right hand side. Type RAB11FIP5 in it and press Enter.
-
-Look at what you see in the display. What kind of peptides (previously known or novel) 
-have been identified and how do they correspond to existing annotation?
 
 
 
