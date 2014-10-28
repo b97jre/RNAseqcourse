@@ -1,37 +1,4 @@
-====================================
-Identifying isoforms in RNA-seq data
-====================================
-
-One of the advantages of RNA-seq data compared to microarrays is that you get 
-isoform-level information 'for free' in addition to gene-level information. 
-In this exercise, we are going to look at some ways to identify and visualize isoforms.
-
-As you have hopefully read on the introduction page, we will use RNA-seq and quantitative 
-mass-spectrometry (MS) data sets from the A431 cell line. These data were measured by a 
-group at SciLifeLab Stockholm in a 'proteogenomics' study where the aim was to discover 
-new genes or gene variants by deep proteomic profiling using an MS method, and mapping 
-the obtained peptides back to the genome. 
-The RNA-seq data was obtained to see if there was RNA-level support for the predicted novel 
-peptides and transcript variants. We will look at one loci that were flagged by the research 
-group as being interesting, and see what the RNA-seq data look like for that gene.
-
-
-Strategies for using the RNA-seq data
-=====================================
-
-There are different ways to find out how the RNA-seq data shows the RAB11FIP5 gene to 
-be expressed. Roughly speaking, we can talk about three different strategies:
-
-- Mapping the reads to a reference genome and quantifying the gene and isoform FPKMs
-
-- Mapping the reads to a reference genome and assembling transcripts based on the mapping (reference guided assembly)
-
-- Assembling the reads *de novo*, ignoring the reference genome for now
-
-In order to make these steps computationally feasible during the lab, we have extracted 
-only those sequences that mapped to the RAB11FIP5 gene in each sample. These "sub-FASTQ" 
-files can be found in ``/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/sub_fastq``.
-
+=========================================
 Reference guided assembly using Cufflinks
 =========================================
 Assembly of genes and isoforms using an assembly usig cufflinks is a two step process. 
@@ -43,9 +10,9 @@ Mapping short reads to a reference
 ----------------------------------
 
 Here we will map the reads to the hg19 reference genome using a popular RNA-seq 
-aligner, STAR. There are many many features that can be tweaked using STAR. We will use 
-one flag **--outSAMstrandField intronMotif** which is needed for non-stranded RNAs to be handled 
-properly by cufflinks.  
+aligner, **STAR**. There are many many features that can be tweaked using STAR. 
+Read below for the flags we use for this exercise. Remember to change names accordingly 
+so that you can run your program properly and know which files you have used.
 
 To load the STAR package on Uppmax, execute::
 
@@ -55,9 +22,9 @@ To load the STAR package on Uppmax, execute::
 Now you can map the reads from one of the samples (or several; it's up to you 
 which ones(s)) to map using a command such as the one below. ::
   
-  mkdir sample1
+  mkdir outDir
     
-  STAR  --genomeDir /proj/b2013006/downloads/courses/RNAseqWorkshop/reference/hg19_Gencode14.overhang75  --readFilesIn sample1_RAB11FIP5_1.fastq sample1_RAB11FIP5_2.fastq --runThreadN 2 --outSAMstrandField intronMotif --outFileNamePrefix sample1
+  STAR  --genomeDir /proj/b2013006/downloads/courses/RNAseqWorkshop/reference/hg19_Gencode14.overhang75  --readFilesIn sample1_RAB11FIP5_1.fastq sample1_RAB11FIP5_2.fastq --runThreadN 2 --outSAMstrandField intronMotif --outFileNamePrefix outDir
 	
 flags used are 
 
@@ -126,7 +93,7 @@ Quantification with Cufflinks
 
 Cufflinks is a well-known software package for estimating gene and isoform 
 abundances in a BAM or SAM files based on an annotation file in GTF format 
-(or for doing reference guided assembly which we will do below). However, we run 
+. However, we run 
 into problems here because of the small file size. Cufflinks needs a certain amount 
 of data to be able to do its estimations so it will not work very well on our small 
 alignment files. Therefore we have run it on the full alignment files on each sample 
@@ -151,35 +118,6 @@ or the flexible `RPKMforgenes.py script <http://sandberg.cmb.ki.se/media/data/rn
 
 
 
-Importing the peptide track                                                          
-===========================
-
-As mentioned above, we will compare some identified peptides from a mass-spectrometry 
-experiment with RNA-seq data from the same cell line. Let's start by importing the track 
-with identified peptides from the MS experiment. 
-
-If you are running a genome browser on Uppmax, you can find the file in the download area 
-
-``/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/RNAseqhuman_A431_global-TDA-FDR1pc_green-known_red-novel.bed`` 
-
-If you are running locally, you can download the file from the 
-
-`download area <https://export.uppmax.uu.se/g2014046/files/RNAseqWorkshop/download/RNAseq/human_A431_global-TDA-FDR1pc_green-known_red-novel.bed>`_.
-
-Then, in IGV, select File > Load from File ... and navigate to the BED file (on 
-Uppmax according to above or to the location where you downloaded it locally). From 
-the BED file extension, IGV will automatically know to color the track according to 
-peptide status (green for annotated peptides, red for novel peptides.)
-
-Going to a locus
-================
-
-We will look at the RAB11FIP5 gene, which was highlighted in the proteomics experiments 
-as having a couple of unannotated peptides. In IGV, click the textbox which has the word 
-Go on its right hand side. Type RAB11FIP5 in it and press Enter.
-
-Look at what you see in the display. What kind of peptides (previously known or novel) 
-have been identified and how do they correspond to existing annotation?
 
 
 

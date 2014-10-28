@@ -3,7 +3,7 @@ Short summary of the datasets
 =============================
 For the tutorials we have set up we have two different datasets.
 The first set are RNAsequenses from a A431 cell line.     
-The second set are sRNA sequences from *Drosophila Melanogaster*
+The second set are sRNA sequences from *Drosophila Melanogaster*.
 The third is a pacbio long RNA reads from a HeLa cell line.
 The fourth is peptide data from a A431 cell line. 
 We also have peptide data mapped to the genome sequence that can support the presence of exons in the sequence. 
@@ -37,13 +37,12 @@ Short summary of the sRNA dataset
 =================================
 This datset contains a few small RNA libraries, from Drosophila melanogaster (fruit fly) embryos
 and two cell lines (KC167 cells derived from whole embryos, and ML-DmD32 cells derived from adult wing discs).
-This is a subset of a much larger data set used to study microRNAs and other small RNAs in Drosophila
+This is a subset of a much larger data set used to study microRNAs and other small RNAs in Drosophila.
 These data sets are described more in this paper: http://genome.cshlp.org/content/24/7/1236.full
 
 Short summary of the long reads
 ===============================
-This dota set contains a test run of extracted RNA from HeLa cells run on the pac bio. The raw data has then been 
-assembled into high quality reads. The reads has then been mapped onto the human genome.
+This data set contains mapped pac bio reads from full length RNAs in HeLa cells. 
 
 
 Short summary of the peptide data
@@ -56,9 +55,3 @@ the obtained peptides back to the genome.  More information on hoe it was possib
 map mass spec data onto the human genome is explained here 
 (http://www.nature.com/nmeth/journal/v11/n1/full/nmeth.2732.html)
  
-
-
-
-Where to find the data 
-======================
-The data for each lab is can be downloaded using two different methods. 

@@ -5,16 +5,15 @@ Viewing data in the Integrated Genomics Viewer (IGV)
 
 In these exercises we will use the  Integrated Genomics Viewer (IGV). 
 IGV is installed on UPPMAX, but since you will then access it over a network connection, the graphics might be sluggish, 
-so alternatively we recommend that you download and run the browsers locally and download the files that you will look at 
+so we recommend that you download and run the browsers locally and download the files that you will look at 
 locally. 
 
 If you want to try to run IGV on Uppmax, please refer to the 
 `Uppmax page for IGV instructions <http://www.uppmax.uu.se/starting-integrative-genomics-viewer-igv-on-kalkyl>`_ 
-for advice. But 
+for advice.  
 
 Visualising a BED file or GTF file                                                          
 ================================
-
 
 In IGV, select File > Load from File ... and navigate to the BED/GTF file (on 
 Uppmax according to above or to the location where you downloaded it locally). From 
@@ -31,10 +30,11 @@ To convert a SAM format file to a BAM format type: ::
      samtools view -bS fileName.sam >fileName.bam
 
 
-Before the visualization, you need to build a so-called 
+Before the visualization, you need to sort it and then build a so-called 
 BAM file index::
 
-     samtools index fileName.bam
+     samtools sort fileName.bam fileName.sorted
+     samtools index fileName.sorted.bam
 
 Then, in IGV, just choose File > Load from File ... and select the BAM file. 
 If you are running IGV locally and did the mapping on Uppmax, you will have to 

@@ -1,6 +1,6 @@
-================================================
-Isoform detection using RNA seq de novo Assembly 
-================================================
+==================================================
+Isoform detection using RNA seq *de novo* Assembly 
+==================================================
 
 There are many programs to do RNA de novo assembly We are going to use one of the open source RNA *de novo* assemblers 
 called **Trinity** in this practical. Independent assessment 
@@ -18,11 +18,8 @@ on how **Trinity** work read the corresponding `paper
 . 
 
 
-
-
 Preparation
 ===========
-
 
 Make a new subdirectory and go there for this exercise.  ::
 
@@ -45,7 +42,7 @@ The RNA seq data comes from 1 experiment with mate pair libraries for sample 1 f
 A description of the dataset can be found at: https://export.uppmax.uu.se/b2013006/courses/RNAseq201410/build/html/courseSource/intro.html
 
  
-To acces the data there are two options. 
+To access the data there are two options. 
    
 If you are working on uppmax
 ----------------------------
