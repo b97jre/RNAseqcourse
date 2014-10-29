@@ -188,7 +188,7 @@ names ``RAB11FIP5_trinity.Trinity._hg_19_STAR.bam``. ::
     File->Load From File...
     	choose **human_A431_global-TDA-FDR1pc_green-known_red-novel.bed**
     	
-    # Load your mapped reads from before  	
+    # Load your mapped reads from before   	
 
     File->Load From File...
     	choose **sample12_RAB11FIP5.bam**
