@@ -6,6 +6,19 @@ First you map all the reads from your experiment to the reference sequence then 
 step where you use the mapped reads to idenitify potenital genes including introns and exons.  
 
 
+Data available for exercise
+---------------------------
+
+All fastqfiles that you will need for this exercise can be found in 
+``/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/isoform/referenceBased/data`` on UPPMAX and through this `URL <https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/referenceBased/data>`_ .
+
+If you want to map more files for practise you can continue with the files found in 
+``/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/isoform/referenceBased/RAB11FIP5_fastqFiles`` on UPPMAX and through this `URL <https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/RAB11FIP5_fastqFiles>`_ .
+
+There are also other files that have been pre mapped and pre analyzed using STAR and cufflinks and those can be found in
+``/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/isoform/otherData`` on UPPMAX and through this `URL <https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/otherData>`_ .
+ 
+
 Mapping short reads to a reference
 ----------------------------------
 
