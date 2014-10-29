@@ -110,8 +110,8 @@ abundances in a BAM or SAM files based on an annotation file in GTF format
 into problems here because of the small file size. Cufflinks needs a certain amount 
 of data to be able to do its estimations so it will not work very well on our small 
 alignment files. Therefore we have run it on the full alignment files on each sample 
-and provided the merged results at ``/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/isoform_fpkm_table.txt``
-(isoform FPKM) and ``/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/RNAseqfpkm_table.txt``.
+and provided the merged results at ``/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/isoform/otherData/isoform_fpkm_table.txt``
+(isoform FPKM) and ``/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/isoform/otherData/RNAseqfpkm_table.txt``.
 If you are interested, you can check in the isoform FPKM file how much each isoform 
 is deemed to have been expressed by Cufflinks, but we will not go into that today. 
 (These results will be revisited tomorrow, in the differential expression lab exercise.)
