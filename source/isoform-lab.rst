@@ -37,7 +37,7 @@ which ones(s)) to map using a command such as the one below. ::
   
   mkdir outDir
     
-  STAR  --genomeDir /proj/b2013006/downloads/courses/RNAseqWorkshop/reference/hg19_Gencode14.overhang75  --readFilesIn sample1_RAB11FIP5_1.fastq sample1_RAB11FIP5_2.fastq --runThreadN 2 --outSAMstrandField intronMotif --outFileNamePrefix outDir
+  STAR  --genomeDir /proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/reference/hg19_Gencode14.overhang75  --readFilesIn sample1_RAB11FIP5_1.fastq sample1_RAB11FIP5_2.fastq --runThreadN 2 --outSAMstrandField intronMotif --outFileNamePrefix outDir
 	
 flags used are 
 
