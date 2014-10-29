@@ -168,9 +168,8 @@ de novo assembled transcripts compare to the reference based isoform detection p
 Now that you have all the bam files in with individual names try to view them in IGV
 
 First have a look on the  two bamfiles that contains the assemblies of all
-reads from all twelve timepoints with the two different assemblers. They have the 
-names ``RAB11FIP5_trinity.Trinity._hg_19_STAR.bam`` and 
-``RAB11FIP5_oases.Oases._hg_19_STAR.bam``. ::
+reads from all twelve timepoints with the trinity assemblers. They have the 
+names ``RAB11FIP5_trinity.Trinity._hg_19_STAR.bam``. ::
 
     #If you view your files on your laptop start IGV like this
 
@@ -182,8 +181,7 @@ names ``RAB11FIP5_trinity.Trinity._hg_19_STAR.bam`` and
     #Load tracks in the IGV browser
     
     File->Load From File...
-    	choose **oasesTranscripts.sorted.bam**
-    	and **trinityTranscripts.sorted.bam**
+    **trinityTranscripts.sorted.bam**
     	
     # Load peptide sequences 	
 
