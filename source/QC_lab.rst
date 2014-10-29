@@ -120,7 +120,7 @@ The RseQC package contains many steps that are equivalent to FastQC analysis, e.
 
 All the qc-steps takes a long time to run, so to save time, we only run the qc on a random selection of 10% of the reads. Random selection of reads can be performed with many different programs, here we will use samtools: ::
 
-    samtools view -s 0.1 Aligned.out.sorted.bam > Aligned.out.0.1.bam
+    samtools view -b -s 0.1 Aligned.out.sorted.bam > Aligned.out.0.1.bam
     # then index the bamfile (it is already sorted since you extracted reads from a sorted bamfile)
     samtools index Aligned.out.0.1.bam
  
