@@ -157,7 +157,7 @@ On uppmax you can copy the BAM files folder to your folder  ::
 
    cp -r /proj//b2013006/webexport/downloads/courses/RNAseqWorkshop/isoform/deNovo/mappedTrinityBAMfiles .  
 
-They can also be downloaded from `here 
+Now they can also be downloaded from `here 
 <https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/deNovo/mappedTrinityBAMfiles/>`_
 
 Download a few of them and compare the experiments to see if you can identify different isoforms. How does the 
