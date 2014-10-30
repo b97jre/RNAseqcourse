@@ -83,7 +83,7 @@ login as we did yesterday.
 
 You can find a (gzipped archive of a) directory with CuffDiff output for a pairwise 
 differential expression analysis between all the time points at 
-``/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/cuffdiff_all.tar.gz``.
+``/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/diffExpcuffdiff_all.tar.gz``.
 
 Remember to untar and unzip it::
 
@@ -239,7 +239,7 @@ For this exercise we have pre-calculated read counts per gene
 and combined the counts into a single table. You will import this
 table into R and use DESeq2 to get a list of differentially expressed
 genes. You can get the count table here: 
-``/proj/g2014046/webexport/files/RNAseqWorkshop/download/RNAseq/count_table.txt``
+``/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/diffExp/count_table.txt``
 
 Start R and load the DESeq2 package::
 
