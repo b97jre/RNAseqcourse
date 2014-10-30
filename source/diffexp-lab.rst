@@ -49,6 +49,11 @@ the results on your own.
 CuffDiff and cummeRbund
 =======================
 
+**ATTENTION!!** 
+**Some of the steps do not work on uppmax **
+**We recommend that you run CummRBund this on your local computer**
+
+
 
 We will start by looking at Cuffdiff and CummeRbund. These tools are
 part of the "Tuxedo" suite, which also includes Bowtie, TopHat and
@@ -468,7 +473,7 @@ useful for exploring RNA-seq data sets. If you don't have time to go
 through it now, try these commands and admire the resulting plots::
 
   ## Apply regularized-log transform to counts
-  rld <- rlog(ds)
+  rld <- rlogTransformation(ds)
 
   ## Principal component analysis
   plotPCA(rld, intgroup="timepoint")
