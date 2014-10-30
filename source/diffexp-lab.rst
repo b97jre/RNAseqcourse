@@ -82,8 +82,11 @@ If you want to work on Uppmax (note this is not necessary if you are running R o
 login as we did yesterday. 
 
 You can find a (gzipped archive of a) directory with CuffDiff output for a pairwise 
-differential expression analysis between all the time points at 
-``/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/diffExpcuffdiff_all.tar.gz``.
+differential expression analysis between all the time points on Uppmax at 
+``/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/diffExp/cuffdiff_all.tar.gz``. 
+
+Or you can download it `here 
+<https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/diffExp/cuffdiff_all.tar.gz>`_
 
 Remember to untar and unzip it::
 
@@ -238,8 +241,11 @@ For this exercise we have pre-calculated read counts per gene
 
 and combined the counts into a single table. You will import this
 table into R and use DESeq2 to get a list of differentially expressed
-genes. You can get the count table here: 
+genes. You can get the count table on UPPMAX here: 
 ``/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/diffExp/count_table.txt``
+
+Or you can download it `here 
+<https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/diffExp/count_table.txt>`_
 
 Start R and load the DESeq2 package::
 
