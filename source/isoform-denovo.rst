@@ -155,10 +155,10 @@ If you want to view all the 12 different samples you can download the assembled 
 We have also merged the reads from all the 12 samples and used all the reads to create assembled transcripts.
 On uppmax you can copy the BAM files folder to your folder  ::
 
-   cp -r /proj//b2013006/webexport/downloads/courses/RNAseqWorkshop/isoform/deNovo/mappedTrinityBAMfiles .  
+   cp -r /proj//b2013006/webexport/downloads/courses/RNAseqWorkshop/isoform/otherData/deNovo/BAMfiles/ .  
 
 Now they can also be downloaded from `here 
-<https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/deNovo/mappedTrinityBAMfiles/>`_
+<https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/otherData/deNovo/BAMfiles/>`_
 
 Download a few of them and compare the experiments to see if you can identify different isoforms. How does the 
 de novo assembled transcripts compare to the reference based isoform detection programs. 
