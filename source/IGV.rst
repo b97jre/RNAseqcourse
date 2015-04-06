@@ -9,7 +9,7 @@ so we recommend that you download and run the browsers locally and download the 
 locally. 
 
 If you want to try to run IGV on Uppmax, please refer to the 
-`Uppmax page for IGV instructions <http://www.uppmax.uu.se/starting-integrative-genomics-viewer-igv-on-kalkyl>`_ 
+`Uppmax page for IGV instructions <http://www.uppmax.uu.se/starting-integrative-genomics-viewer-igv-on-milou>`_ 
 for advice.  
 
 Visualising a BED file or GTF file                                                          
@@ -25,7 +25,7 @@ If the file output is in the SAM format (file ends with .sam), which is a uncomp
 you need to convert it to the BAM format (file ends with .bam). A BAM file contains the same information 
 as the SAM file but now it is in a binary compressed format unreadable for a human. 
 
-To convert a SAM format file to a BAM format type: ::
+To convert a SAM file to BAM format type: ::
 
      samtools view -bS fileName.sam >fileName.bam
 
