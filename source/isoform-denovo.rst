@@ -59,7 +59,7 @@ If you are working from somewhere else
 --------------------------------------
 
 You can download all data using a webinterface from:
-https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/deNovo/data
+https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/deNovo/data/
 
 and put it in your working folder. 
 
@@ -104,10 +104,10 @@ Assemble the reads into contigs
 Since **Trinity** is often being updated you should make sure you are using the latest version.
 That means that the requirements and the command line to to run **Trinity** changes occasionally. 
 You can find the basic usage info for **Trinity** here:
-http://trinityrnaseq.sourceforge.net/#running_trinity
+http://trinityrnaseq.github.io/#running_trinity
  
 A typical command line to type run trinity looks like this:
-http://trinityrnaseq.sourceforge.net/#typical_usage
+http://trinityrnaseq.github.io/#typical_usage
 
 Adapt the trinity command line so it fits with your data and run it.  
 
@@ -134,7 +134,7 @@ the human genome sequence to see how they were assembled. Note that in
 non-model organism this is not possible. If you would like to asses the assembly
 of transcripts without a reference genome Trinity has a downstream analysis pipeline 
 that is worth following `Trinotate
-<http://trinityrnaseq.sourceforge.net/annotation/Trinotate.html>`_ . This is not something we will 
+<http://trinotate.github.io/>`_ . This is not something we will 
 do in this course but if you have time over feel free to try it out. 
 
 Start with mapping the trinity assembled transcripts to the human genome using STAR. 
