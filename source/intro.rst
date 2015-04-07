@@ -42,7 +42,7 @@ These data sets are described more in this paper: http://genome.cshlp.org/conten
 
 Short summary of the long reads
 ===============================
-This data set contains mapped PacBio reads from full-length RNAs in HeLa cells. 
+This data set contains three PacBio reads from full-length RNAs in brain and heart. 
 
 
 Short summary of the peptide data
