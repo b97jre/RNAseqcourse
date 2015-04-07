@@ -42,7 +42,7 @@ These data sets are described more in this paper: http://genome.cshlp.org/conten
 
 Short summary of the long reads
 ===============================
-This data set contains three PacBio reads from full-length RNAs in brain and heart. 
+This data set contains three PacBio reads from gene RAB11FIP5 from full-length RNAs in brain and heart from reads PacBio released last year: http://blog.pacificbiosciences.com/2014/10/data-release-whole-human-transcriptome.html
 
 
 Short summary of the peptide data
