@@ -139,7 +139,7 @@ Since the log transformation we will do later cannot handle cases with zero read
 
 	exp.data <- exp.data + 1
 
-To compare expression lkevels from different libraries, the read counts have to be normalized to compensate for different sequencing depths etc. For this we will use the TMM normalization. This normalization method uses a trimmed mean of M- values (TMM) between each pair of samples to find a set of scaling factors for the library sizes that minimize the log-fold changes between the samples for most genes (if you are interested in the details, see http://genomebiology.com/2010/11/3/r25). To use this method we need to load the edgeR module. edgeR is an R module with many useful functions for normalizing RNA-seq data and finding differentially expressed genes. Here we will only use one of the normalization functions. ::
+To compare expression levels from different libraries, the read counts have to be normalized to compensate for different sequencing depths etc. For this we will use the TMM normalization. This normalization method uses a trimmed mean of M- values (TMM) between each pair of samples to find a set of scaling factors for the library sizes that minimize the log-fold changes between the samples for most genes (if you are interested in the details, see http://genomebiology.com/2010/11/3/r25). To use this method we need to load the edgeR module. edgeR is an R module with many useful functions for normalizing RNA-seq data and finding differentially expressed genes. Here we will only use one of the normalization functions. ::
 
 	library(edgeR)
 
@@ -181,7 +181,7 @@ To see which microRNAs are highly expressed in samples with low PC1, type: ::
 
 Another way to get a global overview of the data is to use clustering and plot heatmaps. You can do this with the following command: ::
 
-	heatmap(norm.data, scale="none", cexCol=0.2)
+	heatmap(norm.data, scale="none", cexCol=0.7, cexRow=0.2)
 
 In the resulting plot each library is a column and each microRNA is a row. The color indicates the expression levels, with red being no reads and more yellow indicating higher expression. The dendrogram at the top shows how the libraries cluster together. What can you learn from looking at this plot? 
 
