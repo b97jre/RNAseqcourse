@@ -4,11 +4,11 @@ This gitpage contains both lectures and tutorials for various analysis of RNA se
 
 
 ## Lectures
-You can find the index of all the lectures [here](lectures/index)
+You can find the index of all the lectures [here](Lectures/index.md)
 
 ## Tutorials
 
-You can find the index of all the tutorials [here](labs/index)
+You can find the index of all the tutorials [here](Labs/index.md)
 
 
 

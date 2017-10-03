@@ -14,38 +14,38 @@ from the user and may contain errors.
 
 In the links below there are information about tools and data that we will use during the other labs. Please make sure you know the data and how to use **R** and **IGV** before you proceed with the other labs. 
 
-*	[Introduction to the RNA seq data provided](intro)  
-*	[Short introduction  to R](R_intro)  
-*	[Short introduction to IGV](IGV) 
+*	[Introduction to the RNA seq data provided](intro.md)  
+*	[Short introduction  to R](R_intro.md)  
+*	[Short introduction to IGV](IGV.md) 
 
 ### Mapping reads 
 
 This contains information on how to map reads to a reference genome. In the tutorial you will learn how to use both **STAR** and **HISAT2**.
  
-*	[Tutorial for mapping reads to a reference and converting the results to BAM format](mapping_reads) 
+*	[Tutorial for mapping reads to a reference and converting the results to BAM format](mapping_reads.md) 
 
 ### Transcript assembly
 
 This contains information regarding how to assemble short reads into transcripts
 
-*	[Tutorial for reference guided assembly](isoform-lab)  
-*	[Tutorial for *de novo* assembly](isoform-denovo)
+*	[Tutorial for reference guided assembly](isoform-lab.md)  
+*	[Tutorial for *de novo* assembly](isoform-denovo.md)
 
 ### Visualise mapped reads and assembled transcripts on reference
 
 When reads have been mapped to a reference and/or assembled to transcripts it is always a good idea to check on a reference what the results look like.
  
-*	[Tutorial for isoform-visualisation](isoform-visualisation)  
+*	[Tutorial for isoform-visualisation](isoform-visualisation.md)  
 
 ### Quality control laboratory
 Before doing any other analysis on mapped RNA-seq reads it is always important to do quality control of your mapped reads and that you do not have any obvious errors in your RNA-seq data 
 
-*	[Tutorial for RNA seq Quality Control](QC_lab)   
+*	[Tutorial for RNA seq Quality Control](QC_lab.md)   
 
 ### Small RNA analysis
 When working with small RNA RNA-seq reads, this case miRNA, there are some analysis that are different  This will be covered in this labs.  
 
-*	[Tutorial for small RNA analysis](smallRNA-lab)
+*	[Tutorial for small RNA analysis](smallRNA-lab.md)
 
 
 ### Differential expression analysis
@@ -55,25 +55,17 @@ There are many software packages for differential expression analysis of RNA-seq
 
 Several tools, such as DESeq and edgeR, start from read counts per gene and use the discrete nature of the data to do statistical tests appropriate for this kind of data. It can be argued that that such counts will never give quite the correct results because the presence of alernative isoforms confound the read counting. Cuffdiff therefore combines isoform-level quantification and differential expression testing into one framework and claim that they achieve better results because they are able to take into account the uncertainty of isoform quantification. 
 
-*	[Tutorial for differential expression analysis using DEseq2](DEseq2)
-*	[Tutorial for differential expression analysis using Sleuth](kallisto)
-*	[Tutorial for differential expression analysis using CuffDiff and CummRBund](CuffDiff)
-*	[Tutorial for differential expression analysis using multi variate analysis in SIMCA](Simca_tutorial)
- 
+*	[Tutorial for differential expression analysis using DEseq2](DEseq2.md)
+*	[Tutorial for differential expression analysis using Sleuth](kallisto.md)
+
 ## Beta labs 
 There are some labs that are more close to the cutting edge of analysis and therefore are not as well tested as the ones above. These are tools that have high potential and will most likely, if they hold, will be moved to the mature labs.
  
-*	[Differential expression analysis using kallisto](kallisto)  
-*	[Single cell RNA PCA and clustering](PCA_clustering_single_cell)    
-*	[Gene set analysis](GSA_tutorial)  
+*	[Single cell RNA PCA and clustering](PCA_clustering_single_cell.md)    
+*	[Gene set analysis](GSA_tutorial.md)  
 
  
-## UPPMAX
- 
- One example of a sbatch script
- 
- *  [sbatch scripts](sbatchScript)   
-  
+
  
 ## Caveat
 
