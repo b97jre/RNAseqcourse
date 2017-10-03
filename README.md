@@ -1,17 +1,15 @@
-RNAseqcourse
-============
+# RNAseq course
 
-Code that is needed to generate the RNA seq course. The webpage is created by reStructuredText  
-and you need to install the SPHINX (http://sphinx-doc.org/) package in order to build the webpages
+This gitpage contains both lectures and tutorials for various analysis of RNA seq data
 
 
-To build the pages stand in the same folder as the makefile and type 
+## Lectures
+You can find the index of all the lectures [here](lectures/index)
 
-<code>
-make html
-</code>
+## Tutorials
 
-Hoopefully this will generate the final output. 
+You can find the index of all the tutorials [here](labs/index)
+
 
 
 
