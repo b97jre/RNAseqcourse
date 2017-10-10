@@ -1,0 +1,58 @@
+---
+title: "Untitled"
+author: "Johan"
+date: "10/10/2017"
+output: html_document
+---
+
+
+
+```{r load table, include=TRUE}
+setwd(dir = "data/")
+counts <- read.delim("count_table.txt")
+	head(counts)
+
+
+```
+
+## R Markdown
+hin the document. You can embed an R code chunk like this:
+
+```{r run pca, echo = TRUE }
+# define colors:
+col.def<-c("red","blue","green","magenta")
+sample.def<-c("ctrl", "t2h", "t6h", "t24h")
+colors <- rep(col.def, each=3)
+
+
+myPca <- prcomp(t(log2(counts+1)))
+plot(myPca$x[,1],myPca$x[,2],col=colors,pch=1)+ 
+legend("topright",sample.def,pch=1,col=col.def)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r multipc plot, echo=TRUE}
+
+tmpPcaData <- as.data.frame(myPca$x[,1:5])
+plot(tmpPcaData, col=colors,pch=1)
+
+```
+
+
+```{r pressure, echo=TRUE}
+
+nSamples<-ncol(counts)
+C<-cor(log2(counts+1),method="pearson")	
+
+	d <- as.dist(1-C)
+h <- hclust(d,method="ward.D2")
+dendro <- as.dendrogram(h)
+
+heatmap(C,Colv=dendro,Rowv=dendro)
+
+
+```
+

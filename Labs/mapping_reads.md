@@ -16,9 +16,15 @@ that we will examine in more detail in later exercises.
 
 All FASTQ files that you will need for this exercise can be found through this [URL](https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/referenceBased/data).
 
+or on the cluster 
+/home/jreimegard/RNAseqCourse/isoform/referenceBased/data/
+
 If you want to map more files for practice, you can continue with files for additional samples, found through this [URL](https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/RAB11FIP5_fastqFiles).
 
 A pre-built human genome index for HISAT2 is found through this [URL](https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/reference/hg19_hisat2).
+
+or you can find it on the server 
+
 
 Note that *hg19* indicates the version of the human genome assembly that was indexed.
 
@@ -39,6 +45,8 @@ Now you can map the reads from one of the samples (or several; it's up to you wh
 
 ### IMPORTANT THE PATHWAY IS GENERIC AND NEEDS TO BE CHANGED TO WORK FOR YOUR ANALYSIS
 
+  module load 
+  
 	mkdir outDir
     
     hisat2 -p N --dta-cufflinks -x path/to/index/fileName \

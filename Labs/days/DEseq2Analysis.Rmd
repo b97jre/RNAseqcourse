@@ -1,0 +1,126 @@
+---
+title: "DEseq"
+author: "Johan"
+date: "10/10/2017"
+output: html_document
+---
+
+
+```{r load deseq library , include=TRUE}
+
+# If not loaded before do this
+#source("http://bioconductor.org/biocLite.R")
+#biocLite("DESeq2")
+
+library(DESeq2)
+
+```
+
+
+### Load the data
+```{r load the count table library , include=TRUE}
+
+# If not loaded before do this
+#source("http://bioconductor.org/biocLite.R")
+#biocLite("DESeq2")
+
+# Load the data where you want it 
+counts <- read.delim("../../data/count_table.txt")
+head( counts)
+```
+
+
+```{r put the data in the deseq  , include=TRUE}
+
+# asing the samples into samples 
+samples <- data.frame(timepoint = rep(c("ctrl", "t2h", "t6h", "t24h"), each=3))
+
+
+ds <- DESeqDataSetFromMatrix(countData=counts, colData=samples, design=~timepoint)
+
+colnames(ds) <- colnames(counts)
+
+
+```
+
+
+```{r Run differential expression analysis  , include=TRUE}
+
+
+ds <- DESeq(ds)
+
+
+# and get the result
+res <- results(ds, c("timepoint","t24h","ctrl"))
+
+```
+
+
+
+```{r Only keep reeds that are significant , include = TRUE }
+sum( is.na(res$padj) )
+res <- res[ ! is.na(res$padj), ]
+nrow(res)
+
+
+
+sig <- res[ which(res$padj < 0.01), ]
+
+# and order them so that the top is first
+sig <- sig[ order(sig$padj), ]
+
+# and view them
+sig <- as.data.frame(sig)
+head(sig, n=20)
+
+```
+
+```{r Plot the diff exp distribution , include = TRUE }
+
+
+plotMA(ds)
+
+
+```
+
+## Apply regularized-log transform to counts
+
+```{r log transform , include = TRUE }
+rld <- rlogTransformation(ds)
+
+
+```
+
+
+## Principal component analysis
+
+```{r plot pca after normalisation , include = TRUE }
+plotPCA(rld, intgroup="timepoint")
+```
+
+
+```{r plot a heat map of all genes  , include = TRUE  }
+## Heatmap of sample distances
+library("gplots")   # If this fails, run: install.packages("gplots")
+library("RColorBrewer")
+sampleDists <- dist(t(assay(rld)))
+sampleDistMatrix <- as.matrix( sampleDists )
+colours <- colorRampPalette(rev(brewer.pal(9, "Blues")))(255)
+heatmap.2(sampleDistMatrix, trace="none", col=colours)
+
+
+````
+
+
+
+```{r plot a heat map of most variable genes  , include = TRUE  }
+
+## Heatmap of 35 most variable genes
+library("genefilter")
+topVarGenes <- head(order(rowVars(assay(rld)), decreasing=TRUE), 35)
+heatmap.2(assay(rld)[topVarGenes, ], scale="row",
+trace="none", dendrogram="column", margins=c(5, 10),
+col=colorRampPalette(rev(brewer.pal(9, "RdBu")))(255))
+
+```
+
