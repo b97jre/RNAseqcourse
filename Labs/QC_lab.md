@@ -7,10 +7,6 @@ title:  'Quality Control'
 
 In this tutorial we will go through some of the key steps in performing a quality control on your samples. We will start with the read based quality control, using FastQC, and continue with mapping based QC using RseqQC.  
 
-
-All the data you need for this lab is available in the folder:
-`/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/QC/data/`
-
 Or via web-browser [here](https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/QC/data).
 
 
@@ -36,10 +32,9 @@ You can read more about the program and have a look at example reports at [the F
 
 Note: This program can be used for any type of NGS data, not only RNA-seq.
 
-To run FastQC on uppmax you first need to load the module:
+To run FastQC on cluster you first need to load the module:
 	
-	module load bioinfo-tools
-	module load FastQC/0.11.1
+	module load fastqc/0.11.5
 	
 	# To see help information on the FastQC package:
 	fastqc --help
@@ -55,19 +50,18 @@ To run FastQC on uppmax you first need to load the module:
 In this case, only run FastQC on one file and take a look at the output. We have already prepared the outputs for all of the other samples. These can be viewed via a web-browser at:
 [FastQC results](https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/QC/fastQC/)
 
-Or directly at uppmax at:
-`/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/QC/fastQC/`
 
 Take a look at some other file and see if it look similar in quality.
 
 ## Optional: Create a MultiQC report for FastQC
 
+
 MultiQC is a program that creates summaries over all samples for several different types of QC-measures. You can read more about the program [here](http://multiqc.info/). It will automatically look for output files from the supported tools and make a summary of them. You can either go to the folder where you have the Fastqc output or run it with the path to the folder.  
 
-	module load bioinfo-tools
+
 	module load MultiQC/0.8
 	multiqc /folder/with/FastQC_results/
-	# in this case the folder is /proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/QC/fastQC/
+	# in this case the folder is /home//RNAseqWorkshop/QC/fastQC/
 
 This should create 1 folder named `multiqc_data` with some general stats, links to all files etc. And one file `multiqc_report.html`. Have a look at the report you created or at the one we alredy ran [here](https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/QC/fastQC/multiqc_report.html)
 
@@ -79,7 +73,6 @@ In this exercise we will actually not do any mapping (that will be done in a lat
 	
 	# NOTE: do not run, just an example of how we ran the program
 	
-	module load bioinfo-tools
 	module load star/2.3.1o
 	module load samtools
 	
@@ -148,7 +141,7 @@ After mapping with star of all samples, we ran MultiQC to summarize all the logf
 	module load MultiQC/0.8
 	multiqc -d -dd 2 .
 
-You can se the output from that MultiQC report [here](https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/QC/output/multiqc_report_star.html)
+  You can se the output from that MultiQC report [here](https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/QC/output/multiqc_report_star.html)
 
 # After mapping: RseQC
 
@@ -163,10 +156,9 @@ Running all the QC steps takes a long time, so to save time, we only run the QC 
     # (it is already sorted since you extracted reads from a sorted BAM file)
     samtools index Aligned.out.0.1.bam
 
-The RseQC package is allready installed at Uppmax. Load the package:
+The RseQC package is allready installed on the cluster. Load the package:
 
-    module add bioinfo-tools
-    module add rseqc/2.4
+    module load rseqc/2.6.4
 
 Some steps of the RseQC package require a file with gene annotations in BED format. These can be downloaded from various sources. Some of the more common ones are UCSC, RefSeq and Ensembl. In this case, the RseQC team have already created annotation files in some common formats that can be downloaded from their website, but if you have data for a less studied organism you may need to create a BED-file on your own. 
 
