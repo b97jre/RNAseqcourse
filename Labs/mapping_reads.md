@@ -14,30 +14,15 @@ You can carry out this exercise using the RNA-seq data we provide or your own da
 In order to make the steps run quickly during the lab, we have extracted only those RNA-seq reads that mapped to one gene (*RAB11FIP5*)
 that we will examine in more detail in later exercises. 
 
-All FASTQ files that you will need for this exercise can be found in
- 
-	/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/isoform/referenceBased/data
+All FASTQ files that you will need for this exercise can be found through this [URL](https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/referenceBased/data).
 
-on UPPMAX and through this [URL](https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/referenceBased/data).
+If you want to map more files for practice, you can continue with files for additional samples, found through this [URL](https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/RAB11FIP5_fastqFiles).
 
-If you want to map more files for practice, you can continue with files for additional samples, found in
-	
-	/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/isoform/RAB11FIP5_fastqFiles
+A pre-built human genome index for HISAT2 is found through this [URL](https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/reference/hg19_hisat2).
 
-on UPPMAX and through this [URL](https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/isoform/RAB11FIP5_fastqFiles).
-
-A pre-built human genome index for HISAT2 is found here
- 
-	/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/reference/hg19_hisat2
-
-on UPPMAX and through this [URL](https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/reference/hg19_hisat2).
 Note that *hg19* indicates the version of the human genome assembly that was indexed.
 
-A pre-built human genome index for STAR is found here
- 
-	/proj/b2013006/webexport/downloads/courses/RNAseqWorkshop/reference/hg19_Gencode14.overhang75
-
-on UPPMAX and through this [URL](https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/reference/hg19_Gencode14.overhang75).
+A pre-built human genome index for STAR is found through this [URL](https://export.uppmax.uu.se/b2013006/downloads/courses/RNAseqWorkshop/reference/hg19_Gencode14.overhang75).
  
 
 ## Mapping short reads to a reference using HISAT2
@@ -48,12 +33,11 @@ There are many features that can be tweaked using HISAT2. For more information o
 
 Read below for the flags we use for this exercise. Remember to change filenames accordingly so that you can run your program properly and know which files you have used.
 
-To load the HISAT2 module on UPPMAX, execute:
-     
-     module load bioinfo-tools      # This is to get access to all bioinformatics tools available on UPPMAX
-     module load HISAT2/2.0.1-beta  # The specific mapping program
+Make sure you have installed HISAT2 or have in available on the cluster.
 
-Now you can map the reads from one of the samples (or several; it's up to you which ones) using a command such as the one below.
+Now you can map the reads from one of the samples (or several; it's up to you which ones) using a command such as the one below. 
+
+### IMPORTANT THE PATHWAY IS GENERIC AND NEEDS TO BE CHANGED TO WORK FOR YOUR ANALYSIS
 
 	mkdir outDir
     
@@ -93,11 +77,7 @@ aligner, **STAR**. There are many many features that can be tweaked using STAR. 
 Read below for the flags we use for this exercise. Remember to change filenames accordingly 
 so that you can run your program properly and know which files you have used.
 
-To load the STAR module on UPPMAX, execute
 
-     module load bioinfo-tools
-     module load star
-     
   
 Now you can map the reads from one of the samples (or several; it's up to you 
 which ones) using a command such as the one below.
@@ -129,10 +109,7 @@ You should try to give the BAM files representable names, in order to make it ea
 
 The most commonly used tool for converting from SAM to BAM is [Samtools](http://www.htslib.org/doc/samtools.html) (follow the link for more information about Samtools).
 
-To load the Samtools module on Uppmax, execute:
 
-    module load bioinfo-tools
-    module load samtools
 
 The Samtools command to convert from SAM to BAM is:
 
