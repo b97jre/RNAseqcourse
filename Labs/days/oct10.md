@@ -1,0 +1,54 @@
+---
+title: "10 oct workshop line of code"
+author: "Johan"
+date: "10/10/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Cmds run on terminal
+
+
+
+### IMPORTANT THE PATHWAY IS GENERIC AND NEEDS TO BE CHANGED TO WORK FOR YOUR ANALYSIS
+  # Make directory 
+  
+  mkdir RNASeqCourse2017
+  
+  # go to folder 
+  cd RNASeqCourse2017/
+
+  # Copy files from RNAseq course folder
+  cp /home/jreimegard/RNAseqCourse/QC/S15_S15_L001_R* .
+
+  
+  # Load the fastqc module
+  module load fastqc/0.11.5
+  
+  # run fastqc
+  fastqc  fastqc_output S15_S15_L001_R1_001.fastq.gz S15_S15_L001_R2_001.fastq.gz  
+
+  # Wiew fastq file
+  # In Windows 
+  module load firefox
+  
+  #In linux or mac os x 
+  mkdir ~/public_html/
+  
+  # Copy files to folder ( linux and mac os x )
+  cp *.html ~/public_html/
+
+  # View the files in the browser
+  http://hpc.ilri.cgiar.org/~jreimegard/S15_S15_L001_R2_001_fastqc.html
+  
+  # If you want remove the adapter sequences using cutadapt
+  
+  module load cutadapt/v1.8.1 
+  
+  cutadapt -a TACGGAGGATCCAAGCGTTATCCGGAATCATTGGGTTTAAAGGGTCCGTA -o S15_S15_L001_R1_001.cutadapt.fastq.gz S15_S15_L001_R1_001.fastq.gz 
+
+
+
