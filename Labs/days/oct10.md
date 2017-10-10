@@ -45,10 +45,12 @@ knitr::opts_chunk$set(echo = TRUE)
   http://hpc.ilri.cgiar.org/~jreimegard/S15_S15_L001_R2_001_fastqc.html
   
   # If you want remove the adapter sequences using cutadapt
-  
+```  
   module load cutadapt/v1.8.1 
   
   cutadapt -a TACGGAGGATCCAAGCGTTATCCGGAATCATTGGGTTTAAAGGGTCCGTA -o S15_S15_L001_R1_001.cutadapt.fastq.gz S15_S15_L001_R1_001.fastq.gz 
+```
+
 
 
 
