@@ -1,0 +1,180 @@
+---
+title: "DEseq"
+author: "Johan"
+date: "10/10/2017"
+output: html_document
+---
+
+
+```{r load deseq library , include=TRUE}
+
+# If not loaded before do this
+#source("http://bioconductor.org/biocLite.R")
+#biocLite("DESeq2")
+
+library(DESeq2)
+
+```
+
+
+### Load the data
+```{r load the count table library , include=TRUE}
+
+# If not loaded before do this
+#source("http://bioconductor.org/biocLite.R")
+#biocLite("DESeq2")
+
+# Load the data where you want it 
+
+counts2 <- read.delim("../../data/countTable_2.tab.txt", header = FALSE, row.names = 1)
+colnames(counts2) <- c( "SRR4341972","SRR4341973","SRR4341974","SRR4341975","SRR4341976","SRR4341977","SRR4341978","SRR4341979") 
+
+
+count2Metadata <- read.delim("../../data/countTable2_metafile_pod_vs_seed.txt")
+counts2 = counts2[ , as.character(count2Metadata$SRRarchive)]
+
+```
+
+
+```{r put the data in the deseq  , include=TRUE}
+
+# asing the samples into samples 
+
+ds <- DESeqDataSetFromMatrix(countData=counts2, colData=count2Metadata, design=~Tissue )
+
+colnames(ds) <- paste(count2Metadata$Tissue,count2Metadata$time, sep = "_") 
+
+
+```
+
+## Apply regularized-log transform to counts
+
+```{r log transform , include = TRUE }
+rld <- rlogTransformation(ds)
+
+
+```
+
+
+## Principal component analysis
+
+```{r plot pca after normalisation , include = TRUE }
+plotPCA(rld, intgroup=c("Tissue","time"))
+```
+
+
+```{r plot a heat map of all genes  , include = TRUE  }
+## Heatmap of sample distances
+library("gplots")   # If this fails, run: install.packages("gplots")
+library("RColorBrewer")
+sampleDists <- dist(t(assay(rld)))
+sampleDistMatrix <- as.matrix( sampleDists )
+colours <- colorRampPalette(rev(brewer.pal(9, "Blues")))(255)
+lmat <- rbind( c(5,3,4), c(2,1,4) )
+lhei <- c(0.5, 1)
+lwid <- c(0.5, 1, 0.25)
+
+heatmap.2(sampleDistMatrix, trace="none", col=colours,lmat=lmat,scale="row", lhei=lhei, lwid=lwid)
+
+
+
+```
+
+
+
+```{r plot a heat map of most variable genes  , include = TRUE  }
+
+## Heatmap of 35 most variable genes
+library("genefilter")
+topVarGenes <- head(order(rowVars(assay(rld)), decreasing=TRUE), 35)
+heatmap.2(assay(rld)[topVarGenes, ], scale="row",
+trace="none", dendrogram="column", margins=c(5, 10),
+col=colorRampPalette(rev(brewer.pal(9, "RdBu")))(255))
+
+```
+
+
+
+
+
+
+```{r Run differential expression analysis  , include=TRUE}
+
+
+ds <- DESeq(ds)
+
+
+# and get the result
+res <- results(ds, c("Tissue","Pod wall","Seed"))
+
+```
+
+
+
+```{r Only keep reeds that are significant , include = TRUE }
+sum( is.na(res$padj) )
+res <- res[ ! is.na(res$padj), ]
+nrow(res)
+
+
+
+sig <- res[ which(res$padj < 0.01), ]
+
+# and order them so that the top is first
+sig <- sig[ order(sig$padj), ]
+
+# and view them
+sig <- as.data.frame(sig)
+head(sig, n=20)
+
+```
+
+```{r Plot the diff exp distribution , include = TRUE }
+
+
+plotMA(ds)
+
+
+```
+
+## Apply regularized-log transform to counts
+
+```{r log transform , include = TRUE }
+rld <- rlogTransformation(ds)
+
+
+```
+
+
+## Principal component analysis
+
+```{r plot pca after normalisation , include = TRUE }
+plotPCA(rld, intgroup=c("Tissue","time"))
+```
+
+
+```{r plot a heat map of all genes  , include = TRUE  }
+## Heatmap of sample distances
+library("gplots")   # If this fails, run: install.packages("gplots")
+library("RColorBrewer")
+sampleDists <- dist(t(assay(rld)))
+sampleDistMatrix <- as.matrix( sampleDists )
+colours <- colorRampPalette(rev(brewer.pal(9, "Blues")))(255)
+heatmap.2(sampleDistMatrix, trace="none", col=colours)
+
+
+````
+
+
+
+```{r plot a heat map of most variable genes  , include = TRUE  }
+
+## Heatmap of 35 most variable genes
+library("genefilter")
+topVarGenes <- head(order(rowVars(assay(rld)), decreasing=TRUE), 35)
+heatmap.2(assay(rld)[topVarGenes, ], scale="row",
+trace="none", dendrogram="column", margins=c(5, 10),
+col=colorRampPalette(rev(brewer.pal(9, "RdBu")))(255))
+
+```
+

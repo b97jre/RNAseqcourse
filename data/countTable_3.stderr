@@ -1,0 +1,271 @@
+100000 GFF lines processed.
+200000 GFF lines processed.
+300000 GFF lines processed.
+400000 GFF lines processed.
+500000 GFF lines processed.
+573035 GFF lines processed.
+100000 SAM alignment record pairs processed.
+200000 SAM alignment record pairs processed.
+300000 SAM alignment record pairs processed.
+400000 SAM alignment record pairs processed.
+500000 SAM alignment record pairs processed.
+600000 SAM alignment record pairs processed.
+700000 SAM alignment record pairs processed.
+800000 SAM alignment record pairs processed.
+900000 SAM alignment record pairs processed.
+1000000 SAM alignment record pairs processed.
+1100000 SAM alignment record pairs processed.
+1200000 SAM alignment record pairs processed.
+1300000 SAM alignment record pairs processed.
+1400000 SAM alignment record pairs processed.
+1500000 SAM alignment record pairs processed.
+1600000 SAM alignment record pairs processed.
+1700000 SAM alignment record pairs processed.
+1800000 SAM alignment record pairs processed.
+1900000 SAM alignment record pairs processed.
+2000000 SAM alignment record pairs processed.
+2100000 SAM alignment record pairs processed.
+Warning: Mate records missing for 35 records; first such record: <SAM_Alignment object: Paired-end read 'SRR5199306.52984' aligned to NC_033804.1:[17636405,17636659)/+>.
+Warning: Mate pairing was ambiguous for 3979 records; mate key for first such record: ('SRR5199306.873987', 'second', 'NC_033804.1', 328748, 'NC_033804.1', 336747, 8100).
+2121009 SAM alignment pairs processed.
+100000 SAM alignment record pairs processed.
+200000 SAM alignment record pairs processed.
+300000 SAM alignment record pairs processed.
+400000 SAM alignment record pairs processed.
+500000 SAM alignment record pairs processed.
+600000 SAM alignment record pairs processed.
+700000 SAM alignment record pairs processed.
+800000 SAM alignment record pairs processed.
+900000 SAM alignment record pairs processed.
+1000000 SAM alignment record pairs processed.
+1100000 SAM alignment record pairs processed.
+1200000 SAM alignment record pairs processed.
+1300000 SAM alignment record pairs processed.
+1400000 SAM alignment record pairs processed.
+1500000 SAM alignment record pairs processed.
+1600000 SAM alignment record pairs processed.
+1700000 SAM alignment record pairs processed.
+1800000 SAM alignment record pairs processed.
+1900000 SAM alignment record pairs processed.
+2000000 SAM alignment record pairs processed.
+2100000 SAM alignment record pairs processed.
+Warning: Mate records missing for 33 records; first such record: <SAM_Alignment object: Paired-end read 'SRR5199307.1751055' aligned to NC_033804.1:[9437851,9438318)/->.
+Warning: Mate pairing was ambiguous for 8169 records; mate key for first such record: ('SRR5199307.166747', 'first', 'NC_033804.1', 328725, 'NC_033804.1', 336722, 8097).
+2182486 SAM alignment pairs processed.
+100000 SAM alignment record pairs processed.
+200000 SAM alignment record pairs processed.
+300000 SAM alignment record pairs processed.
+400000 SAM alignment record pairs processed.
+500000 SAM alignment record pairs processed.
+600000 SAM alignment record pairs processed.
+700000 SAM alignment record pairs processed.
+800000 SAM alignment record pairs processed.
+900000 SAM alignment record pairs processed.
+1000000 SAM alignment record pairs processed.
+1100000 SAM alignment record pairs processed.
+1200000 SAM alignment record pairs processed.
+1300000 SAM alignment record pairs processed.
+1400000 SAM alignment record pairs processed.
+1500000 SAM alignment record pairs processed.
+1600000 SAM alignment record pairs processed.
+1700000 SAM alignment record pairs processed.
+1800000 SAM alignment record pairs processed.
+1900000 SAM alignment record pairs processed.
+2000000 SAM alignment record pairs processed.
+2100000 SAM alignment record pairs processed.
+Warning: Mate records missing for 43 records; first such record: <SAM_Alignment object: Paired-end read 'SRR5199308.1421457' aligned to NC_033804.1:[1386552,1386653)/->.
+Warning: Mate pairing was ambiguous for 5004 records; mate key for first such record: ('SRR5199308.485649', 'first', 'NC_033804.1', 328736, 'NC_033804.1', 336703, 8067).
+2153208 SAM alignment pairs processed.
+100000 SAM alignment record pairs processed.
+200000 SAM alignment record pairs processed.
+300000 SAM alignment record pairs processed.
+400000 SAM alignment record pairs processed.
+500000 SAM alignment record pairs processed.
+600000 SAM alignment record pairs processed.
+700000 SAM alignment record pairs processed.
+800000 SAM alignment record pairs processed.
+900000 SAM alignment record pairs processed.
+1000000 SAM alignment record pairs processed.
+1100000 SAM alignment record pairs processed.
+1200000 SAM alignment record pairs processed.
+1300000 SAM alignment record pairs processed.
+1400000 SAM alignment record pairs processed.
+1500000 SAM alignment record pairs processed.
+1600000 SAM alignment record pairs processed.
+1700000 SAM alignment record pairs processed.
+1800000 SAM alignment record pairs processed.
+1900000 SAM alignment record pairs processed.
+2000000 SAM alignment record pairs processed.
+2100000 SAM alignment record pairs processed.
+Warning: Mate records missing for 28 records; first such record: <SAM_Alignment object: Paired-end read 'SRR5199309.418885' aligned to NC_033805.1:[22408448,22408549)/->.
+Warning: Mate pairing was ambiguous for 7320 records; mate key for first such record: ('SRR5199309.1769025', 'first', 'NC_033804.1', 329487, 'NC_033804.1', 472036, 142650).
+2131609 SAM alignment pairs processed.
+100000 SAM alignment record pairs processed.
+200000 SAM alignment record pairs processed.
+300000 SAM alignment record pairs processed.
+400000 SAM alignment record pairs processed.
+500000 SAM alignment record pairs processed.
+600000 SAM alignment record pairs processed.
+700000 SAM alignment record pairs processed.
+800000 SAM alignment record pairs processed.
+900000 SAM alignment record pairs processed.
+1000000 SAM alignment record pairs processed.
+1100000 SAM alignment record pairs processed.
+1200000 SAM alignment record pairs processed.
+1300000 SAM alignment record pairs processed.
+1400000 SAM alignment record pairs processed.
+1500000 SAM alignment record pairs processed.
+1600000 SAM alignment record pairs processed.
+1700000 SAM alignment record pairs processed.
+1800000 SAM alignment record pairs processed.
+1900000 SAM alignment record pairs processed.
+2000000 SAM alignment record pairs processed.
+Warning: Mate records missing for 28 records; first such record: <SAM_Alignment object: Paired-end read 'SRR5199310.893926' aligned to NC_033804.1:[2365517,2365618)/->.
+Warning: Mate pairing was ambiguous for 5046 records; mate key for first such record: ('SRR5199310.35270', 'second', 'NC_033804.1', 328764, 'NC_033804.1', 336729, 8066).
+2081076 SAM alignment pairs processed.
+100000 SAM alignment record pairs processed.
+200000 SAM alignment record pairs processed.
+300000 SAM alignment record pairs processed.
+400000 SAM alignment record pairs processed.
+500000 SAM alignment record pairs processed.
+600000 SAM alignment record pairs processed.
+700000 SAM alignment record pairs processed.
+800000 SAM alignment record pairs processed.
+900000 SAM alignment record pairs processed.
+1000000 SAM alignment record pairs processed.
+1100000 SAM alignment record pairs processed.
+1200000 SAM alignment record pairs processed.
+1300000 SAM alignment record pairs processed.
+1400000 SAM alignment record pairs processed.
+1500000 SAM alignment record pairs processed.
+1600000 SAM alignment record pairs processed.
+1700000 SAM alignment record pairs processed.
+1800000 SAM alignment record pairs processed.
+1900000 SAM alignment record pairs processed.
+2000000 SAM alignment record pairs processed.
+2100000 SAM alignment record pairs processed.
+Warning: Mate records missing for 30 records; first such record: <SAM_Alignment object: Paired-end read 'SRR5199311.1177616' aligned to NC_033805.1:[32545165,32545266)/+>.
+Warning: Mate pairing was ambiguous for 4260 records; mate key for first such record: ('SRR5199311.1519286', 'second', 'NC_033804.1', 38093, 'NC_033804.1', 38139, 209).
+2144537 SAM alignment pairs processed.
+100000 SAM alignment record pairs processed.
+200000 SAM alignment record pairs processed.
+300000 SAM alignment record pairs processed.
+400000 SAM alignment record pairs processed.
+500000 SAM alignment record pairs processed.
+600000 SAM alignment record pairs processed.
+700000 SAM alignment record pairs processed.
+800000 SAM alignment record pairs processed.
+900000 SAM alignment record pairs processed.
+1000000 SAM alignment record pairs processed.
+1100000 SAM alignment record pairs processed.
+1200000 SAM alignment record pairs processed.
+1300000 SAM alignment record pairs processed.
+1400000 SAM alignment record pairs processed.
+1500000 SAM alignment record pairs processed.
+1600000 SAM alignment record pairs processed.
+1700000 SAM alignment record pairs processed.
+1800000 SAM alignment record pairs processed.
+1900000 SAM alignment record pairs processed.
+2000000 SAM alignment record pairs processed.
+2100000 SAM alignment record pairs processed.
+2200000 SAM alignment record pairs processed.
+Warning: Mate records missing for 19 records; first such record: <SAM_Alignment object: Paired-end read 'SRR5199312.1809059' aligned to NC_033804.1:[3484287,3484388)/->.
+Warning: Mate pairing was ambiguous for 4795 records; mate key for first such record: ('SRR5199312.254364', 'first', 'NC_033804.1', 329508, 'NC_033804.1', 472090, 142683).
+2213114 SAM alignment pairs processed.
+100000 SAM alignment record pairs processed.
+200000 SAM alignment record pairs processed.
+300000 SAM alignment record pairs processed.
+400000 SAM alignment record pairs processed.
+500000 SAM alignment record pairs processed.
+600000 SAM alignment record pairs processed.
+700000 SAM alignment record pairs processed.
+800000 SAM alignment record pairs processed.
+900000 SAM alignment record pairs processed.
+1000000 SAM alignment record pairs processed.
+1100000 SAM alignment record pairs processed.
+1200000 SAM alignment record pairs processed.
+1300000 SAM alignment record pairs processed.
+1400000 SAM alignment record pairs processed.
+1500000 SAM alignment record pairs processed.
+1600000 SAM alignment record pairs processed.
+1700000 SAM alignment record pairs processed.
+1800000 SAM alignment record pairs processed.
+1900000 SAM alignment record pairs processed.
+2000000 SAM alignment record pairs processed.
+2100000 SAM alignment record pairs processed.
+2200000 SAM alignment record pairs processed.
+Warning: Mate records missing for 24 records; first such record: <SAM_Alignment object: Paired-end read 'SRR5199313.1180802' aligned to NC_033804.1:[16763600,16763701)/->.
+Warning: Mate pairing was ambiguous for 4889 records; mate key for first such record: ('SRR5199313.437150', 'first', 'NC_033804.1', 328761, 'NC_033804.1', 336755, 8095).
+2205741 SAM alignment pairs processed.
+100000 SAM alignment record pairs processed.
+200000 SAM alignment record pairs processed.
+300000 SAM alignment record pairs processed.
+400000 SAM alignment record pairs processed.
+500000 SAM alignment record pairs processed.
+600000 SAM alignment record pairs processed.
+700000 SAM alignment record pairs processed.
+800000 SAM alignment record pairs processed.
+900000 SAM alignment record pairs processed.
+1000000 SAM alignment record pairs processed.
+1100000 SAM alignment record pairs processed.
+1200000 SAM alignment record pairs processed.
+1300000 SAM alignment record pairs processed.
+1400000 SAM alignment record pairs processed.
+1500000 SAM alignment record pairs processed.
+1600000 SAM alignment record pairs processed.
+1700000 SAM alignment record pairs processed.
+1800000 SAM alignment record pairs processed.
+1900000 SAM alignment record pairs processed.
+2000000 SAM alignment record pairs processed.
+2100000 SAM alignment record pairs processed.
+Warning: Mate pairing was ambiguous for 5119 records; mate key for first such record: ('SRR5199314.1845826', 'first', 'NC_033804.1', 328725, 'NC_033804.1', 336745, 8121).
+2140305 SAM alignment pairs processed.
+100000 SAM alignment record pairs processed.
+200000 SAM alignment record pairs processed.
+300000 SAM alignment record pairs processed.
+400000 SAM alignment record pairs processed.
+500000 SAM alignment record pairs processed.
+600000 SAM alignment record pairs processed.
+700000 SAM alignment record pairs processed.
+800000 SAM alignment record pairs processed.
+900000 SAM alignment record pairs processed.
+1000000 SAM alignment record pairs processed.
+1100000 SAM alignment record pairs processed.
+1200000 SAM alignment record pairs processed.
+1300000 SAM alignment record pairs processed.
+1400000 SAM alignment record pairs processed.
+1500000 SAM alignment record pairs processed.
+1600000 SAM alignment record pairs processed.
+1700000 SAM alignment record pairs processed.
+1800000 SAM alignment record pairs processed.
+1900000 SAM alignment record pairs processed.
+2000000 SAM alignment record pairs processed.
+Warning: Mate records missing for 66 records; first such record: <SAM_Alignment object: Paired-end read 'SRR5199304.1562326' aligned to NC_033805.1:[15749143,15749244)/+>.
+Warning: Mate pairing was ambiguous for 4081 records; mate key for first such record: ('SRR5199304.1703171', 'second', 'NC_033804.1', 320789, 'NC_033804.1', 473382, 152694).
+2066085 SAM alignment pairs processed.
+100000 SAM alignment record pairs processed.
+200000 SAM alignment record pairs processed.
+300000 SAM alignment record pairs processed.
+400000 SAM alignment record pairs processed.
+500000 SAM alignment record pairs processed.
+600000 SAM alignment record pairs processed.
+700000 SAM alignment record pairs processed.
+800000 SAM alignment record pairs processed.
+900000 SAM alignment record pairs processed.
+1000000 SAM alignment record pairs processed.
+1100000 SAM alignment record pairs processed.
+1200000 SAM alignment record pairs processed.
+1300000 SAM alignment record pairs processed.
+1400000 SAM alignment record pairs processed.
+1500000 SAM alignment record pairs processed.
+1600000 SAM alignment record pairs processed.
+1700000 SAM alignment record pairs processed.
+1800000 SAM alignment record pairs processed.
+1900000 SAM alignment record pairs processed.
+2000000 SAM alignment record pairs processed.
+2100000 SAM alignment record pairs processed.
+2200000 SAM alignment record pairs processed.
+2300000 SAM alignment record pairs processed.
+Warning: Mate records missing for 67 records; first such record: <SAM_Alignment object: Paired-end read 'SRR5199305.1080489' aligned to NC_033804.1:[2588945,2589146)/->.
+Warning: Mate pairing was ambiguous for 5965 records; mate key for first such record: ('SRR5199305.1502695', 'first', 'NC_033804.1', 328764, 'NC_033804.1', 336723, 8060).
+2388127 SAM alignment pairs processed.

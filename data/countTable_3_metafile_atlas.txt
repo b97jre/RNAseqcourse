@@ -1,0 +1,21 @@
+Accession_name	Sample_name	Tissue	Development_stage
+SRR5199304	GEA_PP_30	Mature seed	Reproductive
+SRR5199305	GEA_PP_29	Immature seed	Reproductive
+SRR5199306	GEA_PP_28	Mature pod	Reproductive
+SRR5199307	GEA_PP_27	Shoot apical meristem	Reproductive
+SRR5199308	GEA_PP_26	Sepal	Reproductive
+SRR5199309	GEA_PP_25	Petal	Reproductive
+SRR5199310	GEA_PP_24	Root	Senescence
+SRR5199311	GEA_PP_23	Leaf	Senescence
+SRR5199312	GEA_PP_22	Petiole	Senescence
+SRR5199313	GEA_PP_21	Petiole	Reproductive
+SRR5199314	GEA_PP_20	Stem	Senescence
+SRR5199315	GEA_PP_19	Stem	Reproductive
+SRR5199316	GEA_PP_18	Immature pod	Reproductive
+SRR5199317	GEA_PP_17	Nodule	Reproductive
+SRR5199318	GEA_PP_16	Root	Reproductive
+SRR5199319	GEA_PP_15	Pistil	Reproductive
+SRR5199320	GEA_PP_14	Stamen	Reproductive
+SRR5199321	GEA_PP_13	Flower	Reproductive
+SRR5199322	GEA_PP_12	Bud	Reproductive
+SRR5199323	GEA_PP_11	Leaf	Reproductive

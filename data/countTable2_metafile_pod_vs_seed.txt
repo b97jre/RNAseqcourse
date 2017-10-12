@@ -1,0 +1,9 @@
+SRRarchive	Sample_name	Tissue	Development_stage	time
+SRR4341979	Pw_20	Pod wall	Reproductive	20
+SRR4341978	Pw_10	Pod wall	Reproductive	10
+SRR4341977	Pw_5	Pod wall	Reproductive	5
+SRR4341976	Sd_30	Seed	Reproductive	30
+SRR4341975	Sd_20	Seed	Reproductive	20
+SRR4341974	Sd_10	Seed	Reproductive	10
+SRR4341973	Sd_5	Seed	Reproductive	5	
+SRR4341972	Em_0	Embryo sac	Reproductive	0
